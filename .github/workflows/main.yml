@@ -55,7 +55,6 @@ jobs:
         for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $path/$dep.rb;done
         echo "Insall packages from source. ATTN: order matters"
         brew cleanup
-        brew install openssl@1.1
         brew reinstall -s lz4
         brew reinstall -s xz
         brew reinstall -s zstd
