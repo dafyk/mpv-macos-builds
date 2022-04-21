@@ -6,7 +6,7 @@ on:
       - main
   schedule:
     # nightly build
-    - cron: "20 9 * * *"
+    - cron: "00 12 * * *"
 
 jobs:
   build:
@@ -144,24 +144,6 @@ jobs:
         mv version.sh.bak version.sh
         mkdir -p release
         cp -r build/mpv.app release
-
-    - name: Sanity check for back compatibility
-      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
-      run: |
-        cd build/mpv.app/Contents/MacOS/lib
-        for l in *.dylib
-        do
-          echo $l
-          count=0
-          count=`otool -l $l | grep -c minos` || :
-          if [ $count -gt 0 ]; then
-            echo 'find bad dylib. need to recompile it'
-            exit 1
-          else
-            echo 'ok'
-          fi
-        done
-        cd ..
 
     - name: Build Apple Disk Image
       if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
