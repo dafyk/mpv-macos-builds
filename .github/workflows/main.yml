@@ -136,6 +136,9 @@ jobs:
         echo "::set-output name=build_hash::$(sh version.sh)"
         export PKG_CONFIG_PATH="/usr/local/opt/libarchive/lib/pkgconfig/:$PKG_CONFIG_PATH"
         export MACOSX_DEPLOYMENT_TARGET="10.13"
+        export EXTRA_CFLAGS   += -mmacosx-version-min=10.13
+        export EXTRA_CXXFLAGS += -mmacosx-version-min=10.13
+        export EXTRA_LDFLAGS  += -mmacosx-version-min=10.13
         mv VERSION VERSION.bak
         python3 bootstrap.py
         python3 waf configure
