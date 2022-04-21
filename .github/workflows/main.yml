@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  schedule:
+  #schedule:
     # nightly build
     #- cron: "00 12 * * *"
 
