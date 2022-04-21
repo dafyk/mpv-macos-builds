@@ -6,7 +6,7 @@ on:
       - main
   schedule:
     # nightly build
-    - cron: "00 12 * * *"
+    #- cron: "00 12 * * *"
 
 jobs:
   build:
@@ -49,11 +49,12 @@ jobs:
         echo "Force brew install for 10.13"
         export MACOSX_DEPLOYMENT_TARGET="10.13"
         brew update-reset
+        brew tap homebrew-ffmpeg/ffmpeg
         brew update
         path="$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula"
         for dep in rav1e dav1d theora libunistring libtasn1 rtmpdump pcre p11-kit libogg speex tesseract xvid snappy rubberband libsamplerate libsndfile flac opus opencore-amr libvpx libvorbis libvidstab libsoxr frei0r aom srt leptonica webp lame glib openjpeg openssl@1.1 docutils ffmpeg jpeg libarchive libass little-cms2 luajit mujs pkg-config uchardet youtube-dl zimg ffmpeg sdl2 libb2 lz4 xz zstd libbluray libffi fontconfig freetype libpng fribidi giflib gmp gnutls libidn2 nettle graphite2 harfbuzz gettext libtiff little-cms2 x264 x265; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $path/$dep.rb;done
         for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $path/$dep.rb;done
-        echo "Insall packages from source. ATTN: order matters"
+        echo "Install packages from source. ATTN: order matters"
         brew uninstall --ignore-dependencies --force openssl
         brew cleanup
         brew reinstall -s openssl@1.1
@@ -124,7 +125,7 @@ jobs:
         brew install -s theora
         brew install -s dav1d
         brew install -s rav1e
-        brew install -s ffmpeg
+        brew install homebrew-ffmpeg/ffmpeg/ffmpeg --build-from-source --HEAD --with-chromaprint --with-fdk-aac --with-game-music-emu --with-libbluray --with-libbs2b --with-libcaca --with-libgsm --with-libmodplug --with-librsvg --with-libsoxr --with-libssh --with-libvidstab --with-libvmaf --with-libxml2 --with-opencore-amr --with-openh264 --with-openjpeg --with-openssl --with-openssl@1.1 --with-rav1e --with-rtmpdump --with-rubberband --with-speex --with-srt --with-tesseract --with-two-lame --with-webp --with-xvid --with-zeromq --with-zimg
 
 
     - name: Build binary
