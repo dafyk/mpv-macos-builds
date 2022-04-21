@@ -124,7 +124,6 @@ jobs:
         brew install -s theora
         brew install -s dav1d
         brew install -s rav1e
-        sudo chown -R `whoami`:admin /usr/local/share/texinfo
         brew install -s ffmpeg
 
 
