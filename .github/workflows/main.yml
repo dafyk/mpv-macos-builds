@@ -93,10 +93,10 @@ jobs:
         brew install -s harfbuzz
         brew install -s x264
         brew install -s x265
-        brew install docutils
+        brew install -s docutils
         brew install -s libarchive
-        brew install libass --HEAD
-        brew install luajit --HEAD
+        brew install -s libass --HEAD
+        brew install -s luajit --HEAD
         brew install -s mujs
         brew install -s uchardet
         brew install -s youtube-dl
