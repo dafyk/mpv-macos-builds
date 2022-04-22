@@ -126,7 +126,7 @@ jobs:
         brew install -s theora
         brew install -s dav1d
         brew install -s rav1e
-        brew install homebrew-ffmpeg/ffmpeg/ffmpeg --build-from-source --HEAD --with-chromaprint --with-fdk-aac --with-game-music-emu --with-libbluray --with-libbs2b --with-libcaca --with-libgsm --with-libmodplug --with-librsvg --with-libsoxr --with-libssh --with-libvidstab --with-libvmaf --with-libxml2 --with-opencore-amr --with-openh264 --with-openjpeg --with-openssl --with-openssl@1.1 --with-rav1e --with-rtmpdump --with-rubberband --with-speex --with-srt --with-tesseract --with-two-lame --with-webp --with-xvid --with-zeromq --with-zimg
+        brew install homebrew-ffmpeg/ffmpeg/ffmpeg --build-from-source --HEAD --with-chromaprint --with-fdk-aac --with-game-music-emu --with-libbluray --with-libbs2b --with-libcaca --with-libgsm --with-libmodplug --with-librsvg --with-libsoxr --with-libssh --with-libvidstab --with-libxml2 --with-opencore-amr --with-openh264 --with-openjpeg --with-openssl --with-openssl@1.1 --with-rav1e --with-rtmpdump --with-rubberband --with-speex --with-srt --with-tesseract --with-two-lame --with-webp --with-xvid --with-zeromq --with-zimg
 
 
     - name: Build binary
