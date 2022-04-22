@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-  schedule:
+  #schedule:
     # nightly build
-    - cron: "00 12 * * *"
+    #- cron: "00 12 * * *"
 
 jobs:
   build:
@@ -52,7 +52,7 @@ jobs:
         brew tap homebrew-ffmpeg/ffmpeg
         brew update
         path="$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula"
-        for dep in rav1e dav1d theora libunistring libtasn1 rtmpdump pcre p11-kit libogg speex tesseract xvid snappy rubberband libsamplerate libsndfile flac opus opencore-amr libvpx libvorbis libvidstab libsoxr frei0r aom srt leptonica webp lame glib openjpeg openssl@1.1 docutils ffmpeg jpeg libarchive libass little-cms2 luajit mujs pkg-config uchardet youtube-dl zimg ffmpeg sdl2 libb2 lz4 xz zstd libbluray libffi fontconfig freetype libpng fribidi giflib gmp gnutls libidn2 nettle graphite2 harfbuzz gettext libtiff little-cms2 x264 x265; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $path/$dep.rb;done
+        for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $path/$dep.rb;done
         sed -i "" $'s/--enable-demuxer=dash/--enable-demuxer=dash\\\n      --disable-doc/' $(brew --repository)/Library/Taps/homebrew-ffmpeg/homebrew-ffmpeg/Formula/ffmpeg.rb
         echo "Install packages from source. ATTN: order matters"
@@ -93,10 +93,10 @@ jobs:
         brew install -s harfbuzz
         brew install -s x264
         brew install -s x265
-        brew install -s docutils
+        brew install docutils
         brew install -s libarchive
-        brew install -s libass --HEAD
-        brew install -s luajit --HEAD
+        brew install libass --HEAD
+        brew install luajit --HEAD
         brew install -s mujs
         brew install -s uchardet
         brew install -s youtube-dl
@@ -126,7 +126,17 @@ jobs:
         brew install -s theora
         brew install -s dav1d
         brew install -s rav1e
-        brew install homebrew-ffmpeg/ffmpeg/ffmpeg --build-from-source --HEAD --with-chromaprint --with-fdk-aac --with-game-music-emu --with-libbluray --with-libbs2b --with-libcaca --with-libgsm --with-libmodplug --with-librsvg --with-libsoxr --with-libssh --with-libvidstab --with-libxml2 --with-opencore-amr --with-openh264 --with-openjpeg --with-openssl --with-openssl@1.1 --with-rav1e --with-rtmpdump --with-rubberband --with-speex --with-srt --with-tesseract --with-two-lame --with-webp --with-xvid --with-zeromq --with-zimg
+        brew install -s fdk-aac
+        brew install -s libbs2b
+        brew install -s libcaca
+        brew install -s libgsm
+        brew install -s libmodplug
+        brew install -s librsvg
+        brew install -s libvmaf
+        brew install -s libxml2
+        brew install -s zeromq
+
+        brew install homebrew-ffmpeg/ffmpeg/ffmpeg --build-from-source --HEAD --with-fdk-aac --with-libbluray --with-libbs2b --with-libcaca --with-libgsm --with-libmodplug --with-librsvg --with-libsoxr --with-libssh --with-libvidstab --with-libvmaf --with-libxml2 --with-opencore-amr --with-openh264 --with-openjpeg --with-openssl --with-openssl@1.1 --with-rav1e --with-rtmpdump --with-rubberband --with-speex --with-srt --with-tesseract --with-two-lame --with-webp --with-xvid --with-zeromq --with-zimg
 
 
     - name: Build binary
