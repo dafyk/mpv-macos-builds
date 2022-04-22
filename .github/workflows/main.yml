@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-  #schedule:
+  schedule:
     # nightly build
-    #- cron: "00 12 * * *"
+    - cron: "00 12 * * *"
 
 jobs:
   build:
@@ -55,6 +55,7 @@ jobs:
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $path/$dep.rb;done
         sed -i "" $'s/--enable-demuxer=dash/--enable-demuxer=dash\\\n      --disable-doc/' $(brew --repository)/Library/Taps/homebrew-ffmpeg/homebrew-ffmpeg/Formula/ffmpeg.rb
+        sed -i "" $'s/inreplace/#inreplace/' $(brew --repository)/Library/Taps/homebrew-ffmpeg/homebrew-ffmpeg/Formula/ffmpeg.rb
         echo "Install packages from source. ATTN: order matters"
         brew uninstall --ignore-dependencies --force openssl
         brew cleanup
