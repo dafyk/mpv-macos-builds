@@ -95,7 +95,7 @@ jobs:
         brew reinstall -s x264
         brew reinstall -s x265
         brew reinstall -s docutils
-        brew reinstall -s libarchive
+        brew install -s libarchive
         brew reinstall -s libass --HEAD
         brew reinstall -s luajit --HEAD
         brew reinstall -s mujs
