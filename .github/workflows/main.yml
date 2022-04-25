@@ -153,7 +153,7 @@ jobs:
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
         mv VERSION VERSION.bak
         python3 bootstrap.py
-        python3 waf configure -v --enable-libmpv-shared --enable-libmpv-static --enable-static-build --disable-manpage-build --disable-caca
+        python3 waf configure -v --enable-libmpv-shared --enable-libmpv-static --disable-manpage-build --disable-caca --disable-macos-10-14-features
         python3 waf
         python3 TOOLS/osxbundle.py build/mpv
         mv version.sh.bak version.sh
