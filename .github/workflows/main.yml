@@ -74,9 +74,12 @@ jobs:
         brew install -s openjpeg
         brew install -s fdk-aac
         ./rebuild -j4
+        find . -iname "build"
+        ls -la build
+        ls -lar *
         cd mpv
         #python3 ~/work/mpv-macos-builds/mpv-macos-builds/mpv/TOOLS/osxbundle.py ~/work/mpv-macos-builds/mpv-macos-builds/build/mpv
-        python3 TOOLS/osxbundle.py ~/work/mpv-macos-builds/mpv-macos-builds/build/mpv
+        python3 TOOLS/osxbundle.py build/mpv
         mkdir -p release
         cp -r build/mpv.app release
 
