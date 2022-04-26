@@ -70,7 +70,7 @@ jobs:
         brew install -s openjpeg
         brew install -s fdk-aac
         ./rebuild -j4
-        python3 ./src/mpv*/TOOLS/osxbundle.py build/mpv
+        python3 src/mpv*/TOOLS/osxbundle.py build/mpv
         mkdir -p release
         cp -r build/mpv.app release
 
