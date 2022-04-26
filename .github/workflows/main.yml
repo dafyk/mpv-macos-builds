@@ -70,3 +70,43 @@ jobs:
         brew install -s openjpeg
         brew install -s fdk-aac
         ./rebuild -j4
+        python3 ./src/mpv*/TOOLS/osxbundle.py build/mpv
+        mkdir -p release
+        cp -r build/mpv.app release
+
+    - name: Build Apple Disk Image
+      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
+      run: |
+        brew install create-dmg
+        create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
+        #rm -rf release/mpv.app
+        mv mpv.dmg release/
+
+    - name: Create Release
+      id: create_release
+      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.upstream_tag.outputs.build_hash }}
+        release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
+        body: |
+            mpv nightly build
+            build date: ${{ steps.timestamp.outputs.date }}
+            version: ${{ steps.upstream_tag.outputs.build_hash }}
+            OS support: macOS High Sierra 10.13 or later
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: release/mpv.dmg
+        asset_name: mpv-nightly-${{ steps.upstream_tag.outputs.build_hash }}.dmg
+        asset_content_type: application/x-apple-diskimage
