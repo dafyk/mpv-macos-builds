@@ -44,7 +44,6 @@ jobs:
       id: upstream_tag
       run: |
         git fetch
-        sed -i .bak 's/--dirty//g' version.sh
         echo "::set-output name=build_hash::$(sh version.sh)"
 
     - name: Install dependencies
