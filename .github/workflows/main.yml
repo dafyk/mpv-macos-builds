@@ -47,7 +47,6 @@ jobs:
         echo "::set-output name=build_hash::$(sh version.sh)"
 
     - name: Install dependencies
-      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
       run: |
         export MACOSX_DEPLOYMENT_TARGET="10.13"
         brew update-reset
@@ -55,6 +54,16 @@ jobs:
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         brew uninstall --ignore-dependencies --force openssl
         brew cleanup
-        brew install automake
-
+        brew install -s openssl@1.1
+        brew install -s automake
+        brew install -s freetype
+        brew install -s fontconfig
+        brew install -s jpeg
+        brew install -s fribidi
+        brew install -s youtube-dl
+        brew install -s x264
+        brew install -s x265
+        brew install -s lame
+        brew install -s openjpeg
+        brew install -s fdk-aac
         ./rebuild -j4
