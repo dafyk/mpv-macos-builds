@@ -50,9 +50,4 @@ jobs:
       if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
       run: |
         ls -la
-        mv VERSION VERSION.bak
         ./rebuild -j4
-
-        mv version.sh.bak version.sh
-        mkdir -p release
-        cp -r build/mpv.app release
