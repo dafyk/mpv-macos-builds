@@ -48,31 +48,34 @@ jobs:
 
     - name: Install dependencies
       run: |
-        export MACOSX_DEPLOYMENT_TARGET="10.13"
-        brew update-reset
-        brew update
-        for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
-        brew uninstall --ignore-dependencies --force openssl
-        brew cleanup
-        brew reinstall -s openssl@1.1
-        brew install -s automake
-        brew reinstall -s pkg-config
-        brew install -s freetype
-        brew install -s fontconfig
-        brew install -s jpeg
-        brew reinstall -s fribidi
-        brew reinstall -s harfbuzz
-        brew reinstall -s gnutls
-        brew install -s youtube-dl
-        brew install -s x264
-        brew install -s x265
-        brew install -s lame
-        brew install -s openjpeg
-        brew install -s fdk-aac
-        ./rebuild -j4
-        python3 src/mpv*/TOOLS/osxbundle.py build/mpv
-        mkdir -p release
-        cp -r build/mpv.app release
+        #export MACOSX_DEPLOYMENT_TARGET="10.13"
+        #brew update-reset
+        #brew update
+        #for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+        #brew uninstall --ignore-dependencies --force openssl
+        #brew cleanup
+        #brew reinstall -s openssl@1.1
+        #brew install -s automake
+        #brew reinstall -s pkg-config
+        #brew install -s freetype
+        #brew install -s fontconfig
+        #brew install -s jpeg
+        #brew reinstall -s fribidi
+        #brew reinstall -s harfbuzz
+        #brew reinstall -s gnutls
+        #brew install -s youtube-dl
+        #brew install -s x264
+        #brew install -s x265
+        #brew install -s lame
+        #brew install -s openjpeg
+        #brew install -s fdk-aac
+        #./rebuild -j4
+        #python3 src/mpv*/TOOLS/osxbundle.py build/mpv
+        #mkdir -p release
+        #cp -r build/mpv.app release
+        ./update
+        ls -la
+        ls -la src
 
     - name: Build Apple Disk Image
       if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
