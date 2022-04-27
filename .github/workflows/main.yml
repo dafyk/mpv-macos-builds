@@ -86,6 +86,7 @@ jobs:
     - name: Build Apple Disk Image
       if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
       run: |
+        cd mpv
         brew install create-dmg
         create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
         #rm -rf release/mpv.app
