@@ -83,9 +83,12 @@ jobs:
         brew reinstall -s little-cms2
         brew reinstall -s libxcb
 
-        ./rebuild -j${{ steps.cpu-cores.outputs.count }}
+        ./update
+        echo "--disable-macos-10-14-features" >> mpv/mpv_options
+        echo "--disable-swift" >> mpv/mpv_options
+        ./build -j${{ steps.cpu-cores.outputs.count }}
+
         cd mpv
-        #python3 ~/work/mpv-macos-builds/mpv-macos-builds/mpv/TOOLS/osxbundle.py ~/work/mpv-macos-builds/mpv-macos-builds/build/mpv
         python3 TOOLS/osxbundle.py build/mpv
         mkdir -p release
         cp -r build/mpv.app release
