@@ -31,20 +31,25 @@ jobs:
       id: git_tag
       uses: oprypin/find-latest-tag@v1
       with:
-        repository: dafyk/mpv-macos-builds
+        repository: 'dafyk/mpv-macos-builds'
         releases-only: false
 
-    - name: Checkout mpv-player/mpv
+    - name: Get latest mpv git tag
+      id: mpv_tag
+      uses: oprypin/find-latest-tag@v1
+      with:
+        repository: 'mpv-player/mpv'
+        releases-only: false
+
+    - name: Get number of CPU cores
+      uses: SimenB/github-actions-cpu-cores@v1
+      id: cpu-cores
+
+    - name: Checkout mpv-player/mpv-build
       uses: actions/checkout@v2
       with:
         repository: 'mpv-player/mpv-build'
         fetch-depth: 0
-
-    - name: Check upstream version
-      id: upstream_tag
-      run: |
-        git fetch
-        echo "::set-output name=build_hash::$(sh version.sh)"
 
     - name: Install dependencies
       run: |
@@ -61,8 +66,8 @@ jobs:
         brew reinstall -s openssl@1.1
         brew install -s automake
         brew reinstall -s pkg-config
-        brew install -s freetype
-        brew install -s fontconfig
+        brew reinstall -s freetype
+        brew reinstall -s fontconfig
         brew install -s jpeg
         brew reinstall -s fribidi
         brew reinstall -s harfbuzz
@@ -73,10 +78,12 @@ jobs:
         brew install -s lame
         brew install -s openjpeg
         brew install -s fdk-aac
-        ./rebuild -j4
-        find . -iname "build"
-        ls -la build
-        ls -lar *
+        brew reinstall -s libx11
+        brew reinstall -s libjpeg
+        brew reinstall -s little-cms2
+        brew reinstall -s libxcb
+
+        ./rebuild -j${{ steps.cpu-cores.outputs.count }}
         cd mpv
         #python3 ~/work/mpv-macos-builds/mpv-macos-builds/mpv/TOOLS/osxbundle.py ~/work/mpv-macos-builds/mpv-macos-builds/build/mpv
         python3 TOOLS/osxbundle.py build/mpv
@@ -84,7 +91,7 @@ jobs:
         cp -r build/mpv.app release
 
     - name: Build Apple Disk Image
-      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
+      if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
       run: |
         cd mpv
         brew install create-dmg
@@ -94,29 +101,29 @@ jobs:
 
     - name: Create Release
       id: create_release
-      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
+      if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.upstream_tag.outputs.build_hash }}
+        tag_name: ${{ steps.mpv_tag.outputs.tag }}
         release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
         body: |
             mpv nightly build
             build date: ${{ steps.timestamp.outputs.date }}
-            version: ${{ steps.upstream_tag.outputs.build_hash }}
+            version: ${{ steps.mpv_tag.outputs.tag }}
             OS support: macOS High Sierra 10.13 or later
         draft: false
         prerelease: false
 
     - name: Upload Release Asset
       id: upload-release-asset
-      if: ${{ success() && steps.upstream_tag.outputs.build_hash != steps.git_tag.outputs.tag }}
+      if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: release/mpv.dmg
-        asset_name: mpv-nightly-${{ steps.upstream_tag.outputs.build_hash }}.dmg
+        asset_name: mpv-nightly-${{ steps.mpv_tag.outputs.tag }}.dmg
         asset_content_type: application/x-apple-diskimage
