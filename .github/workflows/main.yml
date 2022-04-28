@@ -131,7 +131,7 @@ jobs:
         echo "--enable-libopencore-amrwb" >> ffmpeg_options
         echo "--enable-libopenjpeg" >> ffmpeg_options
         echo "--enable-librsvg" >> ffmpeg_options
-        echo "--enable-librtmp" >> ffmpeg_options
+        #echo "--enable-librtmp" >> ffmpeg_options
         echo "--enable-librubberband" >> ffmpeg_options
         echo "--enable-libsoxr" >> ffmpeg_options
         echo "--enable-libspeex" >> ffmpeg_options
