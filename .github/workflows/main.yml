@@ -82,9 +82,70 @@ jobs:
         brew reinstall -s libjpeg
         brew reinstall -s little-cms2
         brew reinstall -s libxcb
+        brew install -s frei0r
+        brew install -s aom
+        brew install libass --HEAD
+        brew install luajit --HEAD
+        brew install -s libbluray
+        brew install -s libcaca
+        brew install -s dav1d
+        brew install -s libgsm
+        brew install -s libmodplug
+        brew install -s opencore-amr
+        brew install -s librsvg
+        brew install -s rtmpdump
+        brew install -s rubberband
+        brew install -s libsoxr
+        brew install -s speex
+        brew install -s srt
+        brew install -s libssh
+        brew install -s tesseract
+        brew install -s libvidstab
+        brew install -s libvmaf
+        brew install -s libxml2
+        brew install -s zimg
+        brew install -s zeromq
 
         echo "--disable-macos-10-14-features" >> mpv_options
         echo "--disable-swift" >> mpv_options
+        echo "--enable-gpl" >> mpv_options
+        echo "--enable-version3" >> mpv_options
+        echo "--disable-ffplay" >> mpv_options
+        echo "--disable-ffprobe" >> mpv_options
+        echo "--disable-doc" >> mpv_options
+        echo "--disable-htmlpages" >> mpv_options
+        echo "--disable-manpages" >> mpv_options
+        echo "--disable-podpages" >> mpv_options
+        echo "--disable-txtpages" >> mpv_options
+        echo "--enable-frei0r" >> mpv_options
+        echo "--enable-lcms2" >> mpv_options
+        echo "--enable-libaom" >> mpv_options
+        echo "--enable-libass" >> mpv_options
+        echo "--enable-libbluray" >> mpv_options
+        echo "--enable-libcaca" >> mpv_options
+        echo "--enable-libdav1d" >> mpv_options
+        echo "--enable-libfdk-aac" >> mpv_options
+        echo "--enable-libgsm" >> mpv_options
+        echo "--enable-libmodplug" >> mpv_options
+        echo "--enable-libopencore-amrnb" >> mpv_options
+        echo "--enable-libopencore-amrwb" >> mpv_options
+        echo "--enable-libopenjpeg" >> mpv_options
+        echo "--enable-librsvg" >> mpv_options
+        echo "--enable-librtmp" >> mpv_options
+        echo "--enable-librubberband" >> mpv_options
+        echo "--enable-libsoxr" >> mpv_options
+        echo "--enable-libspeex" >> mpv_options
+        echo "--enable-libsrt" >> mpv_options
+        echo "--enable-libssh" >> mpv_options
+        echo "--enable-libtesseract" >> mpv_options
+        echo "--enable-libvidstab" >> mpv_options
+        echo "--enable-libvmaf" >> mpv_options
+        echo "--enable-libxml2" >> mpv_options
+        echo "--enable-libzimg" >> mpv_options
+        echo "--enable-libzmq" >> mpv_options
+        echo "--enable-openssl" >> mpv_options
+
+
         ./rebuild -j${{ steps.cpu-cores.outputs.count }}
 
         cd mpv
