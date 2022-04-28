@@ -57,7 +57,7 @@ jobs:
         export EXTRA_CFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
-
+        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/usr/local/opt/lib/pkgconfig:$PKG_CONFIG_PATH"
         brew update-reset
         brew update
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
@@ -131,7 +131,7 @@ jobs:
         echo "--enable-libopencore-amrwb" >> ffmpeg_options
         echo "--enable-libopenjpeg" >> ffmpeg_options
         echo "--enable-librsvg" >> ffmpeg_options
-        #echo "--enable-librtmp" >> ffmpeg_options
+        echo "--enable-librtmp" >> ffmpeg_options
         echo "--enable-librubberband" >> ffmpeg_options
         echo "--enable-libsoxr" >> ffmpeg_options
         echo "--enable-libspeex" >> ffmpeg_options
