@@ -143,7 +143,7 @@ jobs:
         echo "--enable-libxml2" >> ffmpeg_options
         echo "--enable-libzimg" >> ffmpeg_options
         echo "--enable-libzmq" >> ffmpeg_options
-        echo "--enable-openssl" >> ffmpeg_options
+        #echo "--enable-openssl" >> ffmpeg_options
 
 
         ./rebuild -j${{ steps.cpu-cores.outputs.count }}
