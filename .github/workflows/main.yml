@@ -24,6 +24,36 @@ jobs:
       LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
 
     steps:
+    - name: Get current timestamp
+      id: timestamp
+      run: |
+        echo "::set-output name=timestamp::$(date +%s)"
+        echo "::set-output name=date::$(date +%Y%m%d)"
+
+    - name: Get latest git tag
+      id: git_tag
+      uses: oprypin/find-latest-tag@v1
+      with:
+        repository: 'dafyk/mpv-macos-builds'
+        releases-only: false
+
+    - name: Get latest mpv git tag
+      id: mpv_tag
+      uses: oprypin/find-latest-tag@v1
+      with:
+        repository: 'mpv-player/mpv'
+        releases-only: false
+
+    - name: Get number of CPU cores
+      uses: SimenB/github-actions-cpu-cores@v1
+      id: cpu-cores
+
+    - name: Checkout mpv-player/mpv-build
+      uses: actions/checkout@v2
+      with:
+        repository: 'mpv-player/mpv-build'
+        fetch-depth: 0
+
     - name: Install dependencies
       run: |
         export MACOSX_DEPLOYMENT_TARGET="10.13"
@@ -32,4 +62,131 @@ jobs:
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
         export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
         brew update-reset
-        brew list
+        for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+        brew uninstall --ignore-dependencies --force openssl
+        brew uninstall --ignore-dependencies --force gnutls
+        brew reinstall -s openssl@1.1
+        brew install -s automake
+        brew reinstall -s pkg-config
+        brew reinstall -s freetype
+        brew reinstall -s fontconfig
+        brew install -s jpeg
+        brew reinstall -s fribidi
+        brew reinstall -s harfbuzz
+        brew install -s youtube-dl
+        brew install -s x264
+        brew install -s x265
+        brew install -s lame
+        brew install -s openjpeg
+        brew install -s fdk-aac
+        brew reinstall -s libx11
+        brew reinstall -s libjpeg
+        brew reinstall -s little-cms2
+        brew reinstall -s libxcb
+        brew install -s frei0r
+        brew install -s aom
+        brew install libass --HEAD
+        brew install luajit --HEAD
+        brew install -s libbluray
+        brew install -s libcaca
+        brew install -s dav1d
+        brew install -s libgsm
+        brew install -s libmodplug
+        brew install -s opencore-amr
+        brew install -s librsvg
+        brew reinstall -s rtmpdump
+        brew install -s rubberband
+        brew install -s libsoxr
+        brew install -s speex
+        brew install -s srt
+        brew install -s libssh
+        brew install -s tesseract
+        brew install -s libvidstab
+        brew install -s libvmaf
+        brew install -s libxml2
+        brew install -s zimg
+        brew install -s zeromq
+
+        echo "--disable-macos-10-14-features" >> mpv_options
+        echo "--disable-swift" >> mpv_options
+        echo "--enable-nonfree" >> ffmpeg_options
+        echo "--enable-version3" >> ffmpeg_options
+        echo "--disable-ffplay" >> ffmpeg_options
+        echo "--disable-ffprobe" >> ffmpeg_options
+        echo "--disable-doc" >> ffmpeg_options
+        echo "--disable-htmlpages" >> ffmpeg_options
+        echo "--disable-manpages" >> ffmpeg_options
+        echo "--disable-podpages" >> ffmpeg_options
+        echo "--disable-txtpages" >> ffmpeg_options
+        echo "--enable-frei0r" >> ffmpeg_options
+        echo "--enable-lcms2" >> ffmpeg_options
+        echo "--enable-libaom" >> ffmpeg_options
+        echo "--enable-libass" >> ffmpeg_options
+        echo "--enable-libbluray" >> ffmpeg_options
+        echo "--enable-libcaca" >> ffmpeg_options
+        echo "--enable-libdav1d" >> ffmpeg_options
+        echo "--enable-libfdk-aac" >> ffmpeg_options
+        echo "--enable-libgsm" >> ffmpeg_options
+        echo "--enable-libmodplug" >> ffmpeg_options
+        echo "--enable-libopencore-amrnb" >> ffmpeg_options
+        echo "--enable-libopencore-amrwb" >> ffmpeg_options
+        echo "--enable-libopenjpeg" >> ffmpeg_options
+        echo "--enable-librsvg" >> ffmpeg_options
+        echo "--enable-librtmp" >> ffmpeg_options
+        echo "--enable-librubberband" >> ffmpeg_options
+        echo "--enable-libsoxr" >> ffmpeg_options
+        echo "--enable-libspeex" >> ffmpeg_options
+        echo "--enable-libsrt" >> ffmpeg_options
+        echo "--enable-libssh" >> ffmpeg_options
+        echo "--enable-libtesseract" >> ffmpeg_options
+        echo "--enable-libvidstab" >> ffmpeg_options
+        echo "--enable-libvmaf" >> ffmpeg_options
+        echo "--enable-libxml2" >> ffmpeg_options
+        echo "--enable-libzimg" >> ffmpeg_options
+        echo "--enable-libzmq" >> ffmpeg_options
+        echo "--enable-openssl" >> ffmpeg_options
+
+        ./rebuild -j${{ steps.cpu-cores.outputs.count }}
+
+        cd mpv
+        python3 TOOLS/osxbundle.py build/mpv
+        mkdir -p release
+        cp -r build/mpv.app release
+
+    - name: Build Apple Disk Image
+      if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
+      run: |
+        cd mpv
+        brew install create-dmg
+        create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
+        #rm -rf release/mpv.app
+        mv mpv.dmg release/
+
+    - name: Create Release
+      id: create_release
+      if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.mpv_tag.outputs.tag }}
+        release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
+        body: |
+            mpv nightly build
+            build date: ${{ steps.timestamp.outputs.date }}
+            version: ${{ steps.mpv_tag.outputs.tag }}
+            OS support: macOS High Sierra 10.13 or later
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: mpv/release/mpv.dmg
+        asset_name: mpv-nightly-${{ steps.mpv_tag.outputs.tag }}.dmg
+        asset_content_type: application/x-apple-diskimage
