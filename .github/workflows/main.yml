@@ -1,13 +1,5 @@
-name: build
-
-on:
-  push:
-    branches:
-      - main
-  #schedule:
-    # nightly build
-    #- cron: "00 12 * * *"
-
+name: CI
+on: [push]
 jobs:
   build:
     runs-on: macos-latest
