@@ -12,18 +12,8 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-    - name: Start SSH via ngrok
-      uses: rdp-studio/ssh2actions@main
+    - name: Start SSH session
+      uses: luchihoratiu/debug-via-ssh@main
       with:
-        mode: ngrok
-      env:
-        # After sign up on the https://ngrok.com
-        # You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
-        NGROK_TOKEN: "2KanScbvSZxYX84KiaXPd_3WxTuKFPMAYdyKnvDBf9W"
-        
-        # ngrok server region [us, eu, au, ap, sa, jp, in] (optional, default: us)
-        # You can find this server region here: https://ngrok.com/docs#global-locations
-        NGROK_REGION: us
-
-        # This password you will use when authorizing via SSH
-        SSH_PASSWORD: "12345678"
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        SSH_PASS: ${{ secrets.SSH_PASS }}
