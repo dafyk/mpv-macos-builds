@@ -147,11 +147,7 @@ jobs:
         #echo "--enable-openssl" >> ffmpeg_options
         echo "--pkg-config-flags=\"--static\"" >> ffmpeg_options
 
-        cat /usr/local/lib/pkgconfig/librtmp.pc
-        pkg-config --list-all
-        pkg-config --debug librtmp
-
-        PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./rebuild -j${{ steps.cpu-cores.outputs.count }}
+        ./rebuild -j${{ steps.cpu-cores.outputs.count }}
 
         cd mpv
         python3 TOOLS/osxbundle.py build/mpv
