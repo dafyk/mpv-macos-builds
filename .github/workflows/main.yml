@@ -54,15 +54,15 @@ jobs:
         export EXTRA_CFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
-        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
         export
         brew update-reset
         brew update
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         brew uninstall --ignore-dependencies --force openssl
         brew cleanup
-        brew reinstall -s rtmpdump
+        brew install -s rtmpdump
+        ls /usr/local/opt/
 
         cat /usr/local/lib/pkgconfig/librtmp.pc
         pkg-config --list-all
-        pkg-config --debug
+        pkg-config --debug librtmp
