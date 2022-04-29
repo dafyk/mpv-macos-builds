@@ -65,47 +65,47 @@ jobs:
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         brew uninstall --ignore-dependencies --force openssl
         brew reinstall -s openssl@1.1
-        brew install -s automake
-        brew reinstall -s pkg-config
-        brew reinstall -s freetype
-        brew reinstall -s fontconfig
-        brew install -s jpeg
-        brew reinstall -s fribidi
-        brew reinstall -s harfbuzz
-        brew reinstall -s gnutls
-        brew install -s youtube-dl
-        brew install -s x264
-        brew install -s x265
-        brew install -s lame
-        brew install -s openjpeg
-        brew install -s fdk-aac
-        brew reinstall -s libx11
-        brew reinstall -s libjpeg
-        brew reinstall -s little-cms2
-        brew reinstall -s libxcb
-        brew install -s frei0r
-        brew install -s aom
-        brew install libass --HEAD
-        brew install luajit --HEAD
-        brew install -s libbluray
-        brew install -s libcaca
-        brew install -s dav1d
-        brew install -s libgsm
-        brew install -s libmodplug
-        brew install -s opencore-amr
-        brew install -s librsvg
-        brew reinstall -s rtmpdump
-        brew install -s rubberband
-        brew install -s libsoxr
-        brew install -s speex
-        brew install -s srt
-        brew install -s libssh
-        brew install -s tesseract
-        brew install -s libvidstab
-        brew install -s libvmaf
-        brew install -s libxml2
-        brew install -s zimg
-        brew install -s zeromq
+        #brew install -s automake
+        #brew reinstall -s pkg-config
+        #brew reinstall -s freetype
+        #brew reinstall -s fontconfig
+        #brew install -s jpeg
+        #brew reinstall -s fribidi
+        #brew reinstall -s harfbuzz
+        #brew reinstall -s gnutls
+        #brew install -s youtube-dl
+        #brew install -s x264
+        #brew install -s x265
+        #brew install -s lame
+        #brew install -s openjpeg
+        #brew install -s fdk-aac
+        #brew reinstall -s libx11
+        #brew reinstall -s libjpeg
+        #brew reinstall -s little-cms2
+        #brew reinstall -s libxcb
+        #brew install -s frei0r
+        #brew install -s aom
+        #brew install libass --HEAD
+        #brew install luajit --HEAD
+        #brew install -s libbluray
+        #brew install -s libcaca
+        #brew install -s dav1d
+        #brew install -s libgsm
+        #brew install -s libmodplug
+        #brew install -s opencore-amr
+        #brew install -s librsvg
+        #brew reinstall -s rtmpdump
+        #brew install -s rubberband
+        #brew install -s libsoxr
+        #brew install -s speex
+        #brew install -s srt
+        #brew install -s libssh
+        #brew install -s tesseract
+        #brew install -s libvidstab
+        #brew install -s libvmaf
+        #brew install -s libxml2
+        #brew install -s zimg
+        #brew install -s zeromq
 
         echo "--disable-macos-10-14-features" >> mpv_options
         echo "--disable-swift" >> mpv_options
@@ -144,8 +144,7 @@ jobs:
         echo "--enable-libxml2" >> ffmpeg_options
         echo "--enable-libzimg" >> ffmpeg_options
         echo "--enable-libzmq" >> ffmpeg_options
-        #echo "--enable-openssl" >> ffmpeg_options
-        echo "--pkg-config-flags=\"--static\"" >> ffmpeg_options
+        echo "--enable-openssl" >> ffmpeg_options
 
         ./rebuild -j${{ steps.cpu-cores.outputs.count }}
 
