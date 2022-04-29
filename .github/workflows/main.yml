@@ -1,9 +1,19 @@
-name: CI
-on: [push]
+name: build
+
+on:
+  push:
+    branches:
+      - main
+  #schedule:
+    # nightly build
+    #- cron: "00 12 * * *"
+
 jobs:
   build:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
+    - uses: mdelillo/ssh-server-action@v1
+      with:
+        ngrok-authtoken: "2KanScbvSZxYX84KiaXPd_3WxTuKFPMAYdyKnvDBf9W"
+        ssh-public-key: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQBgcPs7dOIRxRxal2zldMrfCI/ZXB3ff7qyObRk4Wjyx1Na8gDinnpdSM1Cf/1gMG3kxeLXSAkzlQ2H4Xndz2V6RUKnyDJtqj7qNEu1Cj0xPiHJMWw1QU2mIkVXx85Un8OEqWqJeGF97Pkw9Wv3VYxQgnz+P71cMYxYn0Bb6RSnEEr3DxdCaqltSAySE0tuXjKQsZ1+lROVIlhJUhmW34FxzSXZvDEEBDPdJqY4FwMc5BDNk8qq0QIOWntdZ6uhLYv9u55dtXEOclJXNuUs6e8DM3qVORXrRcMbVZHKs1drZqtnVYHxg91KAWpsp6aJWknY3gNiHIrDhAvVw+wIGtU/"
+
