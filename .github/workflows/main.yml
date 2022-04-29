@@ -59,12 +59,11 @@ jobs:
         brew update-reset
         brew update
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
-        brew uninstall --ignore-dependencies --force openssl
-        brew cleanup
-        brew reinstall -s rtmpdump
+        brew list
+        brew list --cask
 
-        ls /usr/local/Cellar/rtmpdump/2.4+20151223_1/lib
+        #ls /usr/local/Cellar/rtmpdump/2.4+20151223_1/lib
 
-        cat /usr/local/lib/pkgconfig/librtmp.pc
-        pkg-config --list-all
-        pkg-config --debug librtmp
+        #cat /usr/local/lib/pkgconfig/librtmp.pc
+        #pkg-config --list-all
+        #pkg-config --debug librtmp
