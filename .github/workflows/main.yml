@@ -65,8 +65,8 @@ jobs:
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         brew uninstall --ignore-dependencies --force openssl
         brew reinstall -s openssl@1.1
-        #brew install -s automake
-        #brew reinstall -s pkg-config
+        brew install -s automake
+        brew reinstall -s pkg-config
         #brew reinstall -s freetype
         #brew reinstall -s fontconfig
         #brew install -s jpeg
