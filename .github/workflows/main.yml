@@ -12,8 +12,18 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-    - uses: mdelillo/ssh-server-action@v1
+    - name: Start SSH via ngrok
+      uses: rdp-studio/ssh2actions@main
       with:
-        ngrok-authtoken: "2KanScbvSZxYX84KiaXPd_3WxTuKFPMAYdyKnvDBf9W"
-        ssh-public-key: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQBgcPs7dOIRxRxal2zldMrfCI/ZXB3ff7qyObRk4Wjyx1Na8gDinnpdSM1Cf/1gMG3kxeLXSAkzlQ2H4Xndz2V6RUKnyDJtqj7qNEu1Cj0xPiHJMWw1QU2mIkVXx85Un8OEqWqJeGF97Pkw9Wv3VYxQgnz+P71cMYxYn0Bb6RSnEEr3DxdCaqltSAySE0tuXjKQsZ1+lROVIlhJUhmW34FxzSXZvDEEBDPdJqY4FwMc5BDNk8qq0QIOWntdZ6uhLYv9u55dtXEOclJXNuUs6e8DM3qVORXrRcMbVZHKs1drZqtnVYHxg91KAWpsp6aJWknY3gNiHIrDhAvVw+wIGtU/"
+        mode: ngrok
+      env:
+        # After sign up on the https://ngrok.com
+        # You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
+        NGROK_TOKEN: "2KanScbvSZxYX84KiaXPd_3WxTuKFPMAYdyKnvDBf9W"
+        
+        # ngrok server region [us, eu, au, ap, sa, jp, in] (optional, default: us)
+        # You can find this server region here: https://ngrok.com/docs#global-locations
+        NGROK_REGION: us
 
+        # This password you will use when authorizing via SSH
+        SSH_PASSWORD: "12345678"
