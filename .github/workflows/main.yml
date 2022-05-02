@@ -60,9 +60,9 @@ jobs:
         export EXTRA_CFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
-        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
         brew update-reset
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+        sed -i "" $'s/OPTIONS=\"$OPTIONS --enable-gnutls\"/OPTIONS=\"$OPTIONS --enable-openssl\"/' scripts/ffmpeg-config
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
         brew reinstall -s openssl@1.1
@@ -144,7 +144,6 @@ jobs:
         echo "--enable-libxml2" >> ffmpeg_options
         echo "--enable-libzimg" >> ffmpeg_options
         echo "--enable-libzmq" >> ffmpeg_options
-        echo "--enable-openssl" >> ffmpeg_options
 
         ./rebuild -j${{ steps.cpu-cores.outputs.count }}
 
