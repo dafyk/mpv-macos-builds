@@ -95,7 +95,7 @@ jobs:
         brew install -s opencore-amr
         brew install -s librsvg
         brew reinstall -s rtmpdump
-        brew install -s rubberband
+        brew reinstall -s rubberband
         brew install -s libsoxr
         brew install -s speex
         brew install -s srt
