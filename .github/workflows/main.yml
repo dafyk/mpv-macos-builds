@@ -70,21 +70,21 @@ jobs:
         brew reinstall -s pkg-config
         brew reinstall -s freetype
         brew reinstall -s fontconfig
-        brew install -s jpeg
+        brew reinstall -s jpeg
         brew reinstall -s fribidi
         brew reinstall -s harfbuzz
         brew install -s youtube-dl
         brew install -s x264
         brew install -s x265
         brew install -s lame
-        brew install -s openjpeg
+        brew reinstall -s openjpeg
         brew install -s fdk-aac
         brew reinstall -s libx11
         brew reinstall -s libjpeg
         brew reinstall -s little-cms2
         brew reinstall -s libxcb
         brew install -s frei0r
-        brew install -s aom
+        brew reinstall -s aom
         brew install libass --HEAD
         brew install luajit --HEAD
         brew install -s libbluray
@@ -102,7 +102,7 @@ jobs:
         brew install -s libssh
         brew install -s tesseract
         brew install -s libvidstab
-        brew install -s libvmaf
+        brew reinstall -s libvmaf
         brew install -s libxml2
         brew install -s zimg
         brew install -s zeromq
