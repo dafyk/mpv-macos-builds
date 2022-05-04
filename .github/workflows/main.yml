@@ -66,53 +66,52 @@ jobs:
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
         brew reinstall -s openssl@1.1
-        brew install -s automake
+        brew reinstall -s automake
         brew reinstall -s pkg-config
         brew reinstall -s gettext # rebuild version already included in github actions
         brew reinstall -s glib # rebuild version already included in github actions
         brew reinstall -s gdk-pixbuf # rebuild version already included in github actions
-        brew reinstall -s cairo # rebuild version already included in github actions
-        brew install libass --HEAD
-        #reinstalled with lbass brew reinstall -s freetype
-        brew install -s fontconfig
-        brew reinstall -s jpeg 
-        # reinstalled with openjpeg brew reinstall -s little-cms2
-        # reinstalled with libass brew reinstall -s fribidi
-        # reinstalled with libass brew reinstall -s harfbuzz
+        brew reinstall cairo --HEAD # rebuild version already included in github actions
+        brew reinstall freetype --HEAD
+        brew reinstall fribidi --HEAD
+        brew reinstall harfbuzz --HEAD
+        brew reinstall libass --HEAD
+        brew reinstall fontconfig --HEAD
+        brew reinstall -s jpeg
         brew install -s youtube-dl
-        brew install -s x264
-        brew install -s x265
+        brew reinstall x264 --HEAD
+        brew reinstall x265 --HEAD
         brew install -s lame
-        brew reinstall -s openjpeg
-        brew install -s fdk-aac
+        brew reinstall -s little-cms2
+        brew reinstall openjpeg --HEAD
+        brew reinstall fdk-aac --HEAD
+        brew reinstall -s libxcb
         brew reinstall -s libx11
         brew reinstall -s libjpeg
-        
-        #reinstalled with libx11 brew reinstall -s libxcb
         brew install -s frei0r
         brew reinstall -s jpeg-xl # rebuild version already included in github actions
+        brew reinstall -s libvmaf
         brew reinstall -s aom
-        
         brew install luajit --HEAD
-        brew install -s libbluray
-        brew install -s libcaca
+        brew install libbluray --HEAD
+        brew install libcaca --HEAD
         brew install -s dav1d
         brew install -s libgsm
         brew install -s libmodplug
         brew install -s opencore-amr
         brew install -s librsvg
-        brew install -s rtmpdump
-        brew reinstall -s rubberband
+        brew reinstall rtmpdump --HEAD
+        brew reinstall rubberband --HEAD
         brew install -s libsoxr
         brew install -s speex
-        brew install -s srt
-        brew install -s libssh
+        brew install srt --HEAD
+        brew install libssh --HEAD
+        brew reinstall -s libarchive
         brew install tesseract --HEAD
         brew install -s libvidstab
-        #reinstalled with aom brew reinstall -s libvmaf
-        brew install -s libxml2
-        brew install -s zimg
-        brew install -s zeromq
+        brew install libxml2 --HEAD
+        brew install zimg --HEAD
+        brew install zeromq --HEAD
         brew reinstall -s xz # needed to overide version included in macos
 
         echo "--disable-macos-10-14-features" >> mpv_options
