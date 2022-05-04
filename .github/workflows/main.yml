@@ -73,8 +73,8 @@ jobs:
         brew reinstall -s glib # rebuild version already included in github actions
         brew reinstall -s gdk-pixbuf # rebuild version already included in github actions
         brew reinstall -s cairo # --HEAD rebuild version already included in github actions
-        brew install freetype --HEAD
-        brew install fribidi --HEAD
+        brew reinstall -s freetype
+        brew reinstall -s fribidi
         brew install harfbuzz --HEAD
         brew install libass --HEAD
         brew install fontconfig --HEAD
