@@ -65,12 +65,13 @@ jobs:
         sed -i "" $'s/OPTIONS=\"$OPTIONS --enable-gnutls\"/OPTIONS=\"$OPTIONS --enable-openssl\"/' scripts/ffmpeg-config
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
+        brew uninstall --ignore-dependencies --force gdk-pixbuf
         brew reinstall -s openssl@1.1
         brew reinstall -s automake
         brew reinstall -s pkg-config
         brew reinstall -s gettext # rebuild version already included in github actions
         brew reinstall -s glib # rebuild version already included in github actions
-        brew reinstall -s gdk-pixbuf # rebuild version already included in github actions
+        brew install -s gdk-pixbuf # rebuild version already included in github actions
         brew reinstall cairo --HEAD # rebuild version already included in github actions
         brew reinstall freetype --HEAD
         brew reinstall fribidi --HEAD
