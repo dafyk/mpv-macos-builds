@@ -72,7 +72,7 @@ jobs:
         brew reinstall -s gettext # rebuild version already included in github actions
         brew reinstall -s glib # rebuild version already included in github actions
         brew reinstall -s gdk-pixbuf # rebuild version already included in github actions
-        brew install cairo --HEAD # rebuild version already included in github actions
+        brew reinstall -s cairo # --HEAD rebuild version already included in github actions
         brew install freetype --HEAD
         brew install fribidi --HEAD
         brew install harfbuzz --HEAD
