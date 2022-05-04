@@ -66,7 +66,7 @@ jobs:
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
         brew uninstall --ignore-dependencies --force cairo
-        brew reinstall -s openssl@1.1
+        
         brew reinstall -s automake
         brew reinstall -s pkg-config
         brew reinstall -s gettext # rebuild version already included in github actions
@@ -101,6 +101,7 @@ jobs:
         brew install -s libmodplug
         brew install -s opencore-amr
         brew install -s librsvg
+        brew reinstall -s openssl@1.1
         brew install rtmpdump --HEAD
         brew install rubberband --HEAD
         brew install -s libsoxr
