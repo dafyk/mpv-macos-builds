@@ -65,27 +65,27 @@ jobs:
         sed -i "" $'s/OPTIONS=\"$OPTIONS --enable-gnutls\"/OPTIONS=\"$OPTIONS --enable-openssl\"/' scripts/ffmpeg-config
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
-        brew uninstall --ignore-dependencies --force gdk-pixbuf
+        brew uninstall --ignore-dependencies --force cairo
         brew reinstall -s openssl@1.1
         brew reinstall -s automake
         brew reinstall -s pkg-config
         brew reinstall -s gettext # rebuild version already included in github actions
         brew reinstall -s glib # rebuild version already included in github actions
-        brew install -s gdk-pixbuf # rebuild version already included in github actions
-        brew reinstall cairo --HEAD # rebuild version already included in github actions
-        brew reinstall freetype --HEAD
-        brew reinstall fribidi --HEAD
-        brew reinstall harfbuzz --HEAD
-        brew reinstall libass --HEAD
-        brew reinstall fontconfig --HEAD
+        brew reinstall -s gdk-pixbuf # rebuild version already included in github actions
+        brew install cairo --HEAD # rebuild version already included in github actions
+        brew install freetype --HEAD
+        brew install fribidi --HEAD
+        brew install harfbuzz --HEAD
+        brew install libass --HEAD
+        brew install fontconfig --HEAD
         brew reinstall -s jpeg
         brew install -s youtube-dl
-        brew reinstall x264 --HEAD
-        brew reinstall x265 --HEAD
+        brew install x264 --HEAD
+        brew install x265 --HEAD
         brew install -s lame
         brew reinstall -s little-cms2
-        brew reinstall openjpeg --HEAD
-        brew reinstall fdk-aac --HEAD
+        brew install openjpeg --HEAD
+        brew install fdk-aac --HEAD
         brew reinstall -s libxcb
         brew reinstall -s libx11
         brew reinstall -s libjpeg
@@ -101,8 +101,8 @@ jobs:
         brew install -s libmodplug
         brew install -s opencore-amr
         brew install -s librsvg
-        brew reinstall rtmpdump --HEAD
-        brew reinstall rubberband --HEAD
+        brew install rtmpdump --HEAD
+        brew install rubberband --HEAD
         brew install -s libsoxr
         brew install -s speex
         brew install srt --HEAD
