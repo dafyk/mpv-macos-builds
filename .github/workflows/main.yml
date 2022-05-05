@@ -77,7 +77,7 @@ jobs:
         brew reinstall -s fribidi
         brew reinstall -s harfbuzz
         brew install libass --HEAD
-        brew install fontconfig --HEAD
+        brew reinstall -s fontconfig
         brew reinstall -s jpeg
         brew install -s youtube-dl
         brew install x264 --HEAD
@@ -93,7 +93,7 @@ jobs:
         brew reinstall -s jpeg-xl # rebuild version already included in github actions
         brew reinstall -s libvmaf
         brew reinstall -s aom
-        brew install luajit --HEAD
+        brew reinstall -s luajit
         brew install libbluray --HEAD
         brew reinstall -s libcaca
         brew install -s dav1d
@@ -102,7 +102,7 @@ jobs:
         brew install -s opencore-amr
         brew install -s librsvg
         brew reinstall -s openssl@1.1
-        brew install rtmpdump --HEAD
+        brew reinstall -s rtmpdump
         brew install rubberband --HEAD
         brew install -s libsoxr
         brew install -s speex
