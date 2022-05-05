@@ -91,6 +91,7 @@ jobs:
         brew reinstall -s libjpeg
         brew install -s frei0r
         brew reinstall -s jpeg-xl # rebuild version already included in github actions
+        brew reinstall -s brotli
         brew reinstall -s libvmaf
         brew reinstall -s aom
         brew reinstall -s luajit
