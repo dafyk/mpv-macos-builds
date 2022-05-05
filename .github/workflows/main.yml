@@ -95,7 +95,7 @@ jobs:
         brew reinstall -s aom
         brew install luajit --HEAD
         brew install libbluray --HEAD
-        brew install libcaca --HEAD
+        brew reinstall -s libcaca
         brew install -s dav1d
         brew install -s libgsm
         brew install -s libmodplug
