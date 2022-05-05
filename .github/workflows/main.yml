@@ -109,7 +109,7 @@ jobs:
         brew install srt --HEAD
         brew install libssh --HEAD
         brew reinstall -s libarchive
-        brew install tesseract --HEAD
+        brew reinstall -s tesseract
         brew install -s libvidstab
         brew install libxml2 --HEAD
         brew install zimg --HEAD
