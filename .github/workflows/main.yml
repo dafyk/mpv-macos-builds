@@ -66,7 +66,7 @@ jobs:
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
         brew uninstall --ignore-dependencies --force cairo
-        
+        brew cleanup
         brew reinstall -s automake
         brew reinstall -s pkg-config
         brew reinstall -s gettext # rebuild version already included in github actions
@@ -75,7 +75,7 @@ jobs:
         brew reinstall -s cairo # --HEAD rebuild version already included in github actions
         brew reinstall -s freetype
         brew reinstall -s fribidi
-        brew install harfbuzz --HEAD
+        brew reinstall -s harfbuzz
         brew install libass --HEAD
         brew install fontconfig --HEAD
         brew reinstall -s jpeg
