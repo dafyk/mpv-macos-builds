@@ -62,6 +62,7 @@ jobs:
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
         brew update-reset
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+        for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
         sed -i "" $'s/OPTIONS=\"$OPTIONS --enable-gnutls\"/OPTIONS=\"$OPTIONS --enable-openssl\"/' scripts/ffmpeg-config
         brew uninstall --ignore-dependencies --force openssl
         brew uninstall --ignore-dependencies --force gnutls
