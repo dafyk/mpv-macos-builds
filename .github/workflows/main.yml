@@ -122,7 +122,7 @@ jobs:
         brew reinstall -s xz # needed to overide version included in macos
 
         echo "--disable-macos-10-14-features" >> mpv_options
-        echo "--disable-swift" >> mpv_options
+        #echo "--disable-swift" >> mpv_options
         echo "--enable-nonfree" >> ffmpeg_options
         echo "--enable-version3" >> ffmpeg_options
         echo "--disable-ffplay" >> ffmpeg_options
