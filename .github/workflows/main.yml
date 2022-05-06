@@ -92,9 +92,12 @@ jobs:
         brew reinstall -s frei0r
         brew reinstall -s jpeg-xl # rebuild version already included in github actions
         brew reinstall -s brotli
+        # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
+        install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
+        install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
         brew reinstall -s libvmaf
         brew reinstall -s aom
-        brew reinstall -s luajit
+        brew install luajit --HEAD
         brew reinstall -s libbluray # --HEAD
         brew reinstall -s libcaca
         brew reinstall -s dav1d
