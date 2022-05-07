@@ -134,8 +134,8 @@ jobs:
         echo "--enable-macos-cocoa-cb" >> mpv_options
         echo "--enable-macos-touchbar" >> mpv_options
         echo "--enable-videotoolbox-gl" >> mpv_options
-        #echo "--disable-macos-10-14-features" >> mpv_options
-        #echo "--disable-swift" >> mpv_options
+        echo "--disable-macos-10-14-features" >> mpv_options
+        echo "--disable-swift" >> mpv_options
         #echo "--enable-libmpv-static" >> mpv_options
 
         echo "--enable-nonfree" >> ffmpeg_options
