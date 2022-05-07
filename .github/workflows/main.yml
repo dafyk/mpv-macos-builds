@@ -56,6 +56,8 @@ jobs:
 
     - name: Install dependencies
       run: |
+        # Change build version to Xcode 13.1
+        /usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 19466' /Applications/Xcode_12.5.1.app/Contents/Info.plist
         export MACOSX_DEPLOYMENT_TARGET="10.13"
         export EXTRA_CFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13"
