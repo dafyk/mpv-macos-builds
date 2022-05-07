@@ -100,7 +100,7 @@ jobs:
         brew reinstall -s aom
         brew install luajit --HEAD
         brew reinstall -s libbluray # --HEAD
-        #brew reinstall -s libcaca
+        brew reinstall -s libcaca
         brew reinstall -s dav1d
         brew reinstall -s libgsm
         brew reinstall -s libmodplug
@@ -121,9 +121,23 @@ jobs:
         brew reinstall -s zeromq # --HEAD
         brew reinstall -s xz # needed to overide version included in macos
 
-        echo "--disable-macos-10-14-features" >> mpv_options
-        echo "--disable-swift" >> mpv_options
-        echo "--enable-libmpv-static" >> mpv_options        
+        echo "--enable-gl"  >> mpv_options
+        echo "--enable-iconv"  >> mpv_options
+        echo "--enable-lcms2"  >> mpv_options
+        echo "--enable-lua"  >> mpv_options
+        echo "--enable-jpeg"  >> mpv_options
+        echo "--enable-plain-gl"  >> mpv_options
+        echo "--enable-zlib"  >> mpv_options
+        echo "--enable-cocoa" >> mpv_options
+        echo "--enable-coreaudio" >> mpv_options
+        echo "--enable-gl-cocoa" >> mpv_options
+        echo "--enable-macos-cocoa-cb" >> mpv_options
+        echo "--enable-macos-touchbar" >> mpv_options
+        echo "--enable-videotoolbox-gl" >> mpv_options
+        #echo "--disable-macos-10-14-features" >> mpv_options
+        #echo "--disable-swift" >> mpv_options
+        #echo "--enable-libmpv-static" >> mpv_options
+
         echo "--enable-nonfree" >> ffmpeg_options
         echo "--enable-version3" >> ffmpeg_options
         echo "--disable-ffplay" >> ffmpeg_options
@@ -138,7 +152,7 @@ jobs:
         echo "--enable-libaom" >> ffmpeg_options
         echo "--enable-libass" >> ffmpeg_options
         echo "--enable-libbluray" >> ffmpeg_options
-        #echo "--enable-libcaca" >> ffmpeg_options
+        echo "--enable-libcaca" >> ffmpeg_options
         echo "--enable-libdav1d" >> ffmpeg_options
         echo "--enable-libfdk-aac" >> ffmpeg_options
         echo "--enable-libgsm" >> ffmpeg_options
