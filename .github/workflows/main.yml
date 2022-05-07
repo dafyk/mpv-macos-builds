@@ -126,7 +126,7 @@ jobs:
         echo "--enable-lcms2"  >> mpv_options
         echo "--enable-lua"  >> mpv_options
         echo "--enable-jpeg"  >> mpv_options
-        echo "--enable-plain-gl"  >> mpv_options
+        #echo "--enable-plain-gl"  >> mpv_options
         echo "--enable-zlib"  >> mpv_options
         echo "--enable-cocoa" >> mpv_options
         echo "--enable-coreaudio" >> mpv_options
