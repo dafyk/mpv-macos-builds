@@ -56,7 +56,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+        #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
         # Change build version to Xcode 13.1
         #/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 19466' /Applications/Xcode_12.5.1.app/Contents/Info.plist
         export MACOSX_DEPLOYMENT_TARGET="10.13"
@@ -134,11 +134,11 @@ jobs:
         echo "--enable-cocoa" >> mpv_options
         echo "--enable-coreaudio" >> mpv_options
         echo "--enable-gl-cocoa" >> mpv_options
-        echo "--enable-macos-cocoa-cb" >> mpv_options
+        #echo "--enable-macos-cocoa-cb" >> mpv_options
         echo "--enable-macos-touchbar" >> mpv_options
         echo "--enable-videotoolbox-gl" >> mpv_options
         echo "--disable-macos-10-14-features" >> mpv_options
-        #echo "--disable-swift" >> mpv_options
+        echo "--disable-swift" >> mpv_options
         #echo "--enable-libmpv-static" >> mpv_options
 
         echo "--enable-nonfree" >> ffmpeg_options
