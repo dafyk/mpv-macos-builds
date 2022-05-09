@@ -110,7 +110,7 @@ jobs:
         brew reinstall -s libgsm
         brew reinstall -s libmodplug
         brew reinstall -s opencore-amr
-        #brew reinstall -s librsvg
+        brew reinstall -s librsvg
         brew reinstall -s openssl@1.1
         brew reinstall -s rtmpdump
         brew reinstall -s rubberband # --HEAD
@@ -165,7 +165,7 @@ jobs:
         echo "--enable-libopencore-amrnb" >> ffmpeg_options
         echo "--enable-libopencore-amrwb" >> ffmpeg_options
         echo "--enable-libopenjpeg" >> ffmpeg_options
-        #echo "--enable-librsvg" >> ffmpeg_options
+        echo "--enable-librsvg" >> ffmpeg_options
         echo "--enable-librtmp" >> ffmpeg_options
         echo "--enable-librubberband" >> ffmpeg_options
         echo "--enable-libsoxr" >> ffmpeg_options
