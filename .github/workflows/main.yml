@@ -17,6 +17,7 @@ jobs:
       HOMEBREW_NO_ANALYTICS: 1
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       MACOSX_DEPLOYMENT_TARGET: 10.13
+      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
       EXTRA_CFLAGS: "-mmacosx-version-min=10.13"
       EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13"
       EXTRA_LDFLAGS: "-mmacosx-version-min=10.13"
@@ -65,6 +66,7 @@ jobs:
         export EXTRA_CFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13"
         export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
+        export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
         brew update-reset
         for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
         for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
@@ -110,7 +112,7 @@ jobs:
         brew reinstall -s libgsm
         brew reinstall -s libmodplug
         brew reinstall -s opencore-amr
-        brew reinstall -s librsvg
+        #brew reinstall -s librsvg
         brew reinstall -s openssl@1.1
         brew reinstall -s rtmpdump
         brew reinstall -s rubberband # --HEAD
@@ -136,11 +138,11 @@ jobs:
         echo "--enable-cocoa" >> mpv_options
         echo "--enable-coreaudio" >> mpv_options
         echo "--enable-gl-cocoa" >> mpv_options
-        #echo "--enable-macos-cocoa-cb" >> mpv_options
+        echo "--enable-macos-cocoa-cb" >> mpv_options
         echo "--enable-macos-touchbar" >> mpv_options
         echo "--enable-videotoolbox-gl" >> mpv_options
         echo "--disable-macos-10-14-features" >> mpv_options
-        echo "--disable-swift" >> mpv_options
+        #echo "--disable-swift" >> mpv_options
         #echo "--enable-libmpv-static" >> mpv_options
 
         echo "--enable-nonfree" >> ffmpeg_options
@@ -165,7 +167,7 @@ jobs:
         echo "--enable-libopencore-amrnb" >> ffmpeg_options
         echo "--enable-libopencore-amrwb" >> ffmpeg_options
         echo "--enable-libopenjpeg" >> ffmpeg_options
-        echo "--enable-librsvg" >> ffmpeg_options
+        #echo "--enable-librsvg" >> ffmpeg_options
         echo "--enable-librtmp" >> ffmpeg_options
         echo "--enable-librubberband" >> ffmpeg_options
         echo "--enable-libsoxr" >> ffmpeg_options
