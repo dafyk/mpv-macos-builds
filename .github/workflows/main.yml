@@ -95,7 +95,7 @@ jobs:
         brew reinstall -s libxcb
         brew reinstall -s libx11
         brew reinstall -s libjpeg
-        brew reinstall -s frei0r
+        #brew reinstall -s frei0r
         brew reinstall -s jpeg-xl # rebuild version already included in github actions
         brew reinstall -s brotli
         # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
@@ -152,7 +152,7 @@ jobs:
         echo "--disable-manpages" >> ffmpeg_options
         echo "--disable-podpages" >> ffmpeg_options
         echo "--disable-txtpages" >> ffmpeg_options
-        echo "--enable-frei0r" >> ffmpeg_options
+        #echo "--enable-frei0r" >> ffmpeg_options
         echo "--enable-lcms2" >> ffmpeg_options
         echo "--enable-libaom" >> ffmpeg_options
         echo "--enable-libass" >> ffmpeg_options
