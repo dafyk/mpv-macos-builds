@@ -74,7 +74,8 @@ jobs:
         brew uninstall --ignore-dependencies --force cairo
         brew cleanup
 
-        brew reinstall -s -v openssl@1.1 rtmpdump curl automake pkg-config gettext glib gdk-pixbuf cairo freetype harfbuzz fontconfig jpeg youtube-dl x264 x265 lame little-cms2 openjpeg fdk-aac libxcb libx11 libjpeg frei0r jpeg-xl brotli libvmaf aom libbluray libcaca dav1d libgsm libmodplug opencore-amr librsvg rubberband libsoxr speex srt libssh libarchive tesseract libvidstab libxml2 zimg zeromq xz
+        #brew reinstall -s -v openssl@1.1 rtmpdump curl automake pkg-config gettext glib gdk-pixbuf cairo freetype harfbuzz fontconfig jpeg youtube-dl x264 x265 lame little-cms2 openjpeg fdk-aac libxcb libx11 libjpeg frei0r jpeg-xl brotli libvmaf aom libbluray libcaca dav1d libgsm libmodplug opencore-amr librsvg rubberband libsoxr speex srt libssh libarchive tesseract libvidstab libxml2 zimg zeromq xz
+        brew reinstall -s -v openssl@1.1 rtmpdump curl automake pkg-config gettext glib gdk-pixbuf cairo freetype harfbuzz fontconfig jpeg youtube-dl x264 x265 lame little-cms2 openjpeg fdk-aac libxcb libx11 libjpeg frei0r jpeg-xl brotli libvmaf aom libbluray libcaca dav1d libgsm libmodplug opencore-amr librsvg rubberband srt libssh libarchive tesseract libvidstab libxml2 zimg zeromq xz
         # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
         install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
         install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
@@ -123,8 +124,8 @@ jobs:
         echo "--enable-librsvg" >> ffmpeg_options
         echo "--enable-librtmp" >> ffmpeg_options
         echo "--enable-librubberband" >> ffmpeg_options
-        echo "--enable-libsoxr" >> ffmpeg_options
-        echo "--enable-libspeex" >> ffmpeg_options
+        #echo "--enable-libsoxr" >> ffmpeg_options
+        #echo "--enable-libspeex" >> ffmpeg_options
         echo "--enable-libsrt" >> ffmpeg_options
         echo "--enable-libssh" >> ffmpeg_options
         echo "--enable-libtesseract" >> ffmpeg_options
