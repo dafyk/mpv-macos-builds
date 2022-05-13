@@ -25,6 +25,26 @@ jobs:
       LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
 
     steps:
+      - name: Get current timestamp
+        id: timestamp
+        run: |
+          echo "::set-output name=timestamp::$(date +%s)"
+          echo "::set-output name=date::$(date +%Y%m%d)"
+
+      - name: Get latest git tag
+        id: git_tag
+        uses: oprypin/find-latest-tag@v1
+        with:
+          repository: 'dafyk/mpv-macos-builds'
+          releases-only: false
+
+      - name: Get latest mpv git tag
+        id: mpv_tag
+        uses: oprypin/find-latest-tag@v1
+        with:
+          repository: 'mpv-player/mpv'
+          releases-only: false
+
       - name: Checkout mpv-player/mpv
         uses: actions/checkout@v2
         with:
@@ -60,7 +80,6 @@ jobs:
           cp -r build/mpv.app release
 
       - name: Build Apple Disk Image
-        if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
         run: |
           #cd mpv
           brew install create-dmg
@@ -70,7 +89,6 @@ jobs:
 
       - name: Create Release
         id: create_release
-        if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
