@@ -54,8 +54,11 @@ jobs:
       - name: Install dependencies
         run: |
           git clone https://github.com/dafyk/mpv-macos-builds.git
-          rsync -avrz mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
-          ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          xcodebuild -showsdks
+          sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
+          xcodebuild -version
+
           exit 1
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           export MACOSX_DEPLOYMENT_TARGET="10.13"
