@@ -67,13 +67,15 @@ jobs:
           brew uninstall --ignore-dependencies --force gnutls
           brew cleanup
 
-          brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 libass ffmpeg meson
+          brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg zimg libbluray libass ffmpeg meson
           # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
           install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
           install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
 
       - name: Build with meson
         run: |
+          curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
+          patch -p1 ci/build-macos.sh < ci/build-macos.patch
           ./ci/build-macos.sh meson
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
