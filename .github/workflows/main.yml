@@ -17,10 +17,10 @@ jobs:
       HOMEBREW_NO_ANALYTICS: 1
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       MACOSX_DEPLOYMENT_TARGET: 10.13
-      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
-      EXTRA_CFLAGS: "-mmacosx-version-min=10.13"
-      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13"
-      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13"
+      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
       PKG_CONFIG_PATH: "/usr/local/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
       LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
 
@@ -53,12 +53,15 @@ jobs:
 
       - name: Install dependencies
         run: |
+          git clone https://github.com/dafyk/mpv-macos-builds.git
+          rsync -avrz mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           export MACOSX_DEPLOYMENT_TARGET="10.13"
-          export EXTRA_CFLAGS="-mmacosx-version-min=10.13"
-          export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13"
-          export EXTRA_LDFLAGS="-mmacosx-version-min=10.13"
-          export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
+          export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+          export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+          export EXTRA_LDFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+          #export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
+          export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
           brew update-reset
           for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
           for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
@@ -74,6 +77,12 @@ jobs:
 
       - name: Build with meson
         run: |
+          sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+          export MACOSX_DEPLOYMENT_TARGET="10.13"
+          export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+          export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+          export EXTRA_LDFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
+          export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
           ./ci/build-macos.sh meson
