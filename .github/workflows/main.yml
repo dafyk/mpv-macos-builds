@@ -55,6 +55,8 @@ jobs:
         run: |
           git clone https://github.com/dafyk/mpv-macos-builds.git
           rsync -avrz mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          exit 1
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           export MACOSX_DEPLOYMENT_TARGET="10.13"
           export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk"
