@@ -53,9 +53,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+          echo "xcrun --show-sdk-path"
           xcrun --show-sdk-path
+          echo "xcrun --find install_name_tool"
           xcrun --find install_name_tool
+          echo "otool -L  /usr/bin/install_name_tool"
           otool -L  /usr/bin/install_name_tool
           exit 1
           git clone https://github.com/dafyk/mpv-macos-builds.git
