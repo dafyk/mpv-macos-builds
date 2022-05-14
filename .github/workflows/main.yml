@@ -57,6 +57,7 @@ jobs:
           sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
           sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
           sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
           ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
@@ -84,6 +85,12 @@ jobs:
 
       - name: Build with meson
         run: |
+          echo "xcrun --show-sdk-path"
+          xcrun --show-sdk-path
+          echo "xcrun --find install_name_tool"
+          xcrun --find install_name_tool
+          echo "otool -L  /usr/bin/install_name_tool"
+          otool -L  /usr/bin/install_name_tool
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
           SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk" ./ci/build-macos.sh meson
