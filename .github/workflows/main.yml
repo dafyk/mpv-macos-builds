@@ -59,26 +59,10 @@ jobs:
           sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
           ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
-          xcodebuild -showsdks
-          xcodebuild -version
-          echo "file /usr/bin/install_name_tool"
-          file /usr/bin/install_name_tool
-          echo "file sdk folder"
-          file /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-          #xcrun --find install_name_tool
-          #otool -L  /usr/bin/install_name_tool
 
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
-          echo "xcrun --show-sdk-path"
-          xcrun --show-sdk-path
-          echo "xcrun --find install_name_tool"
-          xcrun --find install_name_tool
-          echo "otool -L  /usr/bin/install_name_tool"
-          otool -L  /usr/bin/install_name_tool
-          exit 1
 
-          exit 1
           export MACOSX_DEPLOYMENT_TARGET="10.13"
           export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
           export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
