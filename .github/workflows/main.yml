@@ -53,7 +53,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+          sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+          xcrun --show-sdk-path
           xcrun --find install_name_tool
           otool -L  /usr/bin/install_name_tool
           exit 1
