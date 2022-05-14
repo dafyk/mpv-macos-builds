@@ -62,10 +62,12 @@ jobs:
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
           xcodebuild -showsdks
           xcodebuild -version
-          /usr/bin/install_name_tool
+          echo "file otool"
+          file /usr/bin/install_name_tool
+          echo "file sdk folder"
           file /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk
-          xcrun --find install_name_tool
-          otool -L  /usr/bin/install_name_tool
+          #xcrun --find install_name_tool
+          #otool -L  /usr/bin/install_name_tool
 
           exit 1
           export MACOSX_DEPLOYMENT_TARGET="10.13"
