@@ -84,17 +84,9 @@ jobs:
 
       - name: Build with meson
         run: |
-          sudo xcode-select --reset
-          sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
-
-          export MACOSX_DEPLOYMENT_TARGET="10.13"
-          export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-          export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-          export EXTRA_LDFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-          export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
-          ./ci/build-macos.sh meson
+          SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk" ./ci/build-macos.sh meson
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
           cp -r build/mpv.app release
