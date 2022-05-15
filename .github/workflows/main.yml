@@ -17,10 +17,10 @@ jobs:
       HOMEBREW_NO_ANALYTICS: 1
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       MACOSX_DEPLOYMENT_TARGET: 10.13
-      SDKROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk"
-      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk"
-      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk"
-      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk"
+      SDKROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
       PKG_CONFIG_PATH: "/usr/local/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
       LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
 
@@ -62,8 +62,9 @@ jobs:
           #sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
           sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
-          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
-          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
 
 
 
@@ -100,7 +101,7 @@ jobs:
           otool -L  /usr/bin/install_name_tool
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
-          SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk" ./ci/build-macos.sh meson
+          SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" ./ci/build-macos.sh meson
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
           cp -r build/mpv.app release
