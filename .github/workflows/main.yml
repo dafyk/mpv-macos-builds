@@ -70,7 +70,8 @@ jobs:
           sudo ln -s MacOSX10.14.sdk MacOSX10.sdk
           ls -la /Library/Developer/CommandLineTools/SDKs/
           ls -la /Library/Developer/CommandLineTools/Packages/
-          sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+          find /Library/Developer/CommandLineTools/ -iname "*pkg"
+          #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
           xcrun --sdk macosx10.14 --show-sdk-path
 
           cd -
