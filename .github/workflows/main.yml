@@ -69,6 +69,9 @@ jobs:
           sudo ln -s MacOSX10.14.sdk MacOSX.sdk
           sudo ln -s MacOSX10.14.sdk MacOSX10.sdk
           ls -la /Library/Developer/CommandLineTools/SDKs/
+          sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+          xcrun --sdk macosx10.14 --show-sdk-path
+
           cd -
           sudo xcode-select --reset
           #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
