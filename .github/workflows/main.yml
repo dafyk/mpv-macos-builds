@@ -53,8 +53,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          ls -la /Library/Developer/CommandLineTools/SDKs/
-          exit 1
           git clone https://github.com/dafyk/mpv-macos-builds.git
           #sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
           #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
@@ -63,23 +61,22 @@ jobs:
           #ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk
           #sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
-          sudo rm -rf /Library/Developer/CommandLineTools/SDKs/*sdk
           sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
-          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
-
-
+          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
+          sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.sdk
 
           sudo xcode-select --reset
           #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           sudo xcode-select -s /Library/Developer/CommandLineTools 
 
-          #export MACOSX_DEPLOYMENT_TARGET="10.13"
-          #export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-          #export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-          #export EXTRA_LDFLAGS="-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+          export MACOSX_DEPLOYMENT_TARGET="10.13"
+          export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+          export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+          export EXTRA_LDFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
           #export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
-          #export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+          export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
           brew update-reset
           for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
           for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
