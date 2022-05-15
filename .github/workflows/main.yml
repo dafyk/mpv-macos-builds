@@ -62,12 +62,13 @@ jobs:
           #sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
           sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
-          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
           sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          sudo chown -R root:wheel /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
+          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+
+          sudo chown -R root:wheel /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
           cd /Library/Developer/CommandLineTools/SDKs/
-          sudo ln -s MacOSX10.14.sdk MacOSX.sdk
-          sudo ln -s MacOSX10.14.sdk MacOSX10.sdk
+          sudo ln -s MacOSX.sdk MacOSX10.14.sdk
+          sudo ln -s MacOSX.sdk MacOSX.sdk
           ls -la /Library/Developer/CommandLineTools/SDKs/
           find /Library/Developer/CommandLineTools/ -iname "*pkg"
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
