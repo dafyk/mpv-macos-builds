@@ -64,9 +64,11 @@ jobs:
           sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
           sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
           sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX10.sdk
+          cd /Library/Developer/CommandLineTools/SDKs/
+          sudo ln -s MacOSX10.14.sdk MacOSX.sdk
+          sudo ln -s MacOSX10.14.sdk MacOSX10.sdk
           ls -la /Library/Developer/CommandLineTools/SDKs/
+          cd -
           sudo xcode-select --reset
           #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           sudo xcode-select -s /Library/Developer/CommandLineTools 
