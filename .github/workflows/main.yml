@@ -53,6 +53,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          ls -la /Library/Developer/CommandLineTools/SDKs/
+          exit 1
           git clone https://github.com/dafyk/mpv-macos-builds.git
           #sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
           #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
