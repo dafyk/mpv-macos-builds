@@ -70,12 +70,14 @@ jobs:
           sudo ln -s MacOSX.sdk MacOSX10.14.sdk
           sudo ln -s MacOSX.sdk MacOSX.sdk
           ls -la /Library/Developer/CommandLineTools/SDKs/
-          find /Library/Developer/CommandLineTools/ -iname "*pkg"
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
           sudo xcode-select --reset
           sudo xcode-select -s /Library/Developer/CommandLineTools 
+          echo "xcrun --sdk macosx10.14 --show-sdk-path -v"
           xcrun --sdk macosx10.14 --show-sdk-path -v
-
+          echo "xcodebuild -version"
+          xcodebuild -version
+          exit 1
           cd -
           #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
 
@@ -108,7 +110,7 @@ jobs:
           otool -L  /usr/bin/install_name_tool
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
-          SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" ./ci/build-macos.sh meson
+          SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk" ./ci/build-macos.sh waf
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
           cp -r build/mpv.app release
