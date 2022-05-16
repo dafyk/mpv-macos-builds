@@ -72,12 +72,12 @@ jobs:
           ls -la /Library/Developer/CommandLineTools/SDKs/
           find /Library/Developer/CommandLineTools/ -iname "*pkg"
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
-          xcrun --sdk macosx10.14 --show-sdk-path
+          sudo xcode-select --reset
+          sudo xcode-select -s /Library/Developer/CommandLineTools 
+          xcrun --sdk macosx10.14 --show-sdk-path -v
 
           cd -
-          sudo xcode-select --reset
           #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
-          sudo xcode-select -s /Library/Developer/CommandLineTools 
 
           export MACOSX_DEPLOYMENT_TARGET="10.13"
           export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
