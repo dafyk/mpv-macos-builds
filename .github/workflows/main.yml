@@ -19,7 +19,7 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 10.13
       SDKROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
       MACOS_SDK: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-      MACOS_SDK_VERSION: "18B71"
+      MACOS_SDK_VERSION: "21C46"
       EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
       EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
       EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
