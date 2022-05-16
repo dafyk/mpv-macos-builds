@@ -76,9 +76,14 @@ jobs:
           sudo xcode-select --reset
           sudo xcode-select -s /Library/Developer/CommandLineTools 
           echo "xcrun --sdk macosx10.14 --show-sdk-path -v"
-          xcrun --show-sdk-path -v
-          echo "show build version"
+          #xcrun --show-sdk-path -v
+          xcrun --sdk macosx show-sdk-path -v
+          echo "show sdk build version"
           xcrun --sdk macosx --show-sdk-build-version
+          echo "show 10.14 sdk build version"
+          xcrun --sdk macosx10.14 --show-sdk-build-version
+          echo "show sdk version"
+          xcrun --sdk macosx --show-sdk-version
           echo "macos-sdk-version.py"
           python3 /Users/runner/work/mpv-macos-builds/mpv-macos-builds/TOOLS/macos-sdk-version.py
           exit 1
