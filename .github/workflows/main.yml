@@ -18,6 +18,8 @@ jobs:
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       MACOSX_DEPLOYMENT_TARGET: 10.13
       SDKROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      MACOS_SDK: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      MACOS_SDK_VERSION: "10.14"
       EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
       EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
       EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
