@@ -74,9 +74,9 @@ jobs:
           sudo xcode-select --reset
           sudo xcode-select -s /Library/Developer/CommandLineTools 
           echo "xcrun --sdk macosx10.14 --show-sdk-path -v"
-          xcrun --sdk macosx10.14 --show-sdk-path -v
-          echo "xcodebuild -version"
-          xcodebuild -version
+          xcrun --show-sdk-path -v
+          echo "macos-sdk-version.py"
+          python /Users/runner/work/mpv-macos-builds/mpv-macos-builds/TOOLS/macos-sdk-version.py
           exit 1
           cd -
           #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
