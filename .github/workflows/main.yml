@@ -81,6 +81,9 @@ jobs:
 
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+          echo "----------------------------------------------"
+          python3 /Users/runner/work/mpv-macos-builds/mpv-macos-builds/TOOLS/macos-sdk-version.py
+          echo "----------------------------------------------"
           xcodebuild -sdk -version
           echo "-----spustam xcrun --sdk --show-sdk-path -v"
           #xcrun --show-sdk-path -v
