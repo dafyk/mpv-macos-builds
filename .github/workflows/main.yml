@@ -66,7 +66,7 @@ jobs:
           #sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
           #sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
           #sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          #sudo chown -R root:wheel /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          sudo chown -R root:wheel /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
           #cd /Library/Developer/CommandLineTools/SDKs/
           #sudo ln -s MacOSX.sdk MacOSX10.14.sdk
           #sudo ln -s MacOSX.sdk MacOSX.sdk
