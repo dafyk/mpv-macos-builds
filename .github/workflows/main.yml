@@ -58,6 +58,7 @@ jobs:
           swift --version
           curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
           ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
           sudo mv /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
           #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
           
@@ -68,7 +69,7 @@ jobs:
 
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
-
+          swift --version
           #export MACOSX_DEPLOYMENT_TARGET="10.13"
           #export EXTRA_CFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
           #export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
