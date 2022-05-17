@@ -61,7 +61,7 @@ jobs:
           sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
           #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
           ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk
-          sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
+          sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
           #sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
           #sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
@@ -75,16 +75,16 @@ jobs:
 
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
-          echo "xcrun --sdk macosx10.14 --show-sdk-path -v"
+          echo "-----spustam xcrun --sdk --show-sdk-path -v"
           xcrun --show-sdk-path -v
           xcrun --sdk macosx show-sdk-path -v
-          echo "show sdk build version"
+          echo "-----spustam show sdk build version"
           xcrun --sdk macosx --show-sdk-build-version
-          echo "show 10.14 sdk build version"
+          echo "-----spustam show 10.14 sdk build version"
           xcrun --sdk macosx10.14 --show-sdk-build-version
-          echo "show sdk version"
+          echo "-----spustam show sdk version"
           xcrun --sdk macosx --show-sdk-version
-          echo "macos-sdk-version.py"
+          echo "-----spustam macos-sdk-version.py"
           python3 /Users/runner/work/mpv-macos-builds/mpv-macos-builds/TOOLS/macos-sdk-version.py
           exit 1
           cd -
