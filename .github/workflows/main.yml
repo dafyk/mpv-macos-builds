@@ -19,7 +19,7 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 10.13
       SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
       MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
-      MACOS_SDK_VERSION: "21C46"
+      #MACOS_SDK_VERSION: "21C46"
       EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
       EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
       EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
@@ -76,7 +76,7 @@ jobs:
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           echo "-----spustam xcrun --sdk --show-sdk-path -v"
-          xcrun --show-sdk-path -v
+          #xcrun --show-sdk-path -v
           xcrun --sdk macosx show-sdk-path -v
           echo "-----spustam show sdk build version"
           xcrun --sdk macosx --show-sdk-build-version
