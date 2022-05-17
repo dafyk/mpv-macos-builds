@@ -17,12 +17,12 @@ jobs:
       HOMEBREW_NO_ANALYTICS: 1
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       MACOSX_DEPLOYMENT_TARGET: 10.13
-      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
-      #MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      MACOS_SDK: ${SDKROOT}
       #MACOS_SDK_VERSION: "21C46"
-      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
-      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
-      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot ${SDKROOT}"
+      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot ${SDKROOT}"
+      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot ${SDKROOT}"
       PKG_CONFIG_PATH: "/usr/local/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
       LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
 
@@ -55,12 +55,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          swift --version
           curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
           ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
-          sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-          sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-          #sudo mv /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-          sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          sudo mv /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+          #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          
+          sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk ${SDKROOT}
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
@@ -73,7 +74,12 @@ jobs:
           #export EXTRA_CXXFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
           #export EXTRA_LDFLAGS="-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
           #export SDKROOT="/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk"
-          export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+          #export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+          env
+          ls /Library/Developer/CommandLineTools/Packages/
+          sudo rm -rf /Library/Developer/CommandLineTools
+          xcode-select --install
+          ls /Library/Developer/CommandLineTools/Packages/
           brew update-reset
           for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
           for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
