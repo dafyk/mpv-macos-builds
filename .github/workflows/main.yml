@@ -77,6 +77,7 @@ jobs:
 
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+          xcodebuild -sdk -version
           echo "-----spustam xcrun --sdk --show-sdk-path -v"
           #xcrun --show-sdk-path -v
           xcrun --sdk macosx show-sdk-path -v
