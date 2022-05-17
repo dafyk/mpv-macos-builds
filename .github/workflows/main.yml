@@ -17,12 +17,12 @@ jobs:
       HOMEBREW_NO_ANALYTICS: 1
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       MACOSX_DEPLOYMENT_TARGET: 10.13
-      SDKROOT: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-      MACOS_SDK: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+      MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
       MACOS_SDK_VERSION: "21C46"
-      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
+      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
+      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk"
       PKG_CONFIG_PATH: "/usr/local/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
       LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
 
@@ -56,27 +56,27 @@ jobs:
       - name: Install dependencies
         run: |
           git clone https://github.com/dafyk/mpv-macos-builds.git
-          #sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
-          #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-          #sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
+          sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+          sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
           #sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
           #ls -la /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.4.sdk
-          #sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
+          sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.4" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
-          sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
-          sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-
-          sudo chown -R root:wheel /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          cd /Library/Developer/CommandLineTools/SDKs/
-          sudo ln -s MacOSX.sdk MacOSX10.14.sdk
-          sudo ln -s MacOSX.sdk MacOSX.sdk
-          ls -la /Library/Developer/CommandLineTools/SDKs/
+          #sudo cp -a mpv-macos-builds/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/
+          #sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          #sudo mv /Library/Developer/CommandLineTools/SDKs/MacOSX10.4.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          #sudo chown -R root:wheel /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+          #cd /Library/Developer/CommandLineTools/SDKs/
+          #sudo ln -s MacOSX.sdk MacOSX10.14.sdk
+          #sudo ln -s MacOSX.sdk MacOSX.sdk
+          #ls -la /Library/Developer/CommandLineTools/SDKs/
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+
           sudo xcode-select --reset
-          sudo xcode-select -s /Library/Developer/CommandLineTools 
+          sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           echo "xcrun --sdk macosx10.14 --show-sdk-path -v"
-          #xcrun --show-sdk-path -v
+          xcrun --show-sdk-path -v
           xcrun --sdk macosx show-sdk-path -v
           echo "show sdk build version"
           xcrun --sdk macosx --show-sdk-build-version
