@@ -105,7 +105,7 @@ jobs:
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
           cat ./ci/build-macos.sh
-          ./ci/build-macos.sh waf
+          ./ci/build-macos.sh waf -v
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
           cp -r build/mpv.app release
