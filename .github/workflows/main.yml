@@ -104,6 +104,7 @@ jobs:
           #otool -L  /usr/bin/install_name_tool
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
+          cat ./ci/build-macos.sh
           ./ci/build-macos.sh waf
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
