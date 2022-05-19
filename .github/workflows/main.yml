@@ -74,6 +74,7 @@ jobs:
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           env
+          export TOOLCHAINS=org.swift.42420190329a
           xcrun -find swift
           exit 1
           brew update-reset
