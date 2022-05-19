@@ -96,7 +96,7 @@ jobs:
           curl -ksJLO https://www.savero.net/swift_compat.patch
           patch -p1 ci/build-macos.sh < build-macos.patch
           patch -p1 osdep/macos/swift_compat.swift < swift_compat.patch
-          export TOOLCHAINS=org.swift.42420190329a
+          #export TOOLCHAINS=org.swift.42420190329a
           ./ci/build-macos.sh waf
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
