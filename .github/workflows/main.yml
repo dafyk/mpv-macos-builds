@@ -65,10 +65,6 @@ jobs:
           sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
           #ls -la /Library/Developer/Toolchains
           #plutil -p /Library/Developer/Toolchains/swift-4.2.4-RELEASE.xctoolchain/Info.plist
-          swift -version
-          xcodebuild -toolchain "org.swift.42420190329a"
-          swift -version
-          exit 1
 
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
 
@@ -98,7 +94,7 @@ jobs:
           #otool -L  /usr/bin/install_name_tool
           curl -k https://www.savero.net/build-macos.patch --output ci/build-macos.patch
           patch -p1 ci/build-macos.sh < ci/build-macos.patch
-          cat ./ci/build-macos.sh
+          export TOOLCHAINS=org.swift.42420190329a
           ./ci/build-macos.sh waf -v
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
