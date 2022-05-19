@@ -61,11 +61,13 @@ jobs:
           sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
-          curl -kJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
+          curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
           sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
-          ls /Library/Developer/Toolchains
-          plutil -p /Library/Developer/Toolchains/swift-4.2.4-RELEASE.xctoolchain/Info.plist
-          #xcodebuild -toolchain "com.apple.dt.toolchain.Swift_2_3"
+          #ls -la /Library/Developer/Toolchains
+          #plutil -p /Library/Developer/Toolchains/swift-4.2.4-RELEASE.xctoolchain/Info.plist
+          swift -version
+          xcodebuild -toolchain "org.swift.42420190329a"
+          swift -version
           exit 1
 
           #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
