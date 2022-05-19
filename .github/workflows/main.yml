@@ -74,9 +74,6 @@ jobs:
           sudo xcode-select --reset
           sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
           env
-          export TOOLCHAINS=org.swift.42420190329a
-          xcrun -find swift
-          exit 1
           brew update-reset
           for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
           for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
@@ -103,7 +100,8 @@ jobs:
           patch -p1 ci/build-macos.sh < build-macos.patch
           patch -p1 osdep/macos/swift_compat.swift < swift_compat.patch
           export TOOLCHAINS=org.swift.42420190329a
-          ./ci/build-macos.sh waf
+          ./ci/build-macos.sh meson
+          cat ./build/config.log
           python3 TOOLS/osxbundle.py build/mpv
           mkdir -p release
           cp -r build/mpv.app release
