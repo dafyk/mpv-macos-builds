@@ -100,7 +100,6 @@
               '--enable-iconv' \
               '--enable-lcms2' \
               '--enable-libmpv-shared' \
-            #  '--enable-lua' \
               '--enable-plain-gl' \
               '--enable-cocoa' \
               '--enable-coreaudio' \
@@ -112,10 +111,9 @@
               '--disable-macos-10-14-features' \
               '--swift-flags="-target x86_64-apple-macosx10.13"' \
             >mpv_options
+              #  '--enable-lua' \
 
             printf '%s\n' \
-            #  '--enable-nonfree' \
-            #  '--enable-version3' \
               '--disable-ffplay' \
               '--disable-ffprobe' \
               '--disable-doc' \
@@ -123,10 +121,15 @@
               '--disable-manpages' \
               '--disable-podpages' \
               '--disable-txtpages' \
-            #  '--enable-frei0r' \
               '--enable-lcms2' \
-            #  '--enable-libaom' \
               '--enable-libass' \
+              '--enable-libsrt' \
+            >ffmpeg_options
+
+            #  '--enable-nonfree' \
+            #  '--enable-version3' \
+            #  '--enable-frei0r' \
+            #  '--enable-libaom' \
             #  '--enable-libbluray' \
             #  '--enable-libcaca' \
             #  '--enable-libdav1d' \
@@ -141,7 +144,6 @@
             #  '--enable-librubberband' \
             #  '--enable-libsoxr' \
             #  '--enable-libspeex' \
-              '--enable-libsrt' \
             #  '--enable-libssh' \
             #  '--enable-libtesseract' \
             #  '--enable-libvidstab' \
@@ -149,7 +151,6 @@
             #  '--enable-libxml2' \
             #  '--enable-libzimg' \
             #  '--enable-libzmq' \
-            >ffmpeg_options
 
             # Switch to 4.2.4 toolchain
             export TOOLCHAINS=org.swift.42420190329a
