@@ -124,9 +124,9 @@
               '--disable-libxcb' \
               '--enable-lcms2' \
               '--enable-libass' \
-              '--enable-securetransport' \
               '--enable-libbluray' \
             >ffmpeg_options
+            # '--enable-securetransport' \
             #  '--enable-libsrt' \
             #  '--enable-nonfree' \
             #  '--enable-version3' \
