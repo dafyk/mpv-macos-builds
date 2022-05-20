@@ -1,144 +1,196 @@
-name: build
+  name: build
 
-on:
-  push:
-    branches:
-      - main
-  #schedule:
-    # nightly build
-    #- cron: "00 12 * * *"
+  on:
+    push:
+      branches:
+        - main
+    #schedule:
+      # nightly build
+      #- cron: "00 12 * * *"
 
-jobs:
-  build:
-    runs-on: macos-latest
-    env:
-      CC: clang
-      CXX: clang++
-      HOMEBREW_NO_ANALYTICS: 1
-      HOMEBREW_NO_INSTALL_CLEANUP: 1
-      MACOSX_DEPLOYMENT_TARGET: 10.13
-      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      MACOS_SDK: /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-      #MACOS_SDK_VERSION: "21C46"
-      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      #CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      #CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      #LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
-      #PKG_CONFIG_PATH: "/usr/local/lib/pkgconfig:/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
-      #LD_LIBRARY_PATH: "/usr/local/lib:$LD_LIBRARY_PATH"
+  jobs:
+    build:
+      runs-on: macos-latest
+      env:
+        CC: clang
+        CXX: clang++
+        HOMEBREW_NO_ANALYTICS: 1
+        HOMEBREW_NO_INSTALL_CLEANUP: 1
+        MACOSX_DEPLOYMENT_TARGET: 10.13
+        SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        MACOS_SDK: /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+        EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
 
-    steps:
-      - name: Get current timestamp
-        id: timestamp
-        run: |
-          echo "::set-output name=timestamp::$(date +%s)"
-          echo "::set-output name=date::$(date +%Y%m%d)"
+      steps:
+        - name: Get current timestamp
+          id: timestamp
+          run: |
+            echo "::set-output name=timestamp::$(date +%s)"
+            echo "::set-output name=date::$(date +%Y%m%d)"
 
-      - name: Get latest git tag
-        id: git_tag
-        uses: oprypin/find-latest-tag@v1
-        with:
-          repository: 'dafyk/mpv-macos-builds'
-          releases-only: false
+        - name: Get latest git tag
+          id: git_tag
+          uses: oprypin/find-latest-tag@v1
+          with:
+            repository: 'dafyk/mpv-macos-builds'
+            releases-only: false
 
-      - name: Get latest mpv git tag
-        id: mpv_tag
-        uses: oprypin/find-latest-tag@v1
-        with:
-          repository: 'mpv-player/mpv'
-          releases-only: false
+        - name: Get latest mpv git tag
+          id: mpv_tag
+          uses: oprypin/find-latest-tag@v1
+          with:
+            repository: 'mpv-player/mpv'
+            releases-only: false
 
-      - name: Checkout mpv-player/mpv
-        uses: actions/checkout@v2
-        with:
-          repository: 'mpv-player/mpv'
-          fetch-depth: 0
+        - name: Checkout mpv-player/mpv-build
+          uses: actions/checkout@v2
+          with:
+            repository: 'mpv-player/mpv-build'
+            fetch-depth: 0
 
-      - name: Install dependencies
-        run: |
-          curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
-          sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-          sudo mv /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-          sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-          sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
+        - name: Install dependencies
+          run: |
+            # MacOSX10.14 SDK
+            curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
+            sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+            sudo mv /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
+            sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+            sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
-          curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
-          sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
-          #ls -la /Library/Developer/Toolchains
-          #plutil -p /Library/Developer/Toolchains/swift-4.2.4-RELEASE.xctoolchain/Info.plist
+            # Swift 4.x toolchain
+            curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
+            sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
 
-          #sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+            # Switch to Xcode 12.5.1
+            sudo xcode-select --reset
+            sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
 
-          sudo xcode-select --reset
-          sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
-          env
-          brew update-reset
-          for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
-          for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
+            # Force 10.13 deployment target for all homebrew formulas
+            brew update-reset
+            for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+            for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
 
-          brew uninstall --ignore-dependencies --force openssl
-          brew uninstall --ignore-dependencies --force gnutls
-          brew cleanup
+            # Uninstal bottled dependencies
+            brew uninstall --ignore-dependencies --force openssl
+            brew uninstall --ignore-dependencies --force gnutls
+            brew cleanup
 
-          brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-          # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
-          install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
-          install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
+            # Reinstall dependencies from source
+            #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
+            brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg zimg libbluray libass
 
-      - name: Build with meson
-        run: |
-          #echo "xcrun --show-sdk-path"
-          #xcrun --show-sdk-path
-          #echo "xcrun --find install_name_tool"
-          #xcrun --find install_name_tool
-          #echo "otool -L  /usr/bin/install_name_tool"
-          #otool -L  /usr/bin/install_name_tool
-          curl -ksJLO https://www.savero.net/build-macos.patch
-          curl -ksJLO https://www.savero.net/swift_compat.patch
-          patch -p1 ci/build-macos.sh < build-macos.patch
-          patch -p1 osdep/macos/swift_compat.swift < swift_compat.patch
-          export TOOLCHAINS=org.swift.42420190329a
-          ./ci/build-macos.sh waf
-          cat ./build/config.log
-          python3 TOOLS/osxbundle.py build/mpv
-          mkdir -p release
-          cp -r build/mpv.app release
+            # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
+            install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
+            install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
 
-      - name: Build Apple Disk Image
-        run: |
-          #cd mpv
-          brew install create-dmg
-          create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
-          #rm -rf release/mpv.app
-          mv mpv.dmg release/
+        - name: Build mpv
+          run: |
+            ./update
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.mpv_tag.outputs.tag }}
-          release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
-          body: |
-              mpv nightly build
-              build date: ${{ steps.timestamp.outputs.date }}
-              version: ${{ steps.mpv_tag.outputs.tag }}
-              OS support: macOS High Sierra 10.13 or later
-          draft: false
-          prerelease: false
+            # Fix for mpv incorrectly enabling features only available on 10.14
+            # https://trac.macports.org/ticket/62177#comment:16
+            curl -ksJLO https://www.savero.net/swift_compat.patch
+            patch -p1 mpv/osdep/macos/swift_compat.swift < swift_compat.patch
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: release/mpv.dmg
-          asset_name: mpv-nightly-${{ steps.mpv_tag.outputs.tag }}.dmg
-          asset_content_type: application/x-apple-diskimage
+            printf '%s\n' \
+              '--enable-gl' \
+              '--enable-iconv' \
+              '--enable-lcms2' \
+              '--enable-libmpv-shared' \
+            #  '--enable-lua' \
+              '--enable-plain-gl' \
+              '--enable-cocoa' \
+              '--enable-coreaudio' \
+              '--enable-gl-cocoa' \
+              '--enable-macos-cocoa-cb' \
+              '--enable-macos-touchbar' \
+              '--enable-videotoolbox-gl' \
+              '--enable-swift-static' \
+              '--disable-macos-10-14-features' \
+              '--swift-flags="-target x86_64-apple-macosx10.13"' \
+            >mpv_options
+
+            printf '%s\n' \
+            #  '--enable-nonfree' \
+            #  '--enable-version3' \
+              '--disable-ffplay' \
+              '--disable-ffprobe' \
+              '--disable-doc' \
+              '--disable-htmlpages' \
+              '--disable-manpages' \
+              '--disable-podpages' \
+              '--disable-txtpages' \
+            #  '--enable-frei0r' \
+              '--enable-lcms2' \
+            #  '--enable-libaom' \
+              '--enable-libass' \
+            #  '--enable-libbluray' \
+            #  '--enable-libcaca' \
+            #  '--enable-libdav1d' \
+            #  '--enable-libfdk-aac' \
+            #  '--enable-libgsm' \
+            #  '--enable-libmodplug' \
+            #  '--enable-libopencore-amrnb' \
+            #  '--enable-libopencore-amrwb' \
+            #  '--enable-libopenjpeg' \
+            #  '--enable-librsvg' \
+            #  '--enable-librtmp' \
+            #  '--enable-librubberband' \
+            #  '--enable-libsoxr' \
+            #  '--enable-libspeex' \
+              '--enable-libsrt' \
+            #  '--enable-libssh' \
+            #  '--enable-libtesseract' \
+            #  '--enable-libvidstab' \
+            #  '--enable-libvmaf' \
+            #  '--enable-libxml2' \
+            #  '--enable-libzimg' \
+            #  '--enable-libzmq' \
+            >ffmpeg_options
+
+            # Switch to 4.2.4 toolchain
+            export TOOLCHAINS=org.swift.42420190329a
+            ./build -j4
+
+            cd mpv
+            python3 TOOLS/osxbundle.py build/mpv
+            mkdir -p release
+            cp -r build/mpv.app release
+
+        - name: Build Apple Disk Image
+          run: |
+            cd mpv
+            brew install create-dmg
+            create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
+            mv mpv.dmg release/
+
+        - name: Create Release
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ steps.mpv_tag.outputs.tag }}
+            release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
+            body: |
+                mpv nightly build
+                build date: ${{ steps.timestamp.outputs.date }}
+                version: ${{ steps.mpv_tag.outputs.tag }}
+                OS support: macOS High Sierra 10.13 or later
+            draft: false
+            prerelease: false
+
+        - name: Upload Release Asset
+          id: upload-release-asset
+          if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: mpv/release/mpv.dmg
+            asset_name: mpv-nightly-${{ steps.mpv_tag.outputs.tag }}.dmg
+            asset_content_type: application/x-apple-diskimage
