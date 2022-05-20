@@ -123,9 +123,9 @@
               '--disable-txtpages' \
               '--enable-lcms2' \
               '--enable-libass' \
-              '--enable-libsrt' \
-            >ffmpeg_options
 
+            >ffmpeg_options
+            #  '--enable-libsrt' \
             #  '--enable-nonfree' \
             #  '--enable-version3' \
             #  '--enable-frei0r' \
