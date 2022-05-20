@@ -80,7 +80,7 @@
 
             # Reinstall dependencies from source
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg libbluray srt gnutls nasm
+            brew reinstall -s autoconf automake pkg-config libtool python glib cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg libbluray gnutls nasm
 
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
             install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
@@ -123,9 +123,8 @@
               '--disable-txtpages' \
               '--enable-lcms2' \
               '--enable-libass' \
-              '--enable-libsrt' \
             >ffmpeg_options
-
+            #  '--enable-libsrt' \
             #  '--enable-nonfree' \
             #  '--enable-version3' \
             #  '--enable-frei0r' \
