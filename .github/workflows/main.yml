@@ -122,11 +122,15 @@
               '--disable-podpages' \
               '--disable-txtpages' \
               '--disable-libxcb' \
+              '--disable-openssl' \
+              '--disable-gnutls' \
+              '--disable-mbedtls' \
+              '--enable-securetransport' \
               '--enable-lcms2' \
               '--enable-libass' \
               '--enable-libbluray' \
             >ffmpeg_options
-            # '--enable-securetransport' \
+
             #  '--enable-libsrt' \
             #  '--enable-nonfree' \
             #  '--enable-version3' \
