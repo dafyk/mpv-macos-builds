@@ -1,0 +1,11 @@
+--- swift_compat.swift	2022-05-19 10:15:19.000000000 +0200
++++ swift_compat-patched.swift	2022-05-19 10:16:21.000000000 +0200
+@@ -15,7 +15,7 @@
+  * License along with mpv.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#if !HAVE_MACOS_10_14_FEATURES
++#if false
+ extension NSAppearance.Name {
+     static let darkAqua: NSAppearance.Name = NSAppearance.Name(rawValue: "NSAppearanceNameDarkAqua")
+     static let accessibilityHighContrastAqua: NSAppearance.Name = NSAppearance.Name(rawValue: "NSAppearanceNameAccessibilityAqua")
