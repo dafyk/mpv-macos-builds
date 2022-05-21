@@ -18,7 +18,7 @@
         HOMEBREW_NO_INSTALL_CLEANUP: 1
         MACOSX_DEPLOYMENT_TARGET: 10.13
         SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-        MACOS_SDK: /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+        SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
         EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
@@ -31,13 +31,6 @@
             echo "::set-output name=timestamp::$(date +%s)"
             echo "::set-output name=date::$(date +%Y%m%d)"
 
-        - name: Get latest git tag
-          id: git_tag
-          uses: oprypin/find-latest-tag@v1
-          with:
-            repository: 'dafyk/mpv-macos-builds'
-            releases-only: false
-
         - name: Get latest mpv git tag
           id: mpv_tag
           uses: oprypin/find-latest-tag@v1
@@ -45,19 +38,21 @@
             repository: 'mpv-player/mpv'
             releases-only: false
 
-        - name: Checkout mpv-player/mpv-build
-          uses: actions/checkout@v2
+        - name: Checkout dafyk/mpv-macos-builds
+          uses: actions/checkout@v3
           with:
-            repository: 'mpv-player/mpv-build'
+            repository: 'dafyk/mpv-macos-builds'
             fetch-depth: 0
+            submodules: true
 
         - name: Install dependencies
           run: |
             # MacOSX10.14 SDK
-            curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
-            sudo rm -rf /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-            sudo mv /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-            sudo ln -s /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+            #curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
+            tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
+            sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
+            sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
+            sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
             sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
             # Swift 4.x toolchain
@@ -88,12 +83,12 @@
 
         - name: Build mpv
           run: |
+            cd mpv-build
             ./update
 
             # Fix for mpv incorrectly enabling features only available on 10.14
             # https://trac.macports.org/ticket/62177#comment:16
-            curl -ksJLO https://www.savero.net/swift_compat.patch
-            patch -p1 mpv/osdep/macos/swift_compat.swift < swift_compat.patch
+            patch -p1 mpv/osdep/macos/swift_compat.swift < ../swift_compat.patch
 
             printf '%s\n' \
               '--enable-gl' \
@@ -122,21 +117,22 @@
               '--disable-podpages' \
               '--disable-txtpages' \
               '--disable-libxcb' \
-              '--disable-openssl' \
-              '--disable-gnutls' \
-              '--disable-mbedtls' \
+              '--disable-libxcb-shm' \
+              '--disable-libxcb-xfixes' \
+              '--disable-libxcb-shape' \
               '--enable-securetransport' \
               '--enable-lcms2' \
               '--enable-libass' \
               '--enable-libbluray' \
             >ffmpeg_options
-
+            # '--disable-openssl' \
+            # '--disable-gnutls' \
+            # '--disable-mbedtls' \
             #  '--enable-libsrt' \
             #  '--enable-nonfree' \
             #  '--enable-version3' \
             #  '--enable-frei0r' \
             #  '--enable-libaom' \
-            
             #  '--enable-libcaca' \
             #  '--enable-libdav1d' \
             #  '--enable-libfdk-aac' \
@@ -180,7 +176,7 @@
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            tag_name: ${{ steps.mpv_tag.outputs.tag }}
+            tag_name: ${{ github.run_id }}
             release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
             body: |
                 mpv nightly build
@@ -192,12 +188,11 @@
 
         - name: Upload Release Asset
           id: upload-release-asset
-          if: ${{ success() && steps.mpv_tag.outputs.tag != steps.git_tag.outputs.tag }}
           uses: actions/upload-release-asset@v1
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
             asset_path: mpv/release/mpv.dmg
-            asset_name: mpv-nightly-${{ steps.mpv_tag.outputs.tag }}.dmg
+            asset_name: mpv-nightly-${{ github.run_id }}-${{ steps.timestamp.outputs.date }}.dmg
             asset_content_type: application/x-apple-diskimage
