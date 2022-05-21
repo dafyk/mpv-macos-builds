@@ -57,8 +57,8 @@
             sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
             # Swift 4.x toolchain
-            curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
-            sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
+            #curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
+            #sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
 
             # Switch to Xcode 12.5.1
             sudo xcode-select --reset
@@ -66,8 +66,8 @@
 
             # Force 10.13 deployment target for all homebrew formulas
             brew update-reset
-            #for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
-            #for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
+            for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+            for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
 
             # Uninstal bottled dependencies
             brew uninstall --ignore-dependencies --force openssl
@@ -156,7 +156,7 @@
             #  '--enable-libzmq' \
 
             # Switch to 4.2.4 toolchain
-            export TOOLCHAINS=org.swift.42420190329a
+            #export TOOLCHAINS=org.swift.42420190329a
             ./build -j4
 
             cd mpv
@@ -166,7 +166,7 @@
 
         - name: Build Apple Disk Image
           run: |
-            cd mpv
+            cd mpv-build/mpv
             brew install create-dmg
             create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
             mv mpv.dmg release/
@@ -178,9 +178,8 @@
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             tag_name: ${{ github.run_id }}
-            release_name: mpv nightly build ${{ steps.timestamp.outputs.date }}
+            release_name: mpv build ${{ steps.timestamp.outputs.date }}
             body: |
-                mpv nightly build
                 build date: ${{ steps.timestamp.outputs.date }}
                 version: ${{ steps.mpv_tag.outputs.tag }}
                 OS support: macOS High Sierra 10.13 or later
@@ -194,6 +193,6 @@
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: mpv/release/mpv.dmg
-            asset_name: mpv-nightly-${{ github.run_id }}-${{ steps.timestamp.outputs.date }}.dmg
+            asset_path: mpv-build/mpv/release/mpv.dmg
+            asset_name: mpv-${{ github.run_id }}-${{ steps.timestamp.outputs.date }}.dmg
             asset_content_type: application/x-apple-diskimage
