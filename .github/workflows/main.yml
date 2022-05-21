@@ -18,6 +18,7 @@
         HOMEBREW_NO_INSTALL_CLEANUP: 1
         MACOSX_DEPLOYMENT_TARGET: 10.13
         SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
         EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
@@ -54,8 +55,7 @@
             sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
             sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
             sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
-            ls -la $SDK_PATH
-            exit 1
+
             # Swift 4.x toolchain
             curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
             sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
@@ -66,8 +66,8 @@
 
             # Force 10.13 deployment target for all homebrew formulas
             brew update-reset
-            for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
-            for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
+            #for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+            #for dep in luajit python@3.8; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
 
             # Uninstal bottled dependencies
             brew uninstall --ignore-dependencies --force openssl
