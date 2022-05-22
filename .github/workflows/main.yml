@@ -57,8 +57,8 @@
             sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
             # Swift 4.x toolchain
-            #curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
-            #sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
+            curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
+            sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
 
             # Switch to Xcode 12.5.1
             sudo xcode-select --reset
@@ -76,7 +76,7 @@
 
             # Reinstall dependencies from source
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm
+            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm frei0r dav1d bzip2 libmodplug
 
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
             install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
@@ -125,6 +125,10 @@
               '--enable-lcms2' \
               '--enable-libass' \
               '--enable-libbluray' \
+              '--enable-frei0r' \
+              '--enable-libdav1d' \
+              '--enable-libzimg' \
+              '--enable-libmodplug' \
             >ffmpeg_options
             # '--disable-openssl' \
             # '--disable-gnutls' \
@@ -132,13 +136,10 @@
             #  '--enable-libsrt' \
             #  '--enable-nonfree' \
             #  '--enable-version3' \
-            #  '--enable-frei0r' \
             #  '--enable-libaom' \
             #  '--enable-libcaca' \
-            #  '--enable-libdav1d' \
             #  '--enable-libfdk-aac' \
             #  '--enable-libgsm' \
-            #  '--enable-libmodplug' \
             #  '--enable-libopencore-amrnb' \
             #  '--enable-libopencore-amrwb' \
             #  '--enable-libopenjpeg' \
@@ -152,13 +153,12 @@
             #  '--enable-libvidstab' \
             #  '--enable-libvmaf' \
             #  '--enable-libxml2' \
-            #  '--enable-libzimg' \
             #  '--enable-libzmq' \
 
             # Switch to 4.2.4 toolchain
             #export TOOLCHAINS=org.swift.42420190329a
             ./build -j4
-
+            echo "FFMPEG_INFO=$(./ffmpeg/ffmpeg -version)" >> $GITHUB_ENV
             cd mpv
             python3 TOOLS/osxbundle.py build/mpv
             mkdir -p release
@@ -177,12 +177,13 @@
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            tag_name: ${{ github.run_id }}
+            tag_name: ${{ github.run_id }}-${{ steps.mpv_tag.outputs.tag }}
             release_name: mpv build ${{ steps.timestamp.outputs.date }}
             body: |
                 build date: ${{ steps.timestamp.outputs.date }}
                 version: ${{ steps.mpv_tag.outputs.tag }}
                 OS support: macOS High Sierra 10.13 or later
+                FFMPEG: `${{ env.FFMPEG_INFO }}`
             draft: false
             prerelease: false
 
