@@ -156,7 +156,7 @@
             #  '--enable-libzmq' \
 
             # Switch to 4.2.4 toolchain
-            #export TOOLCHAINS=org.swift.42420190329a
+            export TOOLCHAINS=org.swift.42420190329a
             ./build -j4
             echo "FFMPEG_INFO=$(./ffmpeg/ffmpeg -version)" >> $GITHUB_ENV
             cd mpv
