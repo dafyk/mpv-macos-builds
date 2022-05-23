@@ -192,13 +192,13 @@
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            tag_name: ${{ steps.mpv_build.outputs.MPV_COMMITID }}
-            release_name: mpv build ${{ steps.mpv_build.outputs.MPV_COMMITID }}
+            tag_name: ${{ steps.build_mpv.outputs.MPV_COMMITID }}
+            release_name: mpv build ${{ steps.build_mpv.outputs.MPV_COMMITID }}
             body: |
                 build date: ${{ steps.timestamp.outputs.date }}
-                version: ${{ steps.mpv_tag.outputs.tag }} - ${{ steps.mpv_build.outputs.MPV_COMMITID }}
+                version: ${{ steps.mpv_tag.outputs.tag }} - ${{ steps.build_mpv.outputs.MPV_COMMITID }}
                 OS support: macOS High Sierra 10.13 or later
-                FFMPEG: `${{ steps.mpv_build.outputs.FFMPEG_INFO }}`
+                FFMPEG: `${{ steps.build_mpv.outputs.FFMPEG_INFO }}`
             draft: false
             prerelease: false
 
@@ -210,5 +210,5 @@
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
             asset_path: mpv-build/mpv/release/mpv.dmg
-            asset_name: mpv-${{ steps.mpv_build.outputs.MPV_COMMITID }}.dmg
+            asset_name: mpv-${{ steps.build_mpv.outputs.MPV_COMMITID }}.dmg
             asset_content_type: application/x-apple-diskimage
