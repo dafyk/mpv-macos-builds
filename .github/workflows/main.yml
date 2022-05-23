@@ -76,13 +76,22 @@
 
             # Reinstall dependencies from source
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug
+            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet
+
+            # libplacebo
+            git clone https://github.com/haasn/libplacebo.git
+            cd libplacebo
+            DIR=./build
+            meson $DIR
+            ninja -C$DIR
+            ninja -Cbuild install
 
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
             install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
             install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
 
         - name: Build mpv
+          id: build_mpv
           run: |
             cd mpv-build
             ./update
@@ -104,8 +113,13 @@
               '--enable-macos-touchbar' \
               '--enable-videotoolbox-gl' \
               '--enable-swift-static' \
-              '--disable-macos-10-14-features' \
+              '--enable-zlib' \
+              '--enable-uchardet' \
+              '--enable-libplacebo' \
               '--swift-flags=-target x86_64-apple-macosx10.13' \
+              '--disable-macos-10-14-features' \
+              '--disable-tests' \
+              '--disable-x11' \
             >mpv_options
               #  '--enable-lua' \
 
@@ -158,8 +172,9 @@
             # Switch to 4.2.4 toolchain
             export TOOLCHAINS=org.swift.42420190329a
             ./build -j4
-            echo "FFMPEG_INFO=$(./ffmpeg/ffmpeg -version)" >> $GITHUB_ENV
+            echo "::set-output name=FFMPEG_INFO::$(./ffmpeg/ffmpeg -version)"
             cd mpv
+            echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
             python3 TOOLS/osxbundle.py build/mpv
             mkdir -p release
             cp -r build/mpv.app release
@@ -177,13 +192,13 @@
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            tag_name: ${{ github.run_id }}-${{ steps.mpv_tag.outputs.tag }}
-            release_name: mpv build ${{ steps.timestamp.outputs.date }}
+            tag_name: ${{ steps.mpv_build.outputs.MPV_COMMITID }}
+            release_name: mpv build ${{ steps.mpv_build.outputs.MPV_COMMITID }}
             body: |
                 build date: ${{ steps.timestamp.outputs.date }}
-                version: ${{ steps.mpv_tag.outputs.tag }}
+                version: ${{ steps.mpv_tag.outputs.tag }} - ${{ steps.mpv_build.outputs.MPV_COMMITID }}
                 OS support: macOS High Sierra 10.13 or later
-                FFMPEG: `${{ env.FFMPEG_INFO }}`
+                FFMPEG: `${{ steps.mpv_build.outputs.FFMPEG_INFO }}`
             draft: false
             prerelease: false
 
@@ -195,5 +210,5 @@
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
             asset_path: mpv-build/mpv/release/mpv.dmg
-            asset_name: mpv-${{ github.run_id }}-${{ steps.timestamp.outputs.date }}.dmg
+            asset_name: mpv-${{ steps.mpv_build.outputs.MPV_COMMITID }}.dmg
             asset_content_type: application/x-apple-diskimage
