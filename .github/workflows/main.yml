@@ -74,7 +74,7 @@
             brew cleanup
 
             # Reinstall dependencies from source
-            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav libpciaccess libdrm
+            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav
 
             # libplacebo
             git clone https://github.com/haasn/libplacebo.git
@@ -115,7 +115,6 @@
               '--enable-uchardet' \
               '--enable-libplacebo' \
               '--enable-dvdnav' \
-              '--enable-drm' \
               '--enable-cplugins' \
               '--swift-flags=-target x86_64-apple-macosx10.13' \
               '--disable-macos-10-14-features' \
@@ -123,6 +122,7 @@
               '--disable-x11' \
             >mpv_options
               #  '--enable-lua' \
+              # '--enable-drm' \
 
             printf '%s\n' \
               '--disable-ffplay' \
