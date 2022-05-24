@@ -48,8 +48,10 @@
 
         - name: Install dependencies
           run: |
+            ls -la /Applications
+            ls -la /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs
+            exit 1
             # MacOSX10.14 SDK
-            #curl -kLs https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX10.14.sdk.tar.xz | tar -C /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -xf -
             tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
             sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
             sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
@@ -84,7 +86,7 @@
             DIR=./build
             meson $DIR -Dopengl=enabled
             ninja -C$DIR
-            ninja -Cbuild install
+            ninja -C$DIR install
 
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
             install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
