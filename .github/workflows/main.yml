@@ -17,12 +17,12 @@
         HOMEBREW_NO_ANALYTICS: 1
         HOMEBREW_NO_INSTALL_CLEANUP: 1
         MACOSX_DEPLOYMENT_TARGET: 10.13
-        SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-        MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        SDKROOT: "/Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        MACOS_SDK: "/Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
-        EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-        EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-        EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
 
       steps:
@@ -48,23 +48,20 @@
 
         - name: Install dependencies
           run: |
-            ls -la /Applications
-            ls -la /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs
-            exit 1
             # MacOSX10.14 SDK
             tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
-            sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
-            sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
+            sudo rm -rf $SDK_PATH/MacOSX12.1.sdk
+            sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX12.1.sdk
             sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
-            sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
+            sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
             # Swift 4.x toolchain
             curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
             sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
 
             # Switch to Xcode 12.5.1
-            sudo xcode-select --reset
-            sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
+            #sudo xcode-select --reset
+            #sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
 
             # Force 10.13 deployment target for all homebrew formulas
             brew update-reset
@@ -77,8 +74,7 @@
             brew cleanup
 
             # Reinstall dependencies from source
-            #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy
+            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav libpciaccess libdrm
 
             # libplacebo
             git clone https://github.com/haasn/libplacebo.git
@@ -118,6 +114,9 @@
               '--enable-zlib' \
               '--enable-uchardet' \
               '--enable-libplacebo' \
+              '--enable-dvdnav' \
+              '--enable-drm' \
+              '--enable-cplugins' \
               '--swift-flags=-target x86_64-apple-macosx10.13' \
               '--disable-macos-10-14-features' \
               '--disable-tests' \
@@ -175,6 +174,7 @@
             export TOOLCHAINS=org.swift.42420190329a
             ./build -j4
             echo "::set-output name=FFMPEG_INFO::$(ffmpeg/ffmpeg -version)"
+            ./ffmpeg/ffmpeg -version
             cd mpv
             echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
             python3 TOOLS/osxbundle.py build/mpv
