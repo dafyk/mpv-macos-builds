@@ -62,7 +62,7 @@
             # Vulkan SDK
             curl -ksJLO https://sdk.lunarg.com/sdk/download/latest/mac/vulkan-sdk.dmg
             hdiutil attach vulkansdk*.dmg
-            sudo /Volumes/vulkansdk*/InstallVulkan.app/Contents/MacOS/InstallVulkan --root /usr/local --accept-licenses --default-answer --confirm-command install
+            sudo /Volumes/vulkansdk*/InstallVulkan.app/Contents/MacOS/InstallVulkan --root /usr/local/vulkansdk --accept-licenses --default-answer --confirm-command install
 
             # Switch to Xcode 12.5.1
             sudo xcode-select --reset
