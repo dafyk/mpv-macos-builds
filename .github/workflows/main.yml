@@ -75,7 +75,7 @@
 
             # Reinstall dependencies from source
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libcdio
+            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs
 
             # libplacebo
             git clone https://github.com/haasn/libplacebo.git
@@ -103,7 +103,6 @@
               '--enable-gl' \
               '--enable-iconv' \
               '--enable-lcms2' \
-              '--enable-libmpv-shared' \
               '--enable-plain-gl' \
               '--enable-cocoa' \
               '--enable-coreaudio' \
@@ -111,20 +110,25 @@
               '--enable-macos-cocoa-cb' \
               '--enable-macos-touchbar' \
               '--enable-videotoolbox-gl' \
-              '--enable-swift-static' \
               '--enable-zlib' \
               '--enable-uchardet' \
               '--enable-libplacebo' \
               '--enable-dvdnav' \
               '--enable-cplugins' \
               '--enable-javascript' \
-              '--enable-cdda' \
               '--enable-zimg' \
+              '--enable-libmpv-shared' \
+              '--enable-swift-static' \
               '--swift-flags=-target x86_64-apple-macosx10.13' \
               '--disable-macos-10-14-features' \
               '--disable-tests' \
               '--disable-x11' \
+              '--disable-manpage-build' \
+              '--disable-html-build' \
+              '--disable-pdf-build' \
+              '--disable-debug-build' \
             >mpv_options
+              # '--enable-cdda' \
               #  '--enable-lua' \
               # '--enable-drm' \
 
@@ -176,10 +180,12 @@
 
             # Switch to 4.2.4 toolchain
             export TOOLCHAINS=org.swift.42420190329a
-            ./build -j4 V=1
+            ./build -j4 -v V=1
             echo "::set-output name=FFMPEG_INFO::$(ffmpeg/ffmpeg -version)"
             ./ffmpeg/ffmpeg -version
             cd mpv
+            cat build/config.log
+            cat build/build.log
             echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
             python3 TOOLS/osxbundle.py build/mpv
             mkdir -p release
