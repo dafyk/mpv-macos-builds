@@ -75,7 +75,7 @@
 
             # Reinstall dependencies from source
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs
+            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass
 
             # libplacebo
             git clone https://github.com/haasn/libplacebo.git
