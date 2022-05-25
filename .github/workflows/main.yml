@@ -74,7 +74,7 @@
             git clone https://github.com/haasn/libplacebo.git
             cd libplacebo
             DIR=./build
-            meson $DIR -Dopengl=enabled -Dvulkan=enabled -Ddemos=disabled
+            meson $DIR -Dopengl=true -Dvulkan=true -Ddemos=false
             ninja -C$DIR
             ninja -C$DIR install
 
