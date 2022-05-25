@@ -68,6 +68,17 @@
             sudo xcode-select --reset
             sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
 
+            # libplacebo
+            ls -la /usr/local/bin/python*
+            python3.9 -m pip install Mako
+            git clone https://github.com/haasn/libplacebo.git
+            cd libplacebo
+            DIR=./build
+            meson $DIR -Dopengl=enabled -Ddemos=diasbled
+            ninja -C$DIR
+            ninja -C$DIR install
+
+
             # Force 10.13 deployment target for all homebrew formulas
             brew update-reset
             for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
@@ -82,14 +93,6 @@
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
             brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass
 
-            # libplacebo
-            python3.10 -m pip install Mako
-            git clone https://github.com/haasn/libplacebo.git
-            cd libplacebo
-            DIR=./build
-            meson $DIR -Dopengl=enabled
-            ninja -C$DIR
-            ninja -C$DIR install
 
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
             install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
