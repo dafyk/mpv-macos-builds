@@ -83,6 +83,7 @@
             brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass
 
             # libplacebo
+            pip3 install Mako
             git clone https://github.com/haasn/libplacebo.git
             cd libplacebo
             DIR=./build
