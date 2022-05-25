@@ -180,9 +180,9 @@
 
             # Switch to 4.2.4 toolchain
             export TOOLCHAINS=org.swift.42420190329a
-            ./build -j4 -v V=1
+            ./build -j4
+            ls -laR
             echo "::set-output name=FFMPEG_INFO::$(ffmpeg/ffmpeg -version)"
-            ./ffmpeg/ffmpeg -version
             cd mpv
             cat build/config.log
             cat build/build.log
