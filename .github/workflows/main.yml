@@ -69,15 +69,14 @@
             sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
 
             # libplacebo
-            ls -la /usr/local/bin/python*
+            brew install meson
             python3.9 -m pip install Mako
             git clone https://github.com/haasn/libplacebo.git
             cd libplacebo
             DIR=./build
-            meson $DIR -Dopengl=enabled -Ddemos=diasbled
+            meson $DIR -Dopengl=enabled -Dvulkan=enabled -Ddemos=disabled
             ninja -C$DIR
             ninja -C$DIR install
-
 
             # Force 10.13 deployment target for all homebrew formulas
             brew update-reset
