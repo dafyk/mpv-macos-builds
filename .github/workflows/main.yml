@@ -182,10 +182,8 @@
             export TOOLCHAINS=org.swift.42420190329a
             ./build -j4
             ls -laR
-            echo "::set-output name=FFMPEG_INFO::$(ffmpeg/ffmpeg -version)"
+            echo "::set-output name=FFMPEG_INFO::$(ffmpeg_build/ffmpeg -version)"
             cd mpv
-            cat build/config.log
-            cat build/build.log
             echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
             python3 TOOLS/osxbundle.py build/mpv
             mkdir -p release
