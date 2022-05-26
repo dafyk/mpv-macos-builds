@@ -63,9 +63,7 @@
             curl -ksJLO https://sdk.lunarg.com/sdk/download/latest/mac/vulkan-sdk.dmg
             hdiutil attach vulkansdk*.dmg
             sudo /Volumes/vulkansdk*/InstallVulkan.app/Contents/MacOS/InstallVulkan --root /usr/local/vulkansdk --accept-licenses --default-answer --confirm-command install
-            ls -laR /usr/local/vulkansdk
-            ls -la /usr/local/lib/libvulkan*
-            exit 1
+
             # Switch to Xcode 12.5.1
             sudo xcode-select --reset
             sudo xcode-select -s /Applications/Xcode_12.5.1.app/Contents/Developer
@@ -198,6 +196,10 @@
             #echo "::set-output name=FFMPEG_INFO::$(ffmpeg_build/ffmpeg -version)"
             cd mpv
             echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
+            find . -iname mpv
+            install_name_tool -change "@rpath/libshaderc_shared.1.dylib" "@executable_path/lib/libshaderc_shared.1.dylib" mpv
+            install_name_tool -change "@rpath/libspirv-cross-c-shared.0.dylib" "@executable_path/lib/libspirv-cross-c-shared.0.dylib" mpv
+            install_name_tool -change "@rpath/libvulkan.1.dylib" "@executable_path/lib/libvulkan.1.dylib" mpv
             python3 TOOLS/osxbundle.py build/mpv
             mkdir -p release
             cp -r build/mpv.app release
