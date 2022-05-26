@@ -196,9 +196,14 @@
             #echo "::set-output name=FFMPEG_INFO::$(ffmpeg_build/ffmpeg -version)"
             cd mpv
             echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
+            echo "-----------------------------------------------------------------------------------------------------------"
+            find . -iname "libvulkan"
+            otool -L ./build/mpv
             install_name_tool -change "@rpath/libshaderc_shared.1.dylib" "/usr/local/lib/libshaderc_shared.1.dylib" ./build/mpv
             install_name_tool -change "@rpath/libspirv-cross-c-shared.0.dylib" "/usr/local/lib/libspirv-cross-c-shared.0.dylib" ./build/mpv
             install_name_tool -change "@rpath/libvulkan.1.dylib" "/usr/local/lib/libvulkan.1.dylib" ./build/mpv
+            otool -L ./build/mpv
+            echo "-----------------------------------------------------------------------------------------------------------"
             python3 TOOLS/osxbundle.py build/mpv
             mkdir -p release
             cp -r build/mpv.app release
