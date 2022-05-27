@@ -83,7 +83,7 @@
 
             # Reinstall dependencies from source
             #brew reinstall -s autoconf automake pkg-config libtool python freetype fribidi brotli little-cms2 lua@5.1 jpeg-xl jpeg openjpeg zimg libbluray libass ffmpeg meson
-            brew reinstall -s autoconf automake pkg-config libtool python glib libx11 cairo freetype fribidi harfbuzz brotli little-cms2 lua@5.1 jpeg zimg fontconfig libbluray gnutls nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass
+            brew reinstall -s autoconf automake pkg-config libtool python pcre gettext glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband
 
             # libplacebo
             /usr/local/Cellar/meson/0.62.1/libexec/bin/python3.10 -m pip install Mako
@@ -161,6 +161,7 @@
               '--enable-libdav1d' \
               '--enable-libzimg' \
               '--enable-libmodplug' \
+              '--enable-librubberband' \
             >ffmpeg_options
             # '--disable-openssl' \
             # '--disable-gnutls' \
@@ -178,7 +179,6 @@
             #  '--enable-libopenjpeg' \
             #  '--enable-librsvg' \
             #  '--enable-librtmp' \
-            #  '--enable-librubberband' \
             #  '--enable-libsoxr' \
             #  '--enable-libspeex' \
             #  '--enable-libssh' \
@@ -224,7 +224,8 @@
                 OS support: macOS High Sierra 10.13 or later
                 Workflow run number: ${{ github.run_number }}
                 FFMPEG:
-                `${{ steps.build_mpv.outputs.FFMPEG_INFO }}`
+                `$(sh mpv-build/ffmpeg_build/ffmpeg -version)`
+                #`${{ steps.build_mpv.outputs.FFMPEG_INFO }}`
             draft: false
             prerelease: false
 
