@@ -49,6 +49,7 @@
         - name: Install dependencies
           id: install_deps
           run: |
+            brew reinstall -vds libsoxr
             # MacOSX10.14 SDK
             tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
             sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
@@ -85,7 +86,7 @@
             brew cleanup
 
             # Reinstall dependencies from source
-            brew reinstall -vds autoconf automake pkg-config libtool python pcre gettext glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband zstd xz lz4 libb2 libarchive libgsm libsoxr libogg speex frei0r sdl2 vapoursynth
+            brew reinstall -vs autoconf automake pkg-config libtool python pcre gettext glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband zstd xz lz4 libb2 libarchive libgsm libsoxr libogg speex frei0r sdl2 vapoursynth
 
             # libplacebo
             /usr/local/Cellar/meson/0.62.1/libexec/bin/python3.10 -m pip install Mako
