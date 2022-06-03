@@ -51,7 +51,8 @@
         - name: Install dependencies
           id: install_deps
           run: |
-            find /usr/local -iname *pc
+            cat /usr/local/lib/pkgconfig/cairo-xcb.pc
+            cat /usr/local/lib/pkgconfig/*.pc
             exit 1
             # MacOSX10.14 SDK
             tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
