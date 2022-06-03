@@ -16,6 +16,7 @@
         CXX: clang++
         HOMEBREW_NO_ANALYTICS: 1
         HOMEBREW_NO_INSTALL_CLEANUP: 1
+        HOMEBREW_SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         MACOSX_DEPLOYMENT_TARGET: 10.13
         SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
