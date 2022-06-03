@@ -51,9 +51,6 @@
         - name: Install dependencies
           id: install_deps
           run: |
-            cat /usr/local/lib/pkgconfig/cairo-xcb.pc
-            cat /usr/local/lib/pkgconfig/*.pc
-            exit 1
             # MacOSX10.14 SDK
             tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
             sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
@@ -90,7 +87,7 @@
             brew cleanup
 
             # Reinstall dependencies from source
-            brew reinstall -vs autoconf automake pkg-config libtool python pcre gettext libomp libsoxr glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband zstd xz lz4 libb2 libarchive libgsm libogg speex frei0r sdl2 vapoursynth
+            brew reinstall -vs autoconf automake pkg-config libtool python pcre gettext libomp glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband zstd xz lz4 libb2 libarchive libgsm libogg speex frei0r sdl2 vapoursynth
 
             # libplacebo
             /usr/local/Cellar/meson/0.62.1/libexec/bin/python3.10 -m pip install Mako
@@ -102,6 +99,11 @@
             ninja -C$DIR install
             echo "::set-output name=LIBPLACEBO_VERSION::$(meson introspect ./build/ --projectinfo -i | python -c 'import sys, json; print(json.load(sys.stdin)["version"])')"
 
+            # libsoxr
+            curl -ksJLO  https://nav.dl.sourceforge.net/project/soxr/soxr-0.1.3-Source.tar.xz
+            tar -xf soxr-0.1.3-Source.tar.xz
+            cd soxr-0.1.3-Source/
+            ./go
 
             # Fix "No such file or directory: '@loader_path/libbrotlicommon.1.dylib'" when bundling mpv.app
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
