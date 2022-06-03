@@ -51,6 +51,8 @@
         - name: Install dependencies
           id: install_deps
           run: |
+            find /usr/local -iname *pc
+            exit 1
             # MacOSX10.14 SDK
             tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
             sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
