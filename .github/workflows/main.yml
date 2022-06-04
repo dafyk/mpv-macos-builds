@@ -91,8 +91,8 @@
 
             # libplacebo
             #/usr/local/Cellar/meson/0.62.1/libexec/bin/python3.10 -m pip install Mako
-            #/usr/local/bin/$(readlink $(brew --prefix meson))/libexec/bin/python3.10 -m pip install Mako
-            /usr/bin/env python3 -m pip install Mako
+            /usr/local/bin/$(readlink $(brew --prefix meson))/libexec/bin/python3.10 -m pip install Mako
+            #/usr/bin/env python3 -m pip install Mako
             git clone https://github.com/haasn/libplacebo.git
             cd libplacebo
             DIR=./build
