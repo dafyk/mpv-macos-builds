@@ -198,7 +198,7 @@
             export TOOLCHAINS=org.swift.42420190329a
             # Set version to version-commit id-workflow run number
             echo ${{ steps.mpv_tag.outputs.tag }}-${{ steps.build_mpv.outputs.MPV_COMMITID }}-${{ github.run_number }}>VERSION
-            ./build -j4
+            ./build -j4 -v
             FFMPEGINFO=$(ffmpeg_build/ffmpeg -version)
             FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
             FFMPEGINFO="${FFMPEGINFO//$'\n'/'%0A'}"
