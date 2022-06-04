@@ -22,7 +22,7 @@
         MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
         DCMAKE_OSX_SYSROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
-        EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        EXTRA_CFLAGS: "-I/usr/local/include/ -mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
         SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
@@ -87,11 +87,10 @@
             brew cleanup
 
             # Reinstall dependencies from source
-            brew reinstall -s frei0r
-            ls -la /usr/local/include/frei0r.h
-            ls -la /usr/local/Cellar/frei0r/1.8.0/include/frei0r.h
-            exit 1
             brew reinstall -s autoconf automake pkg-config libtool python pcre gettext libomp glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband zstd xz lz4 libb2 libarchive libgsm libogg speex frei0r sdl2 vapoursynth
+            ls -la /usr/local/include/frei0r.h
+            file /usr/local/include/frei0r.h
+            tail /usr/local/include/frei0r.h
 
             # libplacebo
             #/usr/local/Cellar/meson/0.62.1/libexec/bin/python3.10 -m pip install Mako
