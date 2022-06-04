@@ -102,10 +102,10 @@
             echo "::set-output name=LIBPLACEBO_VERSION::$(meson introspect ./build/ --projectinfo -i | python -c 'import sys, json; print(json.load(sys.stdin)["version"])')"
 
             # libsoxr
-            curl -ksJLO  https://nav.dl.sourceforge.net/project/soxr/soxr-0.1.3-Source.tar.xz
-            tar -xf soxr-0.1.3-Source.tar.xz
-            cd soxr-0.1.3-Source/
-            ./go
+            #curl -ksJLO  https://nav.dl.sourceforge.net/project/soxr/soxr-0.1.3-Source.tar.xz
+            #tar -xf soxr-0.1.3-Source.tar.xz
+            #cd soxr-0.1.3-Source/
+            #./go
 
             # Fix "No such file or directory: '@loader_path/libbrotlicommon.1.dylib'" when bundling mpv.app
             # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
@@ -152,6 +152,7 @@
               '--enable-libavdevice' \
               '--enable-shaderc' \
               '--enable-spirv-cross' \
+              '--enable-lua' \
               '--swift-flags=-target x86_64-apple-macosx10.13' \
               '--disable-macos-10-14-features' \
               '--disable-tests' \
@@ -162,7 +163,6 @@
               '--disable-debug-build' \
             >mpv_options
               # '--enable-cdda' \
-              #  '--enable-lua' \
               # '--enable-drm' \
 
             printf '%s\n' \
@@ -186,10 +186,10 @@
               '--enable-libmodplug' \
               '--enable-librubberband' \
               '--enable-libgsm' \
-              '--enable-libsoxr' \
               '--enable-libspeex' \
               '--enable-frei0r' \
             >ffmpeg_options
+              # '--enable-libsoxr' \
 
             # Switch to 4.2.4 toolchain
             export TOOLCHAINS=org.swift.42420190329a
