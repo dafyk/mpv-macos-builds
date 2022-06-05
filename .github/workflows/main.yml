@@ -181,6 +181,7 @@
               '--disable-libxcb-shm' \
               '--disable-libxcb-xfixes' \
               '--disable-libxcb-shape' \
+              '--disable-autodetect' \
               '--enable-securetransport' \
               '--enable-lcms2' \
               '--enable-libass' \
