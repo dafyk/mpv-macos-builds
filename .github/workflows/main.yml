@@ -12,6 +12,25 @@ jobs:
   git-checkout:
     name: Checkout latest mpv from git
     runs-on: macos-latest
+
+  install_deps:
+    name: Check out latest mpv from git and install dependecies
+    runs-on: macos-latest
+    env:
+      CC: clang
+      CXX: clang++
+      HOMEBREW_NO_ANALYTICS: 1
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
+      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+      HOMEBREW_SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      MACOSX_DEPLOYMENT_TARGET: 10.13
+      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
+      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
     steps:
       - name: Get current timestamp
         id: timestamp
@@ -33,26 +52,7 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-  install_deps:
-    name: Install dependecies
-    runs-on: macos-latest
-    env:
-      CC: clang
-      CXX: clang++
-      HOMEBREW_NO_ANALYTICS: 1
-      HOMEBREW_NO_INSTALL_CLEANUP: 1
-      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
-      HOMEBREW_SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      MACOSX_DEPLOYMENT_TARGET: 10.13
-      SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
-      EXTRA_CFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
-    steps:
-      - name: MacOSX10.14 SDK
+      - name: Install MacOSX 10.14 SDK
         id: macossdk
         run: |
           # MacOSX10.14 SDK
@@ -62,14 +62,14 @@ jobs:
           sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
-      - name: Swift 4.x toolchain
+      - name: Install Swift 4.x toolchain
         id: swift4
         run: |
           # Swift 4.x toolchain
           curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
           sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
 
-      - name: Vulkan SDK
+      - name: Install Vulkan SDK
         id: vulkansdk
         run: |
           # Vulkan SDK
