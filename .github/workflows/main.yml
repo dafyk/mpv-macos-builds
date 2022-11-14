@@ -74,7 +74,7 @@ jobs:
           sudo /Volumes/vulkansdk*/InstallVulkan.app/Contents/MacOS/InstallVulkan --root /usr/local/vulkansdk --accept-licenses --default-answer --confirm-command install
           # Fix "No such file or directory: '@rpath/libshaderc_shared.1.dylib'" when bundling mpv.app
           # https://github.com/achirkin/vulkan/blob/master/README-macOS.md#workaround-for-compile-time-linking-vulkan-api
-          ls -la /usr/local/lib/
+          find / -iname "libshaderc_shared*"
           install_name_tool -id /usr/local/lib/libshaderc_shared.1.dylib /usr/local/lib/libshaderc_shared.1.dylib
           install_name_tool -id /usr/local/lib/libspirv-cross-c-shared.0.dylib /usr/local/lib/libspirv-cross-c-shared.0.dylib
           install_name_tool -id /usr/local/lib/libvulkan.1.dylib /usr/local/lib/libvulkan.1.dylib
