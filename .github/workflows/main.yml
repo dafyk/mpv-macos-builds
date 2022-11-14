@@ -9,10 +9,6 @@ on:
     #- cron: "00 12 * * *"
 
 jobs:
-  git-checkout:
-    name: Checkout latest mpv from git
-    runs-on: macos-latest
-
   install_deps:
     name: Check out latest mpv from git and install dependecies
     runs-on: macos-latest
