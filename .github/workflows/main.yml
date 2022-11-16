@@ -9,8 +9,8 @@ on:
     #- cron: "00 12 * * *"
 
 jobs:
-  install_deps:
-    name: Check out latest mpv from git and install dependecies
+  build:
+    name: Build mpv from source
     runs-on: macos-latest
     env:
       CC: clang
@@ -99,7 +99,9 @@ jobs:
           brew cleanup
 
           # Reinstall homebrew packages from source
-          brew reinstall -s autoconf automake pkg-config libtool python pcre gettext libomp glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass rubberband zstd xz lz4 libb2 libarchive libgsm libogg speex frei0r sdl2 vapoursynth
+          brew reinstall -s autoconf automake pkg-config libtool python pcre gettext libomp glib libpng libxau libxdmcp libxcb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass zstd xz lz4 libb2 libarchive libgsm libogg speex frei0r sdl2 vapoursynth
+          curl -o rubberband.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/37e0db676deb2aef5c1dc88fb0405aa7447a0d4c/Formula/rubberband.rb
+          rew install --build-from-source ./rubberband.rb
 
       - name: Instal libplacebo
         id: libplacebo
