@@ -96,6 +96,7 @@ jobs:
           # Uninstal bottled dependencies
           brew uninstall --ignore-dependencies --force openssl
           brew uninstall --ignore-dependencies --force gnutls
+          brew uninstall --ignore-dependencies --force python3
           brew cleanup
 
           # Reinstall homebrew packages from source
