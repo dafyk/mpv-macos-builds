@@ -52,6 +52,7 @@ jobs:
         id: macossdk
         run: |
           # MacOSX10.14 SDK
+          ls -la /Applications/
           tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
           sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
           sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
