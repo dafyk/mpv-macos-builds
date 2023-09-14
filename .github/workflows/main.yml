@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Build mpv from source
-    runs-on: macos-latest
+    runs-on: macos-11
     env:
       CC: clang
       CXX: clang++
