@@ -51,10 +51,6 @@ jobs:
       - name: Install MacOSX 10.14 SDK
         id: macossdk
         run: |
-          ls -la /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
-          ls -la /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/
-          ls -la /usr/local/Homebrew/Library/Taps/homebrew/
-          exit 1
           # MacOSX10.14 SDK
           tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
           sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
@@ -94,7 +90,7 @@ jobs:
         run: |
           # Force 10.13 deployment target for all homebrew formulas
           brew update-reset
-          for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+          for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
           for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
 
           # Uninstal bottled dependencies
