@@ -94,6 +94,8 @@ jobs:
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
           for dep in luajit python@3.8 python@3.10; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
           sed -i "" $'s/depends_on "libxdmcp"/depends_on "libxdmcp"\\\n  patch do\\\n    url "https:\/\/gitlab.freedesktop.org\/xorg\/lib\/libxcb\/-\/commit\/33f3dbe3699a92e8ca18f470adac456e0b935e75.diff"\\\n    sha256 "39e69dab09a1ffe4dbcda61480c8b5912709fcc230d866bdbeadfe3d6899dc73"\\\n  end/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/lib/libxcb.rb
+          cat $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/lib/libxcb.rb
+          exit 1
           
           # Uninstal bottled dependencies
           brew uninstall --ignore-dependencies --force openssl
