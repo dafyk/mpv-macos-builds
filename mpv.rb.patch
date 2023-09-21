@@ -1,0 +1,12 @@
+--- mpv.rb.orig	2023-09-21 13:25:58.000000000 +0200
++++ mpv.rb	2023-09-21 13:27:14.000000000 +0200
+@@ -32,8 +32,7 @@
+ 
+   on_macos do
+     depends_on "coreutils" => :recommended
+-    depends_on "deus0ww/tap/dockutil@2" => :recommended if MacOS.version <  :big_sur
+-    depends_on "deus0ww/tap/dockutil@3" => :recommended if MacOS.version >= :big_sur
++    depends_on "deus0ww/tap/dockutil@2" => :recommended
+     depends_on "tag" => :recommended
+     depends_on "trash" => :recommended
+   end
