@@ -100,7 +100,7 @@ jobs:
       - name: Build Apple Disk Image
         run: |
           mkdir mpv-release
-          cp -r /usr/local/Cellar/mpv/HEAD*/mpv.app mpv-release
+          cp -r /usr/local/Cellar/mpv/*/mpv.app mpv-release
           brew install create-dmg
           create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg mpv-release
           mv mpv.dmg release/
