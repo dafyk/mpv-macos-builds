@@ -58,6 +58,16 @@ jobs:
           sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
 
+      - name: Install Command Line Tools for Xcode 12.5.1
+        id: macoscmdtools
+        run: |
+          # Command Line Tools for Xcode 12.5.1
+          curl -ksJLO https://www.savero.net/Command_Line_Tools_for_Xcode_12.5.1.dmg
+          sudo mv /Library/Developer/CommandLineTools /Library/Developer/CommandLineTools@13
+          hdiutil attach Command_Line_Tools_for_Xcode_12.5.1.dmg
+          cd /Volumes/Command\ Line\ Developer\ Tools/
+          installer -pkg Command\ Line\ Tools.pkg -target /
+
       - name: Switch to Xcode 12.5.1
         id: xcode1251
         run: |
