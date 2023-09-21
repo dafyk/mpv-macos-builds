@@ -78,10 +78,11 @@ jobs:
           brew uninstall --ignore-dependencies --force openssl
           brew uninstall --ignore-dependencies --force gnutls
           brew uninstall --ignore-dependencies --force jpeg-xl
+          brew uninstall --ignore-dependencies --force aom
           brew cleanup
 
           # Reinstall homebrew packages from source
-          brew install -s deus0ww/tap/jpeg-xl deus0ww/tap/aom deus0ww/tap/mpv
+          brew reinstall -s deus0ww/tap/jpeg-xl deus0ww/tap/aom deus0ww/tap/mpv
 
       - name: Build Apple Disk Image
         run: |
