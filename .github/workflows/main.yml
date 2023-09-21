@@ -41,6 +41,13 @@ jobs:
           repository: 'mpv-player/mpv'
           releases-only: false
 
+      - name: Checkout dafyk/mpv-macos-builds
+        uses: actions/checkout@v3
+        with:
+          repository: 'dafyk/mpv-macos-builds'
+          fetch-depth: 0
+          submodules: false
+
       - name: Install MacOSX 10.14 SDK
         id: macossdk
         run: |
