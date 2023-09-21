@@ -74,7 +74,8 @@ jobs:
           find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
           for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
-          find $(brew --repository)/Library/Taps/deus0ww -type f -iname ffmpeg.rb -exec sed -i "" $'s/def install/patch do\\\n    url "https:\/\/raw.githubusercontent.com\/dafyk\/mpv-macos-builds\/main\/ffmpeg.git-1231003c3c6d.patch.txt"\\\n    sha256 "cfb25204162b59dc03c0c506df33da2fa75945bc40159232388e8f11db98764f"\\\n  end\\\n  def install/' {} \;
+          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
+          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
           
           # Uninstal bottled dependencies
           brew uninstall --ignore-dependencies --force openssl
