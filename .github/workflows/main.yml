@@ -19,7 +19,7 @@ jobs:
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       #HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
       HOMEBREW_SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
-      MACOSX_DEPLOYMENT_TARGET: 10.13
+      MACOSX_DEPLOYMENT_TARGET: "10.13"
       SDKROOT: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
       MACOS_SDK: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
       SDK_PATH: "/Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs"
@@ -41,13 +41,6 @@ jobs:
           repository: 'mpv-player/mpv'
           releases-only: false
 
-      - name: Checkout dafyk/mpv-macos-builds
-        uses: actions/checkout@v3
-        with:
-          repository: 'dafyk/mpv-macos-builds'
-          fetch-depth: 0
-          submodules: true
-
       - name: Install MacOSX 10.14 SDK
         id: macossdk
         run: |
@@ -57,26 +50,6 @@ jobs:
           sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
           sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
           sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
-
-      - name: Install Swift 4.x toolchain
-        id: swift4
-        run: |
-          # Swift 4.x toolchain
-          curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
-          sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
-
-      - name: Install Vulkan SDK
-        id: vulkansdk
-        run: |
-          # Vulkan SDK
-          curl -ksJLO https://sdk.lunarg.com/sdk/download/latest/mac/vulkan-sdk.dmg
-          hdiutil attach vulkansdk*.dmg
-          sudo /Volumes/vulkansdk*/InstallVulkan.app/Contents/MacOS/InstallVulkan --root /usr/local/vulkansdk --accept-licenses --default-answer --confirm-command install
-          # Fix "No such file or directory: '@rpath/libshaderc_shared.1.dylib'" when bundling mpv.app
-          # https://github.com/achirkin/vulkan/blob/master/README-macOS.md#workaround-for-compile-time-linking-vulkan-api
-          #install_name_tool -id /usr/local/vulkansdk/macOS/lib/libshaderc_shared.1.dylib /usr/local/vulkansdk/macOS/lib/libshaderc_shared.1.dylib
-          #install_name_tool -id /usr/local/vulkansdk/macOS/lib/libspirv-cross-c-shared.0.dylib /usr/local/vulkansdk/macOS/lib/libspirv-cross-c-shared.0.dylib
-          #install_name_tool -id /usr/local/vulkansdk/macOS/lib/libvulkan.1.dylib /usr/local/vulkansdk/macOS/lib/libvulkan.1.dylib
 
       - name: Switch to Xcode 12.5.1
         id: xcode1251
@@ -90,146 +63,24 @@ jobs:
         run: |
           # Force 10.13 deployment target for all homebrew formulas
           brew update-reset
-          for dep in $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/*/*.rb; do sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' $dep;done
+          find ~/Downloads/hb -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
-          for dep in luajit python@3.8 python@3.10; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
-          sed -i "" $'s/depends_on "libxdmcp"/depends_on "libxdmcp"\\\n  patch :p0 do\\\n    url "https:\/\/gitlab.freedesktop.org\/xorg\/lib\/libxcb\/-\/commit\/33f3dbe3699a92e8ca18f470adac456e0b935e75.diff"\\\n    sha256 "39e69dab09a1ffe4dbcda61480c8b5912709fcc230d866bdbeadfe3d6899dc73"\\\n  end/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/lib/libxcb.rb
+          for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
           
           # Uninstal bottled dependencies
           brew uninstall --ignore-dependencies --force openssl
           brew uninstall --ignore-dependencies --force gnutls
-          #brew uninstall --ignore-dependencies --force python3
           brew cleanup
 
           # Reinstall homebrew packages from source
-          brew reinstall -s autoconf automake pkg-config libtool python pcre gettext libomp glib libpng libxau libxdmcp https://raw.githubusercontent.com/Homebrew/homebrew-core/faddf1797d31fff1a89e3e6d168a0b6fafc11b2d/Formula/libxcb.rb libx11 freetype fontconfig graphite2 cairo fribidi harfbuzz brotli jpeg libtiff little-cms2 lua@5.1 zimg libbluray nasm dav1d bzip2 libmodplug zlib uchardet libepoxy libdvdcss libdvdread libdvdnav mujs libass zstd xz lz4 libb2 libarchive libgsm libogg speex frei0r sdl2 vapoursynth
-          curl -o rubberband.rb https://raw.githubusercontent.com/Homebrew/homebrew-core/37e0db676deb2aef5c1dc88fb0405aa7447a0d4c/Formula/rubberband.rb
-          brew install --build-from-source ./rubberband.rb
-
-      - name: Instal libplacebo
-        id: libplacebo
-        run: |
-          # libplacebo
-          #/usr/local/Cellar/meson/0.62.1/libexec/bin/python3.10 -m pip install Mako
-          /usr/local/bin/$(readlink $(brew --prefix meson))/libexec/bin/python3.10 -m pip install Mako
-          #/usr/bin/env python3 -m pip install Mako
-          git clone https://github.com/haasn/libplacebo.git
-          cd libplacebo
-          DIR=./build
-          meson $DIR -Dopengl=enabled -Dvulkan=enabled -Ddemos=false -Dvulkan-registry=/usr/local/vulkansdk/macOS/share/vulkan/registry/vk.xml
-          ninja -C$DIR
-          ninja -C$DIR install
-          echo "::set-output name=LIBPLACEBO_VERSION::$(meson introspect ./build/ --projectinfo -i | python -c 'import sys, json; print(json.load(sys.stdin)["version"])')"
-
-      - name: Fix libbrotli
-        id: libbrotli
-        run: |
-          # Fix "No such file or directory: '@loader_path/libbrotlicommon.1.dylib'" when bundling mpv.app
-          # https://github.com/mpv-player/mpv/issues/10063#issuecomment-1092413762
-          install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlidec.1.dylib
-          install_name_tool -change "@loader_path/libbrotlicommon.1.dylib" "/usr/local/opt/brotli/lib/libbrotlicommon.1.dylib" /usr/local/opt/brotli/lib/libbrotlienc.1.dylib
-
-      - name: Build mpv
-        id: build_mpv
-        run: |
-          cd mpv-build
-          ./update
-
-          # Fix for mpv incorrectly enabling features only available on 10.14
-          # https://trac.macports.org/ticket/62177#comment:16
-          patch -p1 mpv/osdep/macos/swift_compat.swift < ../swift_compat.patch
-
-          printf '%s\n' \
-            '--enable-gl' \
-            '--enable-iconv' \
-            '--enable-lcms2' \
-            '--enable-plain-gl' \
-            '--enable-cocoa' \
-            '--enable-coreaudio' \
-            '--enable-gl-cocoa' \
-            '--enable-macos-cocoa-cb' \
-            '--enable-macos-touchbar' \
-            '--enable-videotoolbox-gl' \
-            '--enable-zlib' \
-            '--enable-uchardet' \
-            '--enable-libplacebo' \
-            '--enable-dvdnav' \
-            '--enable-cplugins' \
-            '--enable-javascript' \
-            '--enable-zimg' \
-            '--enable-vulkan' \
-            '--enable-libmpv-shared' \
-            '--enable-swift-static' \
-            '--enable-lua' \
-            '--enable-libbluray' \
-            '--enable-rubberband' \
-            '--enable-vapoursynth' \
-            '--enable-libarchive' \
-            '--enable-sdl2' \
-            '--enable-libavdevice' \
-            '--enable-shaderc' \
-            '--enable-spirv-cross' \
-            '--enable-lua' \
-            '--swift-flags=-target x86_64-apple-macosx10.13' \
-            '--disable-macos-10-14-features' \
-            '--disable-tests' \
-            '--disable-x11' \
-            '--disable-manpage-build' \
-            '--disable-html-build' \
-            '--disable-pdf-build' \
-            '--disable-debug-build' \
-          >mpv_options
-            # '--enable-cdda' \
-            # '--enable-drm' \
-
-          printf '%s\n' \
-            '--disable-ffplay' \
-            '--disable-ffprobe' \
-            '--disable-doc' \
-            '--disable-htmlpages' \
-            '--disable-manpages' \
-            '--disable-podpages' \
-            '--disable-txtpages' \
-            '--disable-libxcb' \
-            '--disable-libxcb-shm' \
-            '--disable-libxcb-xfixes' \
-            '--disable-libxcb-shape' \
-            '--disable-autodetect' \
-            '--enable-securetransport' \
-            '--enable-lcms2' \
-            '--enable-libass' \
-            '--enable-libbluray' \
-            '--enable-libdav1d' \
-            '--enable-libzimg' \
-            '--enable-libmodplug' \
-            '--enable-librubberband' \
-            '--enable-libgsm' \
-            '--enable-libspeex' \
-            '--enable-frei0r' \
-          >ffmpeg_options
-            # '--enable-libsoxr' \
-
-          # Switch to 4.2.4 toolchain
-          export TOOLCHAINS=org.swift.42420190329a
-          # Set version to version-commit id-workflow run number
-          echo ${{ steps.mpv_tag.outputs.tag }}-${{ steps.build_mpv.outputs.MPV_COMMITID }}-${{ github.run_number }}>VERSION
-          ./build -j4 -v
-          FFMPEGINFO=$(ffmpeg_build/ffmpeg -version)
-          FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
-          FFMPEGINFO="${FFMPEGINFO//$'\n'/'%0A'}"
-          FFMPEGINFO="${FFMPEGINFO//$'\r'/'%0D'}"
-          echo "::set-output name=FFMPEG_INFO::$FFMPEGINFO"
-          cd mpv
-          echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
-          python3 TOOLS/osxbundle.py build/mpv
-          mkdir -p release
-          cp -r build/mpv.app release
+          brew install -s deus0ww/tap/mpv
 
       - name: Build Apple Disk Image
         run: |
-          cd mpv-build/mpv
+          mkdir mpv-release
+          cp -r /usr/local/Cellar/mpv/HEAD*/mpv.app mpv-release
           brew install create-dmg
-          create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg release
+          create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg mpv-release
           mv mpv.dmg release/
 
       - name: Create Release
@@ -261,7 +112,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: mpv-build/mpv/release/mpv.dmg
+          asset_path: mpv-release/mpv.dmg
           asset_name: mpv-${{ steps.build_mpv.outputs.MPV_COMMITID }}-${{ github.run_number }}.dmg
           asset_content_type: application/x-apple-diskimage
-
