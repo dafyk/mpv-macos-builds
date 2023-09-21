@@ -69,6 +69,7 @@ jobs:
         id: mpvffmpegdeps
         run: |
           # Force 10.13 deployment target for all homebrew formulas
+          brew tap deus0ww/tap
           brew update-reset
           find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
@@ -82,7 +83,7 @@ jobs:
           brew cleanup
 
           # Reinstall homebrew packages from source
-          brew reinstall -s deus0ww/tap/jpeg-xl deus0ww/tap/aom deus0ww/tap/mpv
+          brew reinstall -s deus0ww/tap/mpv
 
       - name: Build Apple Disk Image
         run: |
