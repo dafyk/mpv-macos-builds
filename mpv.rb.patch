@@ -1,5 +1,5 @@
---- mpv.rb.orig	2023-09-21 13:25:58.000000000 +0200
-+++ mpv.rb	2023-09-21 13:27:14.000000000 +0200
+--- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
++++ mpv.rb	2023-09-22 20:34:05.000000000 +0200
 @@ -32,8 +32,7 @@
  
    on_macos do
@@ -10,3 +10,13 @@
      depends_on "tag" => :recommended
      depends_on "trash" => :recommended
    end
+@@ -62,7 +61,8 @@
+       -Dlibmpv=true
+       -Ddvdnav=enabled
+ 
+-      --default-library=both
++      --default-library=static
++      --prefer-static
+       --sysconfdir=#{pkgetc}
+       --datadir=#{pkgshare}
+       --mandir=#{man}
