@@ -1,5 +1,5 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-09-22 21:41:43.000000000 +0200
++++ mpv.rb	2023-09-23 01:51:08.000000000 +0200
 @@ -20,7 +20,7 @@
    depends_on "libarchive"
    depends_on "libdvdnav"
@@ -29,3 +29,21 @@
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
+@@ -76,17 +76,6 @@
+     system "meson", "compile", "-C", "build", "--verbose"
+     system "meson", "install", "-C", "build"
+ 
+-    if OS.mac?
+-      # `pkg-config --libs mpv` includes libarchive, but that package is
+-      # keg-only so it needs to look for the pkgconfig file in libarchive's opt
+-      # path.
+-      libarchive = Formula["libarchive"].opt_prefix
+-      inreplace lib/"pkgconfig/mpv.pc" do |s|
+-        s.gsub!(/^Requires\.private:(.*)\blibarchive\b(.*?)(,.*)?$/,
+-                "Requires.private:\\1#{libarchive}/lib/pkgconfig/libarchive.pc\\3")
+-      end
+-    end
+-
+     bash_completion.install "etc/mpv.bash-completion" => "mpv"
+     zsh_completion.install "etc/_mpv.zsh" => "_mpv"
+ 
