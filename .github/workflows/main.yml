@@ -46,7 +46,7 @@ jobs:
         with:
           repository: 'dafyk/mpv-macos-builds'
           fetch-depth: 0
-          submodules: false
+          submodules: true
 
       - name: Install MacOSX 10.14 SDK
         id: macossdk
@@ -86,7 +86,9 @@ jobs:
           for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
-          
+          echo ${{ steps.mpv_tag.outputs.tag }}-${{ steps.build_mpv.outputs.MPV_COMMITID }}-${{ github.run_number }}>VERSION
+          echo "::set-output name=MPV_COMMITID::$(git rev-parse HEAD | cut -c1-7)"
+
           # Uninstal bottled dependencies
           brew uninstall --ignore-dependencies --force openssl
           brew uninstall --ignore-dependencies --force gnutls
