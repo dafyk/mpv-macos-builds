@@ -1,5 +1,14 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-09-22 20:34:05.000000000 +0200
++++ mpv.rb	2023-09-22 21:41:43.000000000 +0200
+@@ -20,7 +20,7 @@
+   depends_on "libarchive"
+   depends_on "libdvdnav"
+   depends_on "little-cms2"
+-  depends_on "luajit"
++  depends_on "lua@5.1"
+   depends_on "mujs"
+   depends_on "uchardet"
+   depends_on "zimg"
 @@ -32,8 +32,7 @@
  
    on_macos do
