@@ -99,11 +99,10 @@ jobs:
 
       - name: Build Apple Disk Image
         run: |
-          mkdir mpv-release
-          cp -r /usr/local/Cellar/mpv/*/mpv.app mpv-release
+          mkdir /tmp/mpv-release
+          cp -r /usr/local/Cellar/mpv/*/mpv.app /tmp/mpv-release
           brew install create-dmg
-          create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 mpv.dmg mpv-release
-          mv mpv.dmg release/
+          create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --app-drop-link 200 185 /tmp/mpv.dmg /tmp/mpv-release
 
       - name: Create Release
         id: create_release
@@ -134,6 +133,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: mpv-release/mpv.dmg
+          asset_path: /tmp/mpv.dmg
           asset_name: mpv-${{ steps.build_mpv.outputs.MPV_COMMITID }}-${{ github.run_number }}.dmg
           asset_content_type: application/x-apple-diskimage
