@@ -1,11 +1,11 @@
 --- ffmpeg.rb.orig	2023-09-23 00:09:10.000000000 +0200
-+++ ffmpeg.rb	2023-09-23 00:13:52.000000000 +0200
++++ ffmpeg.rb	2023-09-23 00:52:02.000000000 +0200
 @@ -55,7 +55,7 @@
    depends_on "libvpx"
    depends_on "opencore-amr"
    depends_on "openjpeg"
 -  depends_on "openssl@3"
-+  depends_on "mbedtls"
++  depends_on "gnutls"
    depends_on "opus"
    depends_on "rubberband"
    depends_on "sdl2"
