@@ -74,9 +74,9 @@ jobs:
           # Swift 4.x toolchain
           curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
           sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
-          curl -ksJLO https://updates.cdn-apple.com/2019/cert/061-41823-20191025-5efc5a59-d7dc-46d3-9096-396bb8cb4a73/SwiftRuntimeForCommandLineTools.dmg
-          hdiutil attach SwiftRuntimeForCommandLineTools.dmg
-          sudo installer -pkg /Volumes/SwiftRuntimeForCommandLineTools/SwiftRuntimeForCommandLineTools.pkg -target /
+          #curl -ksJLO https://updates.cdn-apple.com/2019/cert/061-41823-20191025-5efc5a59-d7dc-46d3-9096-396bb8cb4a73/SwiftRuntimeForCommandLineTools.dmg
+          #hdiutil attach SwiftRuntimeForCommandLineTools.dmg
+          #sudo installer -pkg /Volumes/SwiftRuntimeForCommandLineTools/SwiftRuntimeForCommandLineTools.pkg -target /
 
       - name: Switch to Xcode 12.5.1
         id: xcode1251
