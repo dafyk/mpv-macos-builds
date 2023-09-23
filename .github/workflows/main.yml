@@ -111,7 +111,7 @@ jobs:
           # copy dynamic libraries to mpv.app, would be nice to compile them staticly but have no idea how to do it
           otool -L /tmp/mpv-release/mpv.app/Contents/MacOS/mpv | grep /opt | awk '{ print $1 }' | xargs -I{} cp "{}" /tmp/mpv-release/mpv.app/Contents/MacOS/lib/
           # change dynamic libraries path from '/usr/local/opt/' to '@executable_path/lib/*'
-          otool -L /tmp/mpv-release/mpv.app/Contents/MacOS/mpv | grep /opt | awk '{ print $1 }' | xargs -I{} sh -c 'install_name_tool -change "{}" @executable_path/lib/$(basename {}) mpv'
+          otool -L /tmp/mpv-release/mpv.app/Contents/MacOS/mpv | grep /opt | awk '{ print $1 }' | xargs -I{} sh -c 'install_name_tool -change "{}" @executable_path/lib/$(basename {}) /tmp/mpv-release/mpv.app/Contents/MacOS/mpv'
           brew install create-dmg
           create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --volicon "icon.icns" --background "background.tiff" --window-pos 200 120 --window-size 573 400 --icon-size 80 --icon "mpv.app" 200 175 --hide-extension "mpv.app" --app-drop-link 375 175 /tmp/mpv.dmg /tmp/mpv-release
 
