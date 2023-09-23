@@ -108,12 +108,12 @@ jobs:
         run: |
           mkdir /tmp/mpv-release
           cp -r /usr/local/Cellar/mpv/*/mpv.app /tmp/mpv-release
-          # copy dynamic libraries to mpv.app, would be nice to compile them staticly but have no idea how to do it
-          otool -L /tmp/mpv-release/mpv.app/Contents/MacOS/mpv | grep /opt | awk '{ print $1 }' | xargs -I{} cp "{}" /tmp/mpv-release/mpv.app/Contents/MacOS/lib/
-          # change dynamic libraries path from '/usr/local/opt/' to '@executable_path/lib/*'
-          otool -L /tmp/mpv-release/mpv.app/Contents/MacOS/mpv | grep /opt | awk '{ print $1 }' | xargs -I{} sh -c 'install_name_tool -change "{}" @executable_path/lib/$(basename {}) /tmp/mpv-release/mpv.app/Contents/MacOS/mpv'
-          brew install create-dmg
-          create-dmg --sandbox-safe --no-internet-enable --volname "mpv" --volicon "icon.icns" --background "background.tiff" --window-pos 200 120 --window-size 573 400 --icon-size 80 --icon "mpv.app" 200 175 --hide-extension "mpv.app" --app-drop-link 375 175 /tmp/mpv.dmg /tmp/mpv-release
+          cp background.tiff /tmp/background.tiff
+          cp icon.icns /tmp/icon.icns
+          cd /tmp/mpv-release
+          brew install create-dmg dylibbundler
+          dylibbundler -od -b -x ./mpv.app/Contents/MacOS/mpv -d ./mpv.app/Contents/libs/
+          create-dmg --no-internet-enable --volname "mpv" --volicon "/tmp/icon.icns" --background "/tmp/background.tiff" --window-pos 200 120 --window-size 573 400 --icon-size 80 --icon "mpv.app" 200 175 --hide-extension "mpv.app" --app-drop-link 375 175 /tmp/mpv.dmg /tmp/mpv-release
 
       - name: Create Release
         id: create_release
@@ -125,13 +125,9 @@ jobs:
           release_name: mpv build ${{ steps.mpv_tag.outputs.tag }}
           body: |
               - Build date: `${{ steps.timestamp.outputs.date }}`
-              - Version: `${{ steps.mpv_tag.outputs.tag }} (commit: ${{ steps.mpv_tag.outputs.tag }})`
+              - Version: `${{ steps.mpv_tag.outputs.tag }}`
               - OS support: `macOS High Sierra 10.13 or later`
               - Workflow run number: `${{ github.run_number }}`
-              - FFMPEG info:
-              ```
-              ${{ steps.build_mpv.outputs.FFMPEG_INFO }}
-              ```
           draft: false
           prerelease: false
 
