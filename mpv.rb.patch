@@ -1,6 +1,6 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-09-26 09:27:32.000000000 +0200
-@@ -20,7 +20,7 @@
++++ mpv.rb	2023-09-26 10:30:38.000000000 +0200
+@@ -20,20 +20,23 @@
    depends_on "libarchive"
    depends_on "libdvdnav"
    depends_on "little-cms2"
@@ -9,7 +9,20 @@
    depends_on "mujs"
    depends_on "uchardet"
    depends_on "zimg"
-@@ -32,8 +32,7 @@
+-
+-  depends_on "libbluray" => :optional
+-  depends_on "rubberband" => :optional
+-  depends_on "sdl2" => :optional
+-  depends_on "vapoursynth" => :optional
++  depends_on "libiconv"
++  depends_on "zlib"
++  depends_on "libdvdcss"
++  depends_on "libdvdread"
++  depends_on "libdvdnav"
++  depends_on "libbluray"
++  depends_on "rubberband"
++  depends_on "sdl2"
++  depends_on "vapoursynth"
  
    on_macos do
      depends_on "coreutils" => :recommended
@@ -19,7 +32,7 @@
      depends_on "tag" => :recommended
      depends_on "trash" => :recommended
    end
-@@ -58,11 +57,37 @@
+@@ -58,11 +61,38 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -55,12 +68,13 @@
 +      -Dzimg=enabled
 +      -Dzlib=enabled
 +      -Dlibarchive=enabled
++      -Dshaderc=enabled
 +      --default-library=static
 +      --prefer-static
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
-@@ -70,28 +95,17 @@
+@@ -70,28 +100,17 @@
      args << "-Dsdl2=enabled" if build.with? "sdl2"
      
      args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
