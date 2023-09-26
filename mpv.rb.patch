@@ -1,11 +1,6 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-09-26 12:20:19.000000000 +0200
-@@ -20,20 +20,23 @@
-   depends_on "libarchive"
-   depends_on "libdvdnav"
-   depends_on "little-cms2"
--  depends_on "luajit"
-+  depends_on "lua@5.2"
++++ mpv.rb	2023-09-26 13:08:53.000000000 +0200
+@@ -24,16 +24,19 @@
    depends_on "mujs"
    depends_on "uchardet"
    depends_on "zimg"
@@ -60,7 +55,7 @@
 +      -Djavascript=enabled
 +      -Dlcms2=enabled
 +      -Dlibplacebo=enabled
-+      -Dlua=lua52
++      -Dlua=luajit
 +      -Duchardet=enabled
 +      -Dvideotoolbox-gl=enabled
 +      -Dvulkan=enabled
