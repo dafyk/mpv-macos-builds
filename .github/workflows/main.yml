@@ -106,8 +106,8 @@ jobs:
           brew cleanup
 
           # Reinstall homebrew packages from source
-          brew reinstall -s docutils aribb24 dav1d fribidi libunibreak nasm glslang sdl2 vulkan-loader fdk-aac frei0r libbluray libbs2b cjson mbedtls librist libsoxr libvidstab libvpx opencore-amr gnutls libsamplerate rubberband speex srt svt-av1 x264 xvid zimg libb2 libarchive libdvdcss libdvdread libdvdnav luajit mujs uchardet libiconv vapoursynth tag trash
-          brew install --HEAD deus0ww/tap/mpv
+          brew reinstall --ignore-dependencies -v -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
+          LDFLAGS=-L/usr/local/opt/libiconv/lib CPPFLAGS=-L/usr/local/opt/libiconv/include brew install --ignore-dependencies -v --HEAD deus0ww/tap/mpv
 
           FFMPEGINFO=$(ffmpeg -version)
           FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
@@ -119,8 +119,8 @@ jobs:
         run: |
           mkdir /tmp/mpv-release
           cp -r /usr/local/Cellar/mpv/*/mpv.app /tmp/mpv-release
-          rsync -avrz --no-links /usr/local/opt/ /tmp/mpv-release/lib/
-          cp background.tiff /tmp/background.tiff
+          #rsync -avrz --no-links /usr/local/opt/ /tmp/mpv-release/lib/
+          #cp background.tiff /tmp/background.tiff
           cp icon.icns /tmp/icon.icns
           cd /tmp/mpv-release
           brew install create-dmg dylibbundler
