@@ -1,5 +1,5 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-09-26 10:30:38.000000000 +0200
++++ mpv.rb	2023-09-26 11:19:11.000000000 +0200
 @@ -20,20 +20,23 @@
    depends_on "libarchive"
    depends_on "libdvdnav"
@@ -32,7 +32,7 @@
      depends_on "tag" => :recommended
      depends_on "trash" => :recommended
    end
-@@ -58,11 +61,38 @@
+@@ -58,40 +61,56 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -57,7 +57,6 @@
 -
 -      --default-library=both
 +      -Dgl=enabled
-+      -Diconv=enabled
 +      -Djavascript=enabled
 +      -Dlcms2=enabled
 +      -Dlibplacebo=enabled
@@ -74,7 +73,8 @@
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
-@@ -70,28 +100,17 @@
+     ]
++    #      -Diconv=enabled
      args << "-Dsdl2=enabled" if build.with? "sdl2"
      
      args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
