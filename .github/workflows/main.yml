@@ -106,7 +106,7 @@ jobs:
           brew cleanup
 
           # Reinstall homebrew packages from source
-          brew reinstall -s deus0ww/tap/mpv
+          brew reinstall -s docutils aribb24 dav1d fribidi libunibreak nasm vulkan-headers glslang sdl2 vulkan-loader fdk-aac frei0r libbluray libbs2b cjson mbedtls librist libsoxr libvidstab libvpx opencore-amr gnutls libsamplerate rubberband speex srt svt-av1 x264 xvid zimg libb2 libarchive libdvdcss libdvdread libdvdnav lua@5.2 mujs uchardet libiconv vapoursynth coreutils tag trash deus0ww/tap/mpv
 
           FFMPEGINFO=$(ffmpeg -version)
           FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
