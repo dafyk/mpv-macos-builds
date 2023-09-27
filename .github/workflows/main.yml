@@ -115,6 +115,7 @@ jobs:
           cd homebrew-bottles
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git config http.postBuffer 524288000
           # Reinstall homebrew packages from source
           brew install --build-bottle -f luajit
           brew bottle luajit
