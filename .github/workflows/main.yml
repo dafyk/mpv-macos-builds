@@ -88,12 +88,15 @@ jobs:
       - name: Instal various mpv and ffmpeg dependencies using homebrew
         id: mpvffmpegdeps
         run: |
-          # Force 10.13 deployment target for all homebrew formulas
           brew tap deus0ww/tap
           brew update-reset
+
+          # Force 10.13 deployment target for all homebrew formulas
           find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
           for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
+
+          # Patch formulas for 10.13 deployment
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < libplacebo.rb.patch
