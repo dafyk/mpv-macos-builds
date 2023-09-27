@@ -27,6 +27,8 @@ jobs:
       EXTRA_CXXFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
       EXTRA_LDFLAGS: "-mmacosx-version-min=10.13 -isysroot /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
       SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
+      HOMEBREW_NO_COLOR: 1
+      HOMEBREW_NO_EMOJI: 1
     steps:
       - name: Get current timestamp
         id: timestamp
@@ -47,36 +49,6 @@ jobs:
           repository: 'dafyk/mpv-macos-builds'
           fetch-depth: 0
           submodules: true
-
-      - name: Install MacOSX 10.14 SDK
-        id: macossdk
-        run: |
-          # MacOSX10.14 SDK
-          tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
-          sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
-          sudo mv $SDK_PATH/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
-          sudo ln -s $SDK_PATH/MacOSX10.14.sdk $SDK_PATH/MacOSX.sdk
-          sudo /usr/libexec/PlistBuddy -c "Set :MinimumSDKVersion 10.14" /Applications/Xcode_12.5.1.app/Contents/Developer/Platforms/MacOSX.platform/Info.plist
-
-      - name: Install Command Line Tools for Xcode 12.5.1
-        id: macoscmdtools
-        run: |
-          # Command Line Tools for Xcode 12.5.1
-          curl -ksJLO https://www.savero.net/Command_Line_Tools_for_Xcode_12.5.1.dmg
-          sudo mv /Library/Developer/CommandLineTools /Library/Developer/CommandLineTools@13
-          hdiutil attach Command_Line_Tools_for_Xcode_12.5.1.dmg
-          cd /Volumes/Command\ Line\ Developer\ Tools/
-          sudo installer -pkg Command\ Line\ Tools.pkg -target /
-
-      - name: Install Swift 4.x toolchain
-        id: swift4
-        run: |
-          # Swift 4.x toolchain
-          curl -ksJLO https://download.swift.org/swift-4.2.4-release/xcode/swift-4.2.4-RELEASE/swift-4.2.4-RELEASE-osx.pkg
-          sudo installer -pkg swift-4.2.4-RELEASE-osx.pkg -target /
-          #curl -ksJLO https://updates.cdn-apple.com/2019/cert/061-41823-20191025-5efc5a59-d7dc-46d3-9096-396bb8cb4a73/SwiftRuntimeForCommandLineTools.dmg
-          #hdiutil attach SwiftRuntimeForCommandLineTools.dmg
-          #sudo installer -pkg /Volumes/SwiftRuntimeForCommandLineTools/SwiftRuntimeForCommandLineTools.pkg -target /
 
       - name: Switch to Xcode 12.5.1
         id: xcode1251
@@ -110,8 +82,15 @@ jobs:
           brew uninstall --ignore-dependencies --force aom
           brew cleanup
 
+          cd mpv-macos-builds/homebrew-bottles
           # Reinstall homebrew packages from source
-          brew reinstall -f -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
+          brew install --build-bottle -f -s luajit
+          brew bottle luajit
+          cd ..
+          git add --all && git commit -m 'Added luajit homebrew bottle' && git push -u origin HEAD:main
+          exit 1
+
+          #brew reinstall -f -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
           LDFLAGS=-L/usr/local/opt/libiconv/lib CPPFLAGS=-L/usr/local/opt/libiconv/include brew install --ignore-dependencies -v --HEAD deus0ww/tap/mpv
 
           FFMPEGINFO=$(ffmpeg -version)
