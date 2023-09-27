@@ -1,0 +1,18 @@
+--- yt-dlp.rb.orig	2023-09-27 12:04:54.000000000 +0200
++++ yt-dlp.rb	2023-09-27 12:05:58.000000000 +0200
+@@ -48,15 +48,5 @@
+     end
+     virtualenv_install_with_resources
+     man1.install_symlink libexec/"share/man/man1/yt-dlp.1"
+-    bash_completion.install "completions/bash/yt-dlp"
+-    fish_completion.install "completions/fish/yt-dlp.fish"
+-    zsh_completion.install "completions/zsh/_yt-dlp"
+-  end
+-
+-  test do
+-    # "History of homebrew-core", uploaded 3 Feb 2020
+-    system "#{bin}/yt-dlp", "--simulate", "https://www.youtube.com/watch?v=pOtd1cbOP7k"
+-    # "homebrew", playlist last updated 3 Mar 2020
+-    system "#{bin}/yt-dlp", "--simulate", "--yes-playlist", "https://www.youtube.com/watch?v=pOtd1cbOP7k&list=PLMsZ739TZDoLj9u_nob8jBKSC-mZb0Nhj"
+   end
+ end
