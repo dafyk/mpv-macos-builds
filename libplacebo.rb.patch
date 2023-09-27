@@ -1,0 +1,12 @@
+--- libplacebo.rb.orig	2023-09-27 09:03:27.000000000 +0200
++++ libplacebo.rb	2023-09-27 09:04:08.000000000 +0200
+@@ -13,8 +13,7 @@
+   depends_on "python@3.11" => :build
+   depends_on "vulkan-headers" => :build
+ 
+-  depends_on "deus0ww/tap/glslang" if MacOS.version <  :big_sur
+-  depends_on "glslang"             if MacOS.version >= :big_sur
++  depends_on "deus0ww/tap/glslang"
+ 
+   depends_on "little-cms2"
+   depends_on "sdl2"
