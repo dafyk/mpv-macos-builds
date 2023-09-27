@@ -100,6 +100,7 @@ jobs:
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < libplacebo.rb.patch
+          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < yt-dlp.rb.patch
           echo ${{ steps.mpv_tag.outputs.tag }}-${{ github.run_number }}>VERSION
 
           # Uninstal bottled dependencies
