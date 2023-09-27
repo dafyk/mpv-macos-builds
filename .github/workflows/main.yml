@@ -117,9 +117,37 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Reinstall homebrew packages from source
-          brew install --build-bottle -f luajit
-          brew bottle luajit
-          git add . && git commit -m 'Added luajit homebrew bottle' && git push
+          brew install --build-bottle -f -s luajit && brew bottle luajit
+          brew install --build-bottle -f -s mujs && brew bottle mujs
+          brew install --build-bottle -f -s uchardet && brew bottle uchardet
+          brew install --build-bottle -f -s zimg && brew bottle zimg
+          brew install --build-bottle -f -s gmp && brew bottle gmp
+          brew install --build-bottle -f -s coreutils && brew bottle coreutils
+          brew install --build-bottle -f -s deus0ww/tap/dockutil@2 && brew bottle deus0ww/tap/dockutil@2
+          brew install --build-bottle -f -s tag && brew bottle tag
+          brew install --build-bottle -f -s trash && brew bottle trash
+          brew install --build-bottle -f -s lz4 && brew bottle lz4
+          brew install --build-bottle -f -s xz && brew bottle xz
+          brew install --build-bottle -f -s zstd && brew bottle zstd
+          brew install --build-bottle -f -s jpeg-turbo && brew bottle jpeg-turbo
+          brew install --build-bottle -f -s libtiff && brew bottle libtiff
+          brew install --build-bottle -f -s little-cms2 && brew bottle little-cms2
+          brew install --build-bottle -f -s libdvdcss && brew bottle libdvdcss
+          brew install --build-bottle -f -s libdvdread && brew bottle libdvdread
+          brew install --build-bottle -f -s libdvdnav && brew bottle libdvdnav
+          brew install --build-bottle -f -s libb2 && brew bottle libb2
+          brew install --build-bottle -f -s libarchive && brew bottle libarchive
+          brew install --build-bottle -f -s readline && brew bottle readline
+          brew install --build-bottle -f -s sqlite && brew bottle sqlite
+          brew install --build-bottle -f -s ca-certificates && brew bottle ca-certificates
+          brew install --build-bottle -f -s openssl@3 && brew bottle openssl@3
+          brew install --build-bottle -f -s libssh2 && brew bottle libssh2
+          brew install --build-bottle -f -s gettext && brew bottle gettext
+          brew install --build-bottle -f -s aria2 && brew bottle aria2
+          brew install --build-bottle -f -s libffi && brew bottle libffi
+          brew install --build-bottle -f -s mpdecimal && brew bottle mpdecimal
+          
+          git add . && git commit -m 'Added homebrew bottles' && git push
           exit 1
 
           #brew reinstall -f -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
