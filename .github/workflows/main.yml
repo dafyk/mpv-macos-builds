@@ -114,7 +114,7 @@ jobs:
 
           cd homebrew-bottles
           # Reinstall homebrew packages from source
-          brew install --build-bottle -f -s luajit
+          brew install --build-bottle -f luajit
           brew bottle luajit
           cd ..
           git add --all && git commit -m 'Added luajit homebrew bottle' && git push -u origin HEAD:main
