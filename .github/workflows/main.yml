@@ -82,8 +82,12 @@ jobs:
           brew uninstall --ignore-dependencies --force aom
           brew cleanup
 
-          cd mpv-macos-builds/homebrew-bottles
+          #cd mpv-macos-builds/homebrew-bottles
           # Reinstall homebrew packages from source
+          pwd
+          ls -la
+          find ~ -iname homebrew-bottles
+          exit 1
           brew install --build-bottle -f -s luajit
           brew bottle luajit
           cd ..
