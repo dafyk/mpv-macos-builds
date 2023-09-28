@@ -110,7 +110,7 @@ jobs:
           brew uninstall --ignore-dependencies --force gnutls
           brew uninstall --ignore-dependencies --force jpeg-xl
           brew uninstall --ignore-dependencies --force aom
-          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 libffi mpdecimal
+          #brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 libffi mpdecimal
           brew cleanup
 
           cd homebrew-bottles
@@ -118,7 +118,8 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Reinstall homebrew packages from source
-          brew install --build-bottle -f luajit && brew bottle luajit
+          brew install --build-bottle -f luajit && brew bottle luajit && git add . && git commit -m 'Added luajit bottle' && git push
+          exit 1
           brew install --build-bottle -f mujs && brew bottle mujs
           brew install --build-bottle -f uchardet && brew bottle uchardet
           brew install --build-bottle -f zimg && brew bottle zimg
