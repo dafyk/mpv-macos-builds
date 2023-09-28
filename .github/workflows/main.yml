@@ -118,6 +118,8 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Reinstall homebrew packages from source
+          brew list
+          brew uninstall --ignore-dependencies --force jpeg-turbo
           #brew install --build-bottle -f luajit && brew bottle luajit && git add . && git commit -m 'Added luajit bottle' && git push
           #brew install --build-bottle -f mujs && brew bottle --no-rebuild mujs && git add . && git commit -m 'Added mujs bottle' && git push
           #brew install --build-bottle -f uchardet && brew bottle --no-rebuild uchardet && git add . && git commit -m 'Added uchardet bottle' && git push
