@@ -29,6 +29,7 @@ jobs:
       SWIFT_FLAGS: "-target x86_64-apple-macosx10.13"
       HOMEBREW_NO_COLOR: 1
       HOMEBREW_NO_EMOJI: 1
+      HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
     steps:
       - name: Get current timestamp
         id: timestamp
@@ -110,7 +111,7 @@ jobs:
           brew uninstall --ignore-dependencies --force gnutls
           brew uninstall --ignore-dependencies --force jpeg-xl
           brew uninstall --ignore-dependencies --force aom
-          #brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 libffi mpdecimal
+          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 libffi mpdecimal
           brew cleanup
 
           cd homebrew-bottles
@@ -118,44 +119,32 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Reinstall homebrew packages from source
-          brew list
-          brew uninstall --ignore-dependencies --force jpeg-turbo
-          #brew install --build-bottle -f luajit && brew bottle luajit && git add . && git commit -m 'Added luajit bottle' && git push
-          #brew install --build-bottle -f mujs && brew bottle --no-rebuild mujs && git add . && git commit -m 'Added mujs bottle' && git push
-          #brew install --build-bottle -f uchardet && brew bottle --no-rebuild uchardet && git add . && git commit -m 'Added uchardet bottle' && git push
-          brew install --build-bottle -f jpeg-turbo && brew bottle --no-rebuild uchardet && git add . && git commit -m 'Added uchardet bottle' && git push
-
-          exit 1
-          brew install --build-bottle -f mujs && brew bottle mujs
-          brew install --build-bottle -f uchardet && brew bottle uchardet
-          brew install --build-bottle -f zimg && brew bottle zimg
-          brew install --build-bottle -f gmp && brew bottle gmp
-          brew install --build-bottle -f coreutils && brew bottle coreutils
-          brew install --build-bottle -f deus0ww/tap/dockutil@2 && brew bottle deus0ww/tap/dockutil@2
-          brew install --build-bottle -f tag && brew bottle tag
-          brew install --build-bottle -f trash && brew bottle trash
-          brew install --build-bottle -f lz4 && brew bottle lz4
-          brew install --build-bottle -f xz && brew bottle xz
-          brew install --build-bottle -f zstd && brew bottle zstd
-          brew install --build-bottle -f jpeg-turbo && brew bottle jpeg-turbo
-          brew install --build-bottle -f libtiff && brew bottle libtiff
-          brew install --build-bottle -f little-cms2 && brew bottle little-cms2
-          brew install --build-bottle -f libdvdcss && brew bottle libdvdcss
-          brew install --build-bottle -f libdvdread && brew bottle libdvdread
-          brew install --build-bottle -f libdvdnav && brew bottle libdvdnav
-          brew install --build-bottle -f libb2 && brew bottle libb2
-          brew install --build-bottle -f libarchive && brew bottle libarchive
-          brew install --build-bottle -f readline && brew bottle readline
-          brew install --build-bottle -f sqlite && brew bottle sqlite
-          brew install --build-bottle -f ca-certificates && brew bottle ca-certificates
-          brew install --build-bottle -f openssl@3 && brew bottle openssl@3
-          brew install --build-bottle -f libssh2 && brew bottle libssh2
-          #brew install --build-bottle -f gettext && brew bottle gettext
-          #brew install --build-bottle -f aria2 && brew bottle aria2
-          brew install --build-bottle -f libffi && brew bottle libffi
-          brew install --build-bottle -f mpdecimal && brew bottle mpdecimal
-          
-          git add . && git commit -m 'Added homebrew bottles' && git push
+          brew install --build-bottle --ignore-dependencies -f zimg && brew bottle zimg && git add . && git commit -m 'Added zimg bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f gmp && brew bottle gmp && git add . && git commit -m 'Added gmp bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f coreutils && brew bottle coreutils && git add . && git commit -m 'Added coreutils bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/dockutil@2 && brew bottle deus0ww/tap/dockutil@2 && git add . && git commit -m 'Added deus0ww/tap/dockutil@2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f tag && brew bottle tag && git add . && git commit -m 'Added tag bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f trash && brew bottle trash && git add . && git commit -m 'Added trash bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f lz4 && brew bottle lz4 && git add . && git commit -m 'Added lz4 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f xz && brew bottle xz && git add . && git commit -m 'Added xz bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f zstd && brew bottle zstd && git add . && git commit -m 'Added zstd bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f jpeg-turbo && brew bottle jpeg-turbo && git add . && git commit -m 'Added jpeg-turbo bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libtiff && brew bottle libtiff && git add . && git commit -m 'Added libtiff bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f little-cms2 && brew bottle little-cms2 && git add . && git commit -m 'Added little-cms2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libdvdcss && brew bottle libdvdcss && git add . && git commit -m 'Added libdvdcss bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libdvdread && brew bottle libdvdread && git add . && git commit -m 'Added libdvdread bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libdvdnav && brew bottle libdvdnav && git add . && git commit -m 'Added libdvdnav bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libb2 && brew bottle libb2 && git add . && git commit -m 'Added libb2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libarchive && brew bottle libarchive && git add . && git commit -m 'Added libarchive bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f readline && brew bottle readline && git add . && git commit -m 'Added readline bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f sqlite && brew bottle sqlite && git add . && git commit -m 'Added sqlite bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f ca-certificates && brew bottle ca-certificates && git add . && git commit -m 'Added ca-certificates bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f openssl@3 && brew bottle openssl@3 && git add . && git commit -m 'Added openssl@3 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libssh2 && brew bottle libssh2 && git add . && git commit -m 'Added libssh2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f gettext && brew bottle gettext && git add . && git commit -m 'Added gettext bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f aria2 && brew bottle aria2 && git add . && git commit -m 'Added aria2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libffi && brew bottle libffi && git add . && git commit -m 'Added libffi bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f mpdecimal && brew bottle mpdecimal && git add . && git commit -m 'Added mpdecimal bottle' && git push
           exit 1
 
           #brew reinstall -f -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
