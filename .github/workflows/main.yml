@@ -110,7 +110,7 @@ jobs:
           brew uninstall --ignore-dependencies --force gnutls
           brew uninstall --ignore-dependencies --force jpeg-xl
           brew uninstall --ignore-dependencies --force aom
-          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal
+          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 libffi mpdecimal
           brew cleanup
 
           cd homebrew-bottles
@@ -143,8 +143,8 @@ jobs:
           brew install --build-bottle -f ca-certificates && brew bottle ca-certificates
           brew install --build-bottle -f openssl@3 && brew bottle openssl@3
           brew install --build-bottle -f libssh2 && brew bottle libssh2
-          brew install --build-bottle -f gettext && brew bottle gettext
-          brew install --build-bottle -f aria2 && brew bottle aria2
+          #brew install --build-bottle -f gettext && brew bottle gettext
+          #brew install --build-bottle -f aria2 && brew bottle aria2
           brew install --build-bottle -f libffi && brew bottle libffi
           brew install --build-bottle -f mpdecimal && brew bottle mpdecimal
           
