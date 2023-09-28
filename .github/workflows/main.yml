@@ -117,35 +117,35 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Reinstall homebrew packages from source
-          brew install --build-bottle -f -s luajit && brew bottle luajit
-          brew install --build-bottle -f -s mujs && brew bottle mujs
-          brew install --build-bottle -f -s uchardet && brew bottle uchardet
-          brew install --build-bottle -f -s zimg && brew bottle zimg
-          brew install --build-bottle -f -s gmp && brew bottle gmp
-          brew install --build-bottle -f -s coreutils && brew bottle coreutils
-          brew install --build-bottle -f -s deus0ww/tap/dockutil@2 && brew bottle deus0ww/tap/dockutil@2
-          brew install --build-bottle -f -s tag && brew bottle tag
-          brew install --build-bottle -f -s trash && brew bottle trash
-          brew install --build-bottle -f -s lz4 && brew bottle lz4
-          brew install --build-bottle -f -s xz && brew bottle xz
-          brew install --build-bottle -f -s zstd && brew bottle zstd
-          brew install --build-bottle -f -s jpeg-turbo && brew bottle jpeg-turbo
-          brew install --build-bottle -f -s libtiff && brew bottle libtiff
-          brew install --build-bottle -f -s little-cms2 && brew bottle little-cms2
-          brew install --build-bottle -f -s libdvdcss && brew bottle libdvdcss
-          brew install --build-bottle -f -s libdvdread && brew bottle libdvdread
-          brew install --build-bottle -f -s libdvdnav && brew bottle libdvdnav
-          brew install --build-bottle -f -s libb2 && brew bottle libb2
-          brew install --build-bottle -f -s libarchive && brew bottle libarchive
-          brew install --build-bottle -f -s readline && brew bottle readline
-          brew install --build-bottle -f -s sqlite && brew bottle sqlite
-          brew install --build-bottle -f -s ca-certificates && brew bottle ca-certificates
-          brew install --build-bottle -f -s openssl@3 && brew bottle openssl@3
-          brew install --build-bottle -f -s libssh2 && brew bottle libssh2
-          brew install --build-bottle -f -s gettext && brew bottle gettext
-          brew install --build-bottle -f -s aria2 && brew bottle aria2
-          brew install --build-bottle -f -s libffi && brew bottle libffi
-          brew install --build-bottle -f -s mpdecimal && brew bottle mpdecimal
+          brew install --build-bottle -f luajit && brew bottle luajit
+          brew install --build-bottle -f mujs && brew bottle mujs
+          brew install --build-bottle -f uchardet && brew bottle uchardet
+          brew install --build-bottle -f zimg && brew bottle zimg
+          brew install --build-bottle -f gmp && brew bottle gmp
+          brew install --build-bottle -f coreutils && brew bottle coreutils
+          brew install --build-bottle -f deus0ww/tap/dockutil@2 && brew bottle deus0ww/tap/dockutil@2
+          brew install --build-bottle -f tag && brew bottle tag
+          brew install --build-bottle -f trash && brew bottle trash
+          brew install --build-bottle -f lz4 && brew bottle lz4
+          brew install --build-bottle -f xz && brew bottle xz
+          brew install --build-bottle -f zstd && brew bottle zstd
+          brew install --build-bottle -f jpeg-turbo && brew bottle jpeg-turbo
+          brew install --build-bottle -f libtiff && brew bottle libtiff
+          brew install --build-bottle -f little-cms2 && brew bottle little-cms2
+          brew install --build-bottle -f libdvdcss && brew bottle libdvdcss
+          brew install --build-bottle -f libdvdread && brew bottle libdvdread
+          brew install --build-bottle -f libdvdnav && brew bottle libdvdnav
+          brew install --build-bottle -f libb2 && brew bottle libb2
+          brew install --build-bottle -f libarchive && brew bottle libarchive
+          brew install --build-bottle -f readline && brew bottle readline
+          brew install --build-bottle -f sqlite && brew bottle sqlite
+          brew install --build-bottle -f ca-certificates && brew bottle ca-certificates
+          brew install --build-bottle -f openssl@3 && brew bottle openssl@3
+          brew install --build-bottle -f libssh2 && brew bottle libssh2
+          brew install --build-bottle -f gettext && brew bottle gettext
+          brew install --build-bottle -f aria2 && brew bottle aria2
+          brew install --build-bottle -f libffi && brew bottle libffi
+          brew install --build-bottle -f mpdecimal && brew bottle mpdecimal
           
           git add . && git commit -m 'Added homebrew bottles' && git push
           exit 1
