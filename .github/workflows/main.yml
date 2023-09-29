@@ -152,8 +152,8 @@ jobs:
           brew link --overwrite -f pcre2
           brew link --overwrite -f rtmpdump
           # Reinstall homebrew packages from source
-          brew install --build-bottle --ignore-dependencies -v -f openssl@3
           brew developer off
+          brew install --build-bottle --ignore-dependencies -v -f openssl@3
           brew bottle openssl@3
           git add .
           git commit -m 'Added openssl@3  bottle'
