@@ -154,6 +154,7 @@ jobs:
           # Reinstall homebrew packages from source
           brew developer off
           brew install --build-bottle --ignore-dependencies -v -f openssl@3
+          brew link openssl@3
           brew bottle openssl@3
           git add .
           git commit -m 'Added openssl@3  bottle'
