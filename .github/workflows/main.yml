@@ -111,40 +111,114 @@ jobs:
           brew uninstall --ignore-dependencies --force gnutls
           brew uninstall --ignore-dependencies --force jpeg-xl
           brew uninstall --ignore-dependencies --force aom
-          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 libffi mpdecimal
+          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
           brew cleanup
 
           cd homebrew-bottles
           git config user.name github-actions
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
+          # Unpack homebrew bottles and link them
+          tar -xf *.gz -C $(brew --prefix)/Cellar/
+          brew link --overwrite -f luajit
+          brew link --overwrite -f mujs
+          brew link --overwrite -f uchardet
+          brew link --overwrite -f gmp
+          brew link --overwrite -f coreutils
+          brew link --overwrite -f deus0ww/tap/dockutil@2
+          brew link --overwrite -f tag
+          brew link --overwrite -f trash
+          brew link --overwrite -f lz4
+          brew link --overwrite -f xz
+          brew link --overwrite -f little-cms2
+          brew link --overwrite -f libdvdcss
+          brew link --overwrite -f libdvdread
+          brew link --overwrite -f libb2
+          brew link --overwrite -f libarchive
+          brew link --overwrite -f readline
+          brew link --overwrite -f sqlite
+          brew link --overwrite -f ca-certificates
+          brew link --overwrite -f libssh2
+          brew link --overwrite -f gettext
+          brew link --overwrite -f aria2
+          brew link --overwrite -f libffi
+          brew link --overwrite -f mpdecimal
           # Reinstall homebrew packages from source
-          brew install --build-bottle --ignore-dependencies -f zimg && brew bottle zimg && git add . && git commit -m 'Added zimg bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f gmp && brew bottle gmp && git add . && git commit -m 'Added gmp bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f coreutils && brew bottle coreutils && git add . && git commit -m 'Added coreutils bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/dockutil@2 && brew bottle deus0ww/tap/dockutil@2 && git add . && git commit -m 'Added deus0ww/tap/dockutil@2 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f tag && brew bottle tag && git add . && git commit -m 'Added tag bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f trash && brew bottle trash && git add . && git commit -m 'Added trash bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f lz4 && brew bottle lz4 && git add . && git commit -m 'Added lz4 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f xz && brew bottle xz && git add . && git commit -m 'Added xz bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f zstd && brew bottle zstd && git add . && git commit -m 'Added zstd bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f jpeg-turbo && brew bottle jpeg-turbo && git add . && git commit -m 'Added jpeg-turbo bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libtiff && brew bottle libtiff && git add . && git commit -m 'Added libtiff bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f little-cms2 && brew bottle little-cms2 && git add . && git commit -m 'Added little-cms2 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libdvdcss && brew bottle libdvdcss && git add . && git commit -m 'Added libdvdcss bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libdvdread && brew bottle libdvdread && git add . && git commit -m 'Added libdvdread bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libdvdnav && brew bottle libdvdnav && git add . && git commit -m 'Added libdvdnav bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libb2 && brew bottle libb2 && git add . && git commit -m 'Added libb2 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libarchive && brew bottle libarchive && git add . && git commit -m 'Added libarchive bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f readline && brew bottle readline && git add . && git commit -m 'Added readline bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f sqlite && brew bottle sqlite && git add . && git commit -m 'Added sqlite bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f ca-certificates && brew bottle ca-certificates && git add . && git commit -m 'Added ca-certificates bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f openssl@3 && brew bottle openssl@3 && git add . && git commit -m 'Added openssl@3 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libssh2 && brew bottle libssh2 && git add . && git commit -m 'Added libssh2 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f gettext && brew bottle gettext && git add . && git commit -m 'Added gettext bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f aria2 && brew bottle aria2 && git add . && git commit -m 'Added aria2 bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f libffi && brew bottle libffi && git add . && git commit -m 'Added libffi bottle' && git push
-          brew install --build-bottle --ignore-dependencies -f mpdecimal && brew bottle mpdecimal && git add . && git commit -m 'Added mpdecimal bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f zimg && brew bottle --no-rebuild zimg && git add . && git commit -m 'Added zimg bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f zstd && brew bottle --no-rebuild zstd && git add . && git commit -m 'Added zstd bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f jpeg-turbo && brew bottle --no-rebuild jpeg-turbo && git add . && git commit -m 'Added jpeg-turbo bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libtiff && brew bottle --no-rebuild libtiff && git add . && git commit -m 'Added libtiff bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libdvdnav && brew bottle --no-rebuild libdvdnav && git add . && git commit -m 'Added libdvdnav bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f openssl@3 && brew bottle --no-rebuild openssl@3 && git add . && git commit -m 'Added openssl@3 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f python@3.11 && brew bottle --no-rebuild python@3.11 && git add . && git commit -m 'Added python@3.11 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/yt-dlp && brew bottle --no-rebuild deus0ww/tap/yt-dlp && git add . && git commit -m 'Added deus0ww/tap/yt-dlp bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f vulkan-loader && brew bottle --no-rebuild vulkan-loader && git add . && git commit -m 'Added vulkan-loader bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f sdl2 && brew bottle --no-rebuild sdl2 && git add . && git commit -m 'Added sdl2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/glslang && brew bottle --no-rebuild deus0ww/tap/glslang && git add . && git commit -m 'Added deus0ww/tap/glslang bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/libplacebo && brew bottle --no-rebuild deus0ww/tap/libplacebo && git add . && git commit -m 'Added deus0ww/tap/libplacebo bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libunibreak && brew bottle --no-rebuild libunibreak && git add . && git commit -m 'Added libunibreak bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f icu4c && brew bottle --no-rebuild icu4c && git add . && git commit -m 'Added icu4c bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f graphite2 && brew bottle --no-rebuild graphite2 && git add . && git commit -m 'Added graphite2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f pcre2 && brew bottle --no-rebuild pcre2 && git add . && git commit -m 'Added pcre2 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f glib && brew bottle --no-rebuild glib && git add . && git commit -m 'Added glib bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libpng && brew bottle --no-rebuild libpng && git add . && git commit -m 'Added libpng bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f freetype && brew bottle --no-rebuild freetype && git add . && git commit -m 'Added freetype bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f pixman && brew bottle --no-rebuild pixman && git add . && git commit -m 'Added pixman bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f lzo && brew bottle --no-rebuild lzo && git add . && git commit -m 'Added lzo bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f xorgproto && brew bottle --no-rebuild xorgproto && git add . && git commit -m 'Added xorgproto bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libxdmcp && brew bottle --no-rebuild libxdmcp && git add . && git commit -m 'Added libxdmcp bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libxau && brew bottle --no-rebuild libxau && git add . && git commit -m 'Added libxau bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libxcb && brew bottle --no-rebuild libxcb && git add . && git commit -m 'Added libxcb bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libx11 && brew bottle --no-rebuild libx11 && git add . && git commit -m 'Added libx11 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libxrender && brew bottle --no-rebuild libxrender && git add . && git commit -m 'Added libxrender bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libxext && brew bottle --no-rebuild libxext && git add . && git commit -m 'Added libxext bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f fontconfig && brew bottle --no-rebuild fontconfig && git add . && git commit -m 'Added fontconfig bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f cairo && brew bottle --no-rebuild cairo && git add . && git commit -m 'Added cairo bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f harfbuzz && brew bottle --no-rebuild harfbuzz && git add . && git commit -m 'Added harfbuzz bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f fribidi && brew bottle --no-rebuild fribidi && git add . && git commit -m 'Added fribidi bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/libass && brew bottle --no-rebuild deus0ww/tap/libass && git add . && git commit -m 'Added deus0ww/tap/libass bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f zimg && brew bottle --no-rebuild zimg && git add . && git commit -m 'Added zimg bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f xvid && brew bottle --no-rebuild xvid && git add . && git commit -m 'Added xvid bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f x265 && brew bottle --no-rebuild x265 && git add . && git commit -m 'Added x265 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f x264 && brew bottle --no-rebuild x264 && git add . && git commit -m 'Added x264 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f giflib && brew bottle --no-rebuild giflib && git add . && git commit -m 'Added giflib bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f webp && brew bottle --no-rebuild webp && git add . && git commit -m 'Added webp bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libogg && brew bottle --no-rebuild libogg && git add . && git commit -m 'Added libogg bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libvorbis && brew bottle --no-rebuild libvorbis && git add . && git commit -m 'Added libvorbis bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f theora && brew bottle --no-rebuild theora && git add . && git commit -m 'Added theora bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f svt-av1 && brew bottle --no-rebuild svt-av1 && git add . && git commit -m 'Added svt-av1 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f srt && brew bottle --no-rebuild srt && git add . && git commit -m 'Added srt bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f speex && brew bottle --no-rebuild speex && git add . && git commit -m 'Added speex bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f opus && brew bottle --no-rebuild opus && git add . && git commit -m 'Added opus bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f mpg123 && brew bottle --no-rebuild mpg123 && git add . && git commit -m 'Added mpg123 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f lame && brew bottle --no-rebuild lame && git add . && git commit -m 'Added lame bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f flac && brew bottle --no-rebuild flac && git add . && git commit -m 'Added flac bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libsndfile && brew bottle --no-rebuild libsndfile && git add . && git commit -m 'Added libsndfile bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libsamplerate && brew bottle --no-rebuild libsamplerate && git add . && git commit -m 'Added libsamplerate bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f rubberband && brew bottle --no-rebuild rubberband && git add . && git commit -m 'Added rubberband bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f openjpeg && brew bottle --no-rebuild openjpeg && git add . && git commit -m 'Added openjpeg bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f opencore-amr && brew bottle --no-rebuild opencore-amr && git add . && git commit -m 'Added opencore-amr bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libvpx && brew bottle --no-rebuild libvpx && git add . && git commit -m 'Added libvpx bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libvidstab && brew bottle --no-rebuild libvidstab && git add . && git commit -m 'Added libvidstab bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libsoxr && brew bottle --no-rebuild libsoxr && git add . && git commit -m 'Added libsoxr bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f mbedtls && brew bottle --no-rebuild mbedtls && git add . && git commit -m 'Added mbedtls bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f cjson && brew bottle --no-rebuild cjson && git add . && git commit -m 'Added cjson bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f librist && brew bottle --no-rebuild librist && git add . && git commit -m 'Added librist bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libbs2b && brew bottle --no-rebuild libbs2b && git add . && git commit -m 'Added libbs2b bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libbluray && brew bottle --no-rebuild libbluray && git add . && git commit -m 'Added libbluray bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f frei0r && brew bottle --no-rebuild frei0r && git add . && git commit -m 'Added frei0r bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f fdk-aac && brew bottle --no-rebuild fdk-aac && git add . && git commit -m 'Added fdk-aac bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f cunit && brew bottle --no-rebuild cunit && git add . && git commit -m 'Added cunit bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/libmysofa && brew bottle --no-rebuild deus0ww/tap/libmysofa && git add . && git commit -m 'Added deus0ww/tap/libmysofa bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f imath && brew bottle --no-rebuild imath && git add . && git commit -m 'Added imath bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f openexr && brew bottle --no-rebuild openexr && git add . && git commit -m 'Added openexr bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f highway && brew bottle --no-rebuild highway && git add . && git commit -m 'Added highway bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f brotli && brew bottle --no-rebuild brotli && git add . && git commit -m 'Added brotli bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/jpeg-xl && brew bottle --no-rebuild deus0ww/tap/jpeg-xl && git add . && git commit -m 'Added deus0ww/tap/jpeg-xl bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/aom && brew bottle --no-rebuild deus0ww/tap/aom && git add . && git commit -m 'Added deus0ww/tap/aom bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f dav1d && brew bottle --no-rebuild dav1d && git add . && git commit -m 'Added dav1d bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f aribb24 && brew bottle --no-rebuild aribb24 && git add . && git commit -m 'Added aribb24 bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f deus0ww/tap/ffmpeg && brew bottle --no-rebuild deus0ww/tap/ffmpeg && git add . && git commit -m 'Added deus0ww/tap/ffmpeg bottle' && git push
           exit 1
 
           #brew reinstall -f -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
