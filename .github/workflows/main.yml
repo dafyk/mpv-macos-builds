@@ -111,7 +111,7 @@ jobs:
           brew uninstall --ignore-dependencies --force gnutls
           brew uninstall --ignore-dependencies --force jpeg-xl
           brew uninstall --ignore-dependencies --force aom
-          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
+          brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
           brew cleanup
 
           cd homebrew-bottles
@@ -144,6 +144,17 @@ jobs:
           brew link --overwrite -f libffi
           brew link --overwrite -f mpdecimal
           # Reinstall homebrew packages from source
+          brew install --build-bottle --ignore-dependencies -f libnghttp2 && brew bottle libnghttp2 && git add . && git commit -m 'Added libnghttp2  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f openssl@3 && brew bottle openssl@3 && git add . && git commit -m 'Added openssl@3  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f rtmpdump && brew bottle rtmpdump && git add . && git commit -m 'Added rtmpdump  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f openldap && brew bottle openldap && git add . && git commit -m 'Added openldap  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libnghttp2 && brew bottle libnghttp2 && git add . && git commit -m 'Added libnghttp2  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libunistring && brew bottle libunistring && git add . && git commit -m 'Added libunistring  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f libidn2 && brew bottle libidn2 && git add . && git commit -m 'Added libidn2  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f brotli && brew bottle brotli && git add . && git commit -m 'Added brotli  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f curl && brew bottle curl && git add . && git commit -m 'Added curl  bottle' && git push
+          brew install --build-bottle --ignore-dependencies -f pcre2 && brew bottle pcre2 && git add . && git commit -m 'Added pcre2  bottle' && git push
+          exit 1          
           brew install --build-bottle --ignore-dependencies -f zimg && brew bottle --no-rebuild zimg && git add . && git commit -m 'Added zimg bottle' && git push
           brew install --build-bottle --ignore-dependencies -f zstd && brew bottle --no-rebuild zstd && git add . && git commit -m 'Added zstd bottle' && git push
           brew install --build-bottle --ignore-dependencies -f jpeg-turbo && brew bottle --no-rebuild jpeg-turbo && git add . && git commit -m 'Added jpeg-turbo bottle' && git push
