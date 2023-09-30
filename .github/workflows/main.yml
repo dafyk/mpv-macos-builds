@@ -100,8 +100,9 @@ jobs:
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
           for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
 
-          brew uninstall --ignore-dependencies --force nasm
-          brew install --build-bottle -f -s nasm
+          cd homebrew-bottles
+          brew uninstall --ignore-dependencies --force nasm yasm
+          brew install --build-bottle -f -s nasm yasm
           brew bottle nasm
           cd ..
           git add .
