@@ -100,16 +100,6 @@ jobs:
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
           for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
 
-          cd homebrew-bottles
-          brew uninstall --ignore-dependencies --force nasm yasm
-          brew install --build-bottle -f -s nasm yasm
-          brew bottle nasm
-          cd ..
-          git add .
-          git commit -m 'Added nasm homebrew bottle'
-          git push
-          exit 1
-
           # Patch formulas for 10.13 deployment
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
@@ -125,110 +115,7 @@ jobs:
           brew uninstall --ignore-dependencies --force python@3.11
           #brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg rtmpdump
           brew cleanup
-
-          sudo rm -rf /usr/local/bin/2to3
-          #brew reinstall -f -s luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 gettext aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 pcre2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg
-          #LDFLAGS=-L/usr/local/opt/libiconv/lib CPPFLAGS=-L/usr/local/opt/libiconv/include brew install --ignore-dependencies -v --HEAD deus0ww/tap/mpv
-          brew install --overwrite -f -s luajit && brew pin luajit
-          brew install --overwrite -f -s mujs && brew pin mujs
-          brew install --overwrite -f -s uchardet && brew pin uchardet
-          brew install --overwrite -f -s zimg && brew pin zimg
-          brew install --overwrite -f -s gmp && brew pin gmp
-          brew install --overwrite -f -s coreutils && brew pin coreutils
-          brew install --overwrite -f -s deus0ww/tap/dockutil@2 && brew pin deus0ww/tap/dockutil@2
-          brew install --overwrite -f -s tag && brew pin tag
-          brew install --overwrite -f -s trash && brew pin trash
-          brew install --overwrite -f -s lz4 && brew pin lz4
-          brew install --overwrite -f -s xz && brew pin xz
-          brew install --overwrite -f -s zstd && brew pin zstd
-          brew install --overwrite -f -s jpeg-turbo && brew pin jpeg-turbo
-          brew install --overwrite -f -s libtiff && brew pin libtiff
-          brew install --overwrite -f -s little-cms2 && brew pin little-cms2
-          brew install --overwrite -f -s libdvdcss && brew pin libdvdcss
-          brew install --overwrite -f -s libdvdread && brew pin libdvdread
-          brew install --overwrite -f -s libdvdnav && brew pin libdvdnav
-          brew install --overwrite -f -s libb2 && brew pin libb2
-          brew install --overwrite -f -s libarchive && brew pin libarchive
-          brew install --overwrite -f -s readline && brew pin readline
-          brew install --overwrite -f -s sqlite && brew pin sqlite
-          brew install --overwrite -f -s ca-certificates && brew pin ca-certificates
-          brew install --overwrite -f -s openssl@3 && brew pin openssl@3
-          brew install --overwrite -f -s libssh2 && brew pin libssh2
-          brew install --overwrite -f -s gettext && brew pin gettext
-          brew install --overwrite -f -s aria2 && brew pin aria2
-          brew install --overwrite -f -s libffi && brew pin libffi
-          brew install --overwrite -f -s mpdecimal && brew pin mpdecimal
-          brew install --overwrite -f -s python@3.11 && brew pin python@3.11
-          brew install --overwrite -f -s deus0ww/tap/yt-dlp && brew pin deus0ww/tap/yt-dlp
-          brew install --overwrite -f -s vulkan-loader && brew pin vulkan-loader
-          brew install --overwrite -f -s sdl2 && brew pin sdl2
-          brew install --overwrite -f -s deus0ww/tap/glslang && brew pin deus0ww/tap/glslang
-          brew install --overwrite -f -s deus0ww/tap/libplacebo && brew pin deus0ww/tap/libplacebo
-          brew install --overwrite -f -s libunibreak && brew pin libunibreak
-          brew install --overwrite -f -s icu4c && brew pin icu4c
-          brew install --overwrite -f -s graphite2 && brew pin graphite2
-          brew install --overwrite -f -s pcre2 && brew pin pcre2
-          brew install --overwrite -f -s glib && brew pin glib
-          brew install --overwrite -f -s libpng && brew pin libpng
-          brew install --overwrite -f -s freetype && brew pin freetype
-          brew install --overwrite -f -s pixman && brew pin pixman
-          brew install --overwrite -f -s lzo && brew pin lzo
-          brew install --overwrite -f -s xorgproto && brew pin xorgproto
-          brew install --overwrite -f -s libxdmcp && brew pin libxdmcp
-          brew install --overwrite -f -s libxau && brew pin libxau
-          brew install --overwrite -f -s libxcb && brew pin libxcb
-          brew install --overwrite -f -s libx11 && brew pin libx11
-          brew install --overwrite -f -s libxrender && brew pin libxrender
-          brew install --overwrite -f -s libxext && brew pin libxext
-          brew install --overwrite -f -s fontconfig && brew pin fontconfig
-          brew install --overwrite -f -s cairo && brew pin cairo
-          brew install --overwrite -f -s harfbuzz && brew pin harfbuzz
-          brew install --overwrite -f -s fribidi && brew pin fribidi
-          brew install --overwrite -f -s deus0ww/tap/libass && brew pin deus0ww/tap/libass
-          brew install --overwrite -f -s zimg && brew pin zimg
-          brew install --overwrite -f -s xvid && brew pin xvid
-          brew install --overwrite -f -s x265 && brew pin x265
-          brew install --overwrite -f -s x264 && brew pin x264
-          brew install --overwrite -f -s giflib && brew pin giflib
-          brew install --overwrite -f -s webp && brew pin webp
-          brew install --overwrite -f -s libogg && brew pin libogg
-          brew install --overwrite -f -s libvorbis && brew pin libvorbis
-          brew install --overwrite -f -s theora && brew pin theora
-          brew install --overwrite -f -s svt-av1 && brew pin svt-av1
-          brew install --overwrite -f -s srt && brew pin srt
-          brew install --overwrite -f -s speex && brew pin speex
-          brew install --overwrite -f -s opus && brew pin opus
-          brew install --overwrite -f -s mpg123 && brew pin mpg123
-          brew install --overwrite -f -s lame && brew pin lame
-          brew install --overwrite -f -s flac && brew pin flac
-          brew install --overwrite -f -s libsndfile && brew pin libsndfile
-          brew install --overwrite -f -s libsamplerate && brew pin libsamplerate
-          brew install --overwrite -f -s rubberband && brew pin rubberband
-          brew install --overwrite -f -s openjpeg && brew pin openjpeg
-          brew install --overwrite -f -s opencore-amr && brew pin opencore-amr
-          brew install --overwrite -f -s libvpx && brew pin libvpx
-          brew install --overwrite -f -s libvidstab && brew pin libvidstab
-          brew install --overwrite -f -s libsoxr && brew pin libsoxr
-          brew install --overwrite -f -s mbedtls && brew pin mbedtls
-          brew install --overwrite -f -s cjson && brew pin cjson
-          brew install --overwrite -f -s librist && brew pin librist
-          brew install --overwrite -f -s libbs2b && brew pin libbs2b
-          brew install --overwrite -f -s libbluray && brew pin libbluray
-          brew install --overwrite -f -s frei0r && brew pin frei0r
-          brew install --overwrite -f -s fdk-aac && brew pin fdk-aac
-          brew install --overwrite -f -s cunit && brew pin cunit
-          brew install --overwrite -f -s deus0ww/tap/libmysofa && brew pin deus0ww/tap/libmysofa
-          brew install --overwrite -f -s imath && brew pin imath
-          brew install --overwrite -f -s openexr && brew pin openexr
-          brew install --overwrite -f -s highway && brew pin highway
-          brew install --overwrite -f -s brotli && brew pin brotli
-          brew install --overwrite -f -s deus0ww/tap/jpeg-xl && brew pin deus0ww/tap/jpeg-xl
-          brew install --overwrite -f -s deus0ww/tap/aom && brew pin deus0ww/tap/aom
-          brew install --overwrite -f -s dav1d && brew pin dav1d
-          brew install --overwrite -f -s aribb24 && brew pin aribb24
-          brew install --overwrite -f -s deus0ww/tap/ffmpeg && brew pin deus0ww/tap/ffmpeg
-
-          brew install --ignore-dependencies --overwrite -f -v -s deus0ww/tap/mpv
+          brew reinstall -f -s $(brew deps --include-build -n deus0ww/tap/mpv) deus0ww/tap/mpv
 
           #FFMPEGINFO=$(ffmpeg -version)
           #FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
