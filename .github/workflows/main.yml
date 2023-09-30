@@ -218,7 +218,7 @@ jobs:
           brew install --overwrite -f -s aribb24 && brew pin aribb24
           brew install --overwrite -f -s deus0ww/tap/ffmpeg && brew pin deus0ww/tap/ffmpeg
 
-          brew install --ignore-dependencies --overwrite -f -v --HEAD deus0ww/tap/mpv
+          brew install --ignore-dependencies --overwrite -f -v -s deus0ww/tap/mpv
 
           #FFMPEGINFO=$(ffmpeg -version)
           #FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
