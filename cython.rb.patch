@@ -1,0 +1,4 @@
+33c33
+<     system python3, "-m", "pip", "install", *std_pip_args(prefix: libexec), "."
+---
+>     system python3, "-m", "pip", "install Cython==0.29.36", *std_pip_args(prefix: libexec)
