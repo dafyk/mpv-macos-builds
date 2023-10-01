@@ -93,6 +93,7 @@ jobs:
         id: mpvffmpegdeps
         run: |
           brew tap deus0ww/tap
+          brew tap homebrew/core
           brew update-reset
 
           # Force 10.13 deployment target for all homebrew formulas
