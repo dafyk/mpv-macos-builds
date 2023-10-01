@@ -1,4 +1,11 @@
-33c33
-<     system python3, "-m", "pip", "install", *std_pip_args(prefix: libexec), "."
----
->     system python3, "-m", "pip", "install Cython==0.29.36", *std_pip_args(prefix: libexec)
+--- cython.rb.orig	2023-10-01 18:12:15.000000000 +0200
++++ cython.rb	2023-10-01 18:13:02.000000000 +0200
+@@ -30,7 +30,7 @@
+ 
+   def install
+     ENV.prepend_create_path "PYTHONPATH", libexec/Language::Python.site_packages(python3)
+-    system python3, "-m", "pip", "install", *std_pip_args(prefix: libexec), "."
++    system python3, "-m", "pip", "install Cython==0.29.36", *std_pip_args(prefix: libexec)
+ 
+     bin.install (libexec/"bin").children
+     bin.env_script_all_files(libexec/"bin", PYTHONPATH: ENV["PYTHONPATH"])
