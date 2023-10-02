@@ -1,6 +1,6 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-09-26 13:08:53.000000000 +0200
-@@ -24,16 +24,19 @@
++++ mpv.rb	2023-10-02 04:28:31.000000000 +0200
+@@ -24,16 +24,18 @@
    depends_on "mujs"
    depends_on "uchardet"
    depends_on "zimg"
@@ -17,7 +17,6 @@
 +  depends_on "libbluray"
 +  depends_on "rubberband"
 +  depends_on "sdl2"
-+  depends_on "vapoursynth"
  
    on_macos do
      depends_on "coreutils" => :recommended
@@ -27,7 +26,7 @@
      depends_on "tag" => :recommended
      depends_on "trash" => :recommended
    end
-@@ -58,40 +61,56 @@
+@@ -58,40 +60,57 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -39,6 +38,7 @@
 +      -Dmacos-10-14-features=disabled
 +      -Dmacos-touchbar=disabled
 +      -Dtests=false
++      -Dvapoursynth=disabled
 +      -Dcplayer=true
        -Dlibmpv=true
 +      -Dcocoa=enabled
@@ -100,3 +100,16 @@
      bindir = "build/mpv.app/Contents/MacOS/"
      rm   bindir + "mpv-bundle"
      mv   bindir + "mpv", bindir + "mpv-bundle"
+@@ -104,12 +123,4 @@
+       system "dockutil", "--add", "#{prefix}/mpv.app", "--replacing", "mpv", "--allhomes"
+     end
+   end
+-
+-  test do
+-    system bin/"mpv", "--ao=null", "--vo=null", test_fixtures("test.wav")
+-    assert_match "vapoursynth", shell_output(bin/"mpv --vf=help")
+-
+-    # Make sure `pkg-config` can parse `mpv.pc` after the `inreplace`.
+-    system "pkg-config", "mpv"
+-  end
+ end
