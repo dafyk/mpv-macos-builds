@@ -92,10 +92,17 @@ jobs:
       - name: Instal various mpv and ffmpeg dependencies using homebrew
         id: mpvffmpegdeps
         run: |
+          # Remove all bottled formulas
+          brew uninstall $(brew list)
+
+          # Download taps from deus0ww and homebrew/core
           brew tap deus0ww/tap
           brew tap homebrew/core
           brew update-reset
 
+          # Disable installing formulas from bottles
+          find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/bottle do/,/end/c\' {} \;
+          
           # Force 10.13 deployment target for all homebrew formulas
           find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
@@ -104,21 +111,22 @@ jobs:
           # Patch formulas for 10.13 deployment
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
-          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < libplacebo.rb.patch
-          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < yt-dlp.rb.patch
-          patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/c/ -p0 < cython.rb.patch
+          #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < libplacebo.rb.patch
+          #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < yt-dlp.rb.patch
+          #patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/c/ -p0 < cython.rb.patch
           echo ${{ steps.mpv_tag.outputs.tag }}-${{ github.run_number }}>VERSION
 
           # Uninstal bottled dependencies
-          brew uninstall --ignore-dependencies --force openssl
-          brew uninstall --ignore-dependencies --force gnutls
-          brew uninstall --ignore-dependencies --force jpeg-xl
-          brew uninstall --ignore-dependencies --force aom
-          brew uninstall --ignore-dependencies --force python@3.11
+          #brew uninstall --ignore-dependencies --force openssl
+          #brew uninstall --ignore-dependencies --force gnutls
+          #brew uninstall --ignore-dependencies --force jpeg-xl
+          #brew uninstall --ignore-dependencies --force aom
+          #brew uninstall --ignore-dependencies --force python@3.11
           #brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg rtmpdump
           brew cleanup
-          brew install javacc libiconv doxygen vulkan-headers
-          LDFLAGS="-L/usr/local/opt/libiconv/lib" CPPFLAGS="-I/usr/local/opt/libiconv/include" CFLAGS="-I/usr/local/opt/libiconv/include" PATH="/usr/local/opt/libiconv/bin:$PATH" brew reinstall -f -s $(brew deps --include-build -n deus0ww/tap/mpv | grep -v doxygen | grep -v vulkan-headers | grep -v vapoursynth) deus0ww/tap/mpv
+          #brew install javacc libiconv doxygen vulkan-headers
+          #LDFLAGS="-L/usr/local/opt/libiconv/lib" CPPFLAGS="-I/usr/local/opt/libiconv/include" CFLAGS="-I/usr/local/opt/libiconv/include" PATH="/usr/local/opt/libiconv/bin:$PATH" brew reinstall -f -s $(brew deps --include-build -n deus0ww/tap/mpv | grep -v doxygen | grep -v vulkan-headers | grep -v vapoursynth) deus0ww/tap/mpv
+          brew install -s deus0ww/tap/mpv
 
           #FFMPEGINFO=$(ffmpeg -version)
           #FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
