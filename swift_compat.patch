@@ -1,5 +1,5 @@
---- mpv/osdep/macos/swift_compat.swift	2022-05-19 10:15:19.000000000 +0200
-+++ mpv/osdep/macos/swift_compat-patched.swift	2022-05-19 10:16:21.000000000 +0200
+--- mpv/osdep/macos/swift_compat.swift.orig	2023-10-04 13:42:52.000000000 +0200
++++ mpv/osdep/macos/swift_compat.swift	2023-10-04 13:43:41.000000000 +0200
 @@ -15,7 +15,7 @@
   * License along with mpv.  If not, see <http://www.gnu.org/licenses/>.
   */
