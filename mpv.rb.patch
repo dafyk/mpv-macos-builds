@@ -1,5 +1,5 @@
 --- mpv.rb.orig	2023-09-22 20:31:49.000000000 +0200
-+++ mpv.rb	2023-10-02 04:28:31.000000000 +0200
++++ mpv.rb	2023-10-04 17:57:25.000000000 +0200
 @@ -24,16 +24,18 @@
    depends_on "mujs"
    depends_on "uchardet"
@@ -26,7 +26,21 @@
      depends_on "tag" => :recommended
      depends_on "trash" => :recommended
    end
-@@ -58,40 +60,57 @@
+@@ -42,7 +44,13 @@
+     depends_on "alsa-lib"
+   end
+ 
++  patch do
++    url "https://raw.githubusercontent.com/dafyk/mpv-macos-builds/main/swift_compat.patch"
++    sha256 "3c4d1ce9dcfef9ce0656b49b5f40606fcf2fc890e60599817090cb2f7da98d41"
++  end
++
+   def install
++    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
+     # LANG is unset by default on macOS and causes issues when calling getlocale
+     # or getdefaultlocale in docutils. Force the default c/posix locale since
+     # that's good enough for building the manpage.
+@@ -58,40 +66,57 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -56,7 +70,7 @@
 +      -Dlcms2=enabled
 +      -Dlibplacebo=enabled
 +      -Dlua=luajit
-+      -Duchardet=enabled
++      -Duchardet=disabled
 +      -Dvideotoolbox-gl=enabled
 +      -Dvulkan=enabled
 +      -Dzimg=enabled
@@ -100,7 +114,7 @@
      bindir = "build/mpv.app/Contents/MacOS/"
      rm   bindir + "mpv-bundle"
      mv   bindir + "mpv", bindir + "mpv-bundle"
-@@ -104,12 +123,4 @@
+@@ -104,12 +129,4 @@
        system "dockutil", "--add", "#{prefix}/mpv.app", "--replacing", "mpv", "--allhomes"
      end
    end
