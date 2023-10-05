@@ -1,6 +1,6 @@
 --- ffmpeg.rb.orig	2023-10-05 06:27:04.000000000 +0200
-+++ ffmpeg.rb	2023-10-05 06:26:42.000000000 +0200
-@@ -106,7 +106,13 @@
++++ ffmpeg.rb	2023-10-05 06:57:35.000000000 +0200
+@@ -106,6 +106,11 @@
      sha256 "57e26caced5a1382cb639235f9555fc50e45e7bf8333f7c9ae3d49b3241d3f77"
    end
  
@@ -10,7 +10,5 @@
 +  end
 +
    def install
-+    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
      # The new linker leads to duplicate symbol issue https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
      ENV.append "LDFLAGS", "-Wl,-ld_classic" if DevelopmentTools.clang_build_version >= 1500
- 
