@@ -1,5 +1,5 @@
---- mpv.rb.orig	2023-10-05 06:40:39.000000000 +0200
-+++ mpv.rb	2023-10-05 06:40:28.000000000 +0200
+--- mpv.rb.orig	2023-10-05 07:02:16.000000000 +0200
++++ mpv.rb	2023-10-05 07:02:26.000000000 +0200
 @@ -24,16 +24,19 @@
    depends_on "mujs"
    depends_on "uchardet"
@@ -37,9 +37,9 @@
 +  end
 +
    def install
+     ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
      # LANG is unset by default on macOS and causes issues when calling getlocale
-     # or getdefaultlocale in docutils. Force the default c/posix locale since
-@@ -58,11 +66,38 @@
+@@ -59,11 +67,38 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -81,7 +81,7 @@
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
-@@ -70,7 +105,7 @@
+@@ -71,7 +106,7 @@
      args << "-Dsdl2=enabled" if build.with? "sdl2"
      
      args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
@@ -90,7 +90,7 @@
  
      system "meson", "setup", "build", *args, *std_meson_args
      system "meson", "compile", "-C", "build", "--verbose"
-@@ -104,12 +139,4 @@
+@@ -105,12 +140,4 @@
        system "dockutil", "--add", "#{prefix}/mpv.app", "--replacing", "mpv", "--allhomes"
      end
    end
