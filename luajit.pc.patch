@@ -1,0 +1,9 @@
+--- luajit.pc.orig	2023-10-05 18:02:42.000000000 +0200
++++ luajit.pc	2023-10-05 18:03:05.000000000 +0200
+@@ -21,5 +21,5 @@
+ Version: ${version}
+ Requires:
+ Libs: -L${libdir} -l${libname}
+-Libs.private: -Wl,-E -lm -ldl
++Libs.private: -Wl -lm -ldl
+ Cflags: -I${includedir}
