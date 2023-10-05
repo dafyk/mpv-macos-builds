@@ -1,0 +1,11 @@
+--- luajit.rb.orig	2023-10-06 00:08:47.000000000 +0200
++++ luajit.rb	2023-10-06 00:09:52.000000000 +0200
+@@ -94,6 +94,8 @@
+               "INSTALL_LMOD=#{HOMEBREW_PREFIX}/share/lua/${abiver}"
+       s.gsub! "INSTALL_CMOD=${prefix}/${multilib}/lua/${abiver}",
+               "INSTALL_CMOD=#{HOMEBREW_PREFIX}/${multilib}/lua/${abiver}"
++      s.gsub! "Libs.private: -Wl,-E -lm -ldl",
++              "Libs.private: -Wl -lm -ldl"
+     end
+   end
+ 
