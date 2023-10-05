@@ -127,7 +127,7 @@ jobs:
           #brew uninstall --ignore-dependencies --force luajit mujs uchardet zimg gmp coreutils deus0ww/tap/dockutil@2 tag trash lz4 xz zstd jpeg-turbo libtiff little-cms2 libdvdcss libdvdread libdvdnav libb2 libarchive readline sqlite ca-certificates openssl@3 libssh2 aria2 libffi mpdecimal python@3.11 deus0ww/tap/yt-dlp vulkan-loader sdl2 deus0ww/tap/glslang deus0ww/tap/libplacebo libunibreak icu4c graphite2 glib libpng freetype pixman lzo xorgproto libxdmcp libxau libxcb libx11 libxrender libxext fontconfig cairo harfbuzz fribidi deus0ww/tap/libass zimg xvid x265 x264 giflib webp libogg libvorbis theora svt-av1 srt speex opus mpg123 lame flac libsndfile libsamplerate rubberband openjpeg opencore-amr libvpx libvidstab libsoxr mbedtls cjson librist libbs2b libbluray frei0r fdk-aac cunit deus0ww/tap/libmysofa imath openexr highway brotli deus0ww/tap/jpeg-xl deus0ww/tap/aom dav1d aribb24 deus0ww/tap/ffmpeg rtmpdump
           #brew install javacc libiconv doxygen vulkan-headers
           #LDFLAGS="-L/usr/local/opt/libiconv/lib" CPPFLAGS="-I/usr/local/opt/libiconv/include" CFLAGS="-I/usr/local/opt/libiconv/include" PATH="/usr/local/opt/libiconv/bin:$PATH" brew reinstall -f -s $(brew deps --include-build -n deus0ww/tap/mpv | grep -v doxygen | grep -v vulkan-headers | grep -v vapoursynth) deus0ww/tap/mpv
-          brew install -s deus0ww/tap/mpv
+          brew reinstall -f -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n deus0ww/tap/mpv) deus0ww/tap/mpv
 
           #FFMPEGINFO=$(ffmpeg -version)
           #FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
