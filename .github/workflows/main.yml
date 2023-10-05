@@ -115,7 +115,7 @@ jobs:
           # Patch formulas for 10.13 deployment
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
-          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < luajit.rb.patch
+          patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/l -p0 < luajit.rb.patch
           #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < libplacebo.rb.patch
           #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < yt-dlp.rb.patch
           #patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/c/ -p0 < cython.rb.patch
