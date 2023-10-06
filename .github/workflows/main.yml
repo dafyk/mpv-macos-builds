@@ -76,7 +76,7 @@ jobs:
           sudo installer -pkg Command\ Line\ Tools.pkg -target /
           ls -la /Library/Developer/CommandLineTools/SDKs/
           sudo rm -rf /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-          sudo ln -s /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk $SDK_PATH/MacOSX11.3.sdk
+          sudo ln -s $SDK_PATH/MacOSX10.14.sdk /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
           ls -la /Library/Developer/CommandLineTools/SDKs/
           exit 1
 
