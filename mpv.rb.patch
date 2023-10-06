@@ -1,6 +1,6 @@
 --- mpv.rb.orig	2023-10-05 07:02:16.000000000 +0200
-+++ mpv.rb	2023-10-05 07:02:26.000000000 +0200
-@@ -24,16 +24,19 @@
++++ mpv.rb	2023-10-06 11:33:59.000000000 +0200
+@@ -24,16 +24,18 @@
    depends_on "mujs"
    depends_on "uchardet"
    depends_on "zimg"
@@ -17,7 +17,6 @@
 +  depends_on "libbluray"
 +  depends_on "rubberband"
 +  depends_on "sdl2"
-+  depends_on "shaderc"
  
    on_macos do
      depends_on "coreutils" => :recommended
@@ -27,7 +26,7 @@
      depends_on "tag" => :recommended
      depends_on "trash" => :recommended
    end
-@@ -42,6 +45,11 @@
+@@ -42,6 +44,11 @@
      depends_on "alsa-lib"
    end
  
@@ -39,7 +38,7 @@
    def install
      ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
      # LANG is unset by default on macOS and causes issues when calling getlocale
-@@ -59,11 +67,38 @@
+@@ -59,11 +66,38 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -71,17 +70,17 @@
 +      -Dlua=luajit
 +      -Duchardet=disabled
 +      -Dvideotoolbox-gl=enabled
-+      -Dvulkan=enabled
++      -Dvulkan=disabled
 +      -Dzimg=enabled
 +      -Dzlib=enabled
 +      -Dlibarchive=enabled
-+      -Dshaderc=enabled
++      -Dshaderc=disabled
 +      --default-library=static
 +      --prefer-static
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
-@@ -71,7 +106,7 @@
+@@ -71,7 +105,7 @@
      args << "-Dsdl2=enabled" if build.with? "sdl2"
      
      args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
@@ -90,7 +89,7 @@
  
      system "meson", "setup", "build", *args, *std_meson_args
      system "meson", "compile", "-C", "build", "--verbose"
-@@ -105,12 +140,4 @@
+@@ -105,12 +139,4 @@
        system "dockutil", "--add", "#{prefix}/mpv.app", "--replacing", "mpv", "--allhomes"
      end
    end
