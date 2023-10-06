@@ -31,7 +31,7 @@ jobs:
       HOMEBREW_NO_EMOJI: 1
       HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
       HOMEBREW_NO_INSTALL_UPGRADE: 1
-      HOMEBREW_BUILD_FROM_SOURCE: 1
+      #HOMEBREW_BUILD_FROM_SOURCE: 1
       HOMEBREW_NO_INSTALL_FROM_API: 1
       
     steps:
@@ -105,7 +105,7 @@ jobs:
           brew cleanup
 
           # Disable installing formulas from bottles
-          find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/bottle do/,/end/c\' {} \;
+          #find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/bottle do/,/end/c\' {} \;
           
           # Force 10.13 deployment target for all homebrew formulas
           find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
