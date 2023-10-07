@@ -1,5 +1,5 @@
 --- mpv.rb.orig	2023-10-05 07:02:16.000000000 +0200
-+++ mpv.rb	2023-10-07 13:53:55.000000000 +0200
++++ mpv.rb	2023-10-07 22:10:17.000000000 +0200
 @@ -24,16 +24,17 @@
    depends_on "mujs"
    depends_on "uchardet"
@@ -79,7 +79,7 @@
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
-@@ -71,23 +104,12 @@
+@@ -71,26 +104,12 @@
      args << "-Dsdl2=enabled" if build.with? "sdl2"
      
      args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
@@ -101,10 +101,13 @@
 -      end
 -    end
 -
-     bash_completion.install "etc/mpv.bash-completion" => "mpv"
-     zsh_completion.install "etc/_mpv.zsh" => "_mpv"
- 
-@@ -100,17 +122,5 @@
+-    bash_completion.install "etc/mpv.bash-completion" => "mpv"
+-    zsh_completion.install "etc/_mpv.zsh" => "_mpv"
+-
+     # Build, Fix, and Codesign App Bundle
+     system "python3.11", "TOOLS/osxbundle.py", "build/mpv", "--skip-deps"
+     bindir = "build/mpv.app/Contents/MacOS/"
+@@ -100,17 +119,5 @@
      system "codesign", "--deep", "-fs", "-", "build/mpv.app"
      prefix.install "build/mpv.app"
  
