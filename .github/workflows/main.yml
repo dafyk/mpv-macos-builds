@@ -134,13 +134,7 @@ jobs:
           #brew install javacc libiconv doxygen vulkan-headers
           #LDFLAGS="-L/usr/local/opt/libiconv/lib" CPPFLAGS="-I/usr/local/opt/libiconv/include" CFLAGS="-I/usr/local/opt/libiconv/include" PATH="/usr/local/opt/libiconv/bin:$PATH" brew reinstall -f -s $(brew deps --include-build -n deus0ww/tap/mpv | grep -v doxygen | grep -v vulkan-headers | grep -v vapoursynth) deus0ww/tap/mpv
           brew reinstall -v -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n deus0ww/tap/mpv | grep -v -e doxygen -e vulkan-headers -e glslang) deus0ww/tap/mpv
-
-          #FFMPEGINFO=$(ffmpeg -version)
-          #FFMPEGINFO="${FFMPEGINFO//'%'/'%25'}"
-          #FFMPEGINFO="${FFMPEGINFO//$'\n'/'%0A'}"
-          #FFMPEGINFO="${FFMPEGINFO//$'\r'/'%0D'}"
-          FFMPEGINFO="test"
-          echo "::set-output name=FFMPEG_INFO::$FFMPEGINFO"
+          echo "mpv build complete"
 
       - name: Build Apple Disk Image
         run: |
@@ -150,8 +144,8 @@ jobs:
           #cp background.tiff /tmp/background.tiff
           cp icon.icns /tmp/icon.icns
           cd /tmp/mpv-release
-          brew install create-dmg dylibbundler
-          dylibbundler -od -b -x ./mpv.app/Contents/MacOS/mpv -d ./mpv.app/Contents/libs/
+          #brew install create-dmg dylibbundler
+          #dylibbundler -od -b -x ./mpv.app/Contents/MacOS/mpv -d ./mpv.app/Contents/libs/
           create-dmg --no-internet-enable --volname "mpv" --volicon "/tmp/icon.icns" --background "/tmp/background.tiff" --window-pos 200 120 --window-size 573 400 --icon-size 80 --icon "mpv.app" 200 175 --hide-extension "mpv.app" --app-drop-link 375 175 /tmp/mpv.dmg /tmp/mpv-release
 
       - name: Create Release
@@ -169,9 +163,9 @@ jobs:
               - Workflow run number: `${{ github.run_number }}`
               - FFMPEG info:
               ```
-              ${{ steps.build_mpv.outputs.FFMPEG_INFO }}
+              $\{\{ steps.build_mpv.outputs.FFMPEG_INFO \}\}
               ```
-          draft: false
+          draft: true
           prerelease: false
 
       - name: Upload Release Asset
