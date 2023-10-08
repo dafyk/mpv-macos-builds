@@ -1,5 +1,5 @@
 --- mpv.rb.orig	2023-10-05 07:02:16.000000000 +0200
-+++ mpv.rb	2023-10-07 22:10:17.000000000 +0200
++++ mpv.rb	2023-10-08 22:43:29.000000000 +0200
 @@ -24,16 +24,17 @@
    depends_on "mujs"
    depends_on "uchardet"
@@ -37,7 +37,7 @@
    def install
      ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
      # LANG is unset by default on macOS and causes issues when calling getlocale
-@@ -59,11 +65,38 @@
+@@ -59,11 +65,39 @@
      args = %W[
        -Db_lto=true
        -Db_lto_mode=thin
@@ -74,12 +74,13 @@
 +      -Dzlib=enabled
 +      -Dlibarchive=enabled
 +      -Dshaderc=disabled
++      -Ddefault-library=static
 +      --default-library=static
 +      --prefer-static
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
        --mandir=#{man}
-@@ -71,26 +104,12 @@
+@@ -71,26 +105,12 @@
      args << "-Dsdl2=enabled" if build.with? "sdl2"
      
      args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
@@ -107,7 +108,7 @@
      # Build, Fix, and Codesign App Bundle
      system "python3.11", "TOOLS/osxbundle.py", "build/mpv", "--skip-deps"
      bindir = "build/mpv.app/Contents/MacOS/"
-@@ -100,17 +119,5 @@
+@@ -100,17 +120,5 @@
      system "codesign", "--deep", "-fs", "-", "build/mpv.app"
      prefix.install "build/mpv.app"
  
