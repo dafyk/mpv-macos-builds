@@ -59,8 +59,9 @@ jobs:
         id: macossdk
         run: |
           pwd
-          ls -la ~/
-          ls -la /tmp
+          ls -la ~/work/mpv-macos-builds/mpv-macos-builds/
+          ls -la ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff
+          file ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff
           cp ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff /tmp/background.tiff
           ls -la /tmp
           exit 1
