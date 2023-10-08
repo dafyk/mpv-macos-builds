@@ -58,13 +58,6 @@ jobs:
       - name: Install MacOSX 10.14 SDK
         id: macossdk
         run: |
-          pwd
-          ls -la ~/work/mpv-macos-builds/mpv-macos-builds/
-          ls -la ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff
-          file ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff
-          cp ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff /tmp/background.tiff
-          ls -la /tmp
-          exit 1
           # MacOSX10.14 SDK
           tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
           sudo rm -rf $SDK_PATH/MacOSX11.3.sdk
@@ -148,8 +141,8 @@ jobs:
           mkdir /tmp/mpv-release
           cp -r /usr/local/Cellar/mpv/*/mpv.app /tmp/mpv-release
           #rsync -avrz --no-links /usr/local/opt/ /tmp/mpv-release/lib/
-          cp background.tiff /tmp/background.tiff
-          cp icon.icns /tmp/icon.icns
+          cp ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff /tmp/background.tiff
+          cp ~/work/mpv-macos-builds/mpv-macos-builds/icon.icns /tmp/icon.icns
           cd /tmp/mpv-release
           brew install create-dmg dylibbundler
           #dylibbundler -od -b -x ./mpv.app/Contents/MacOS/mpv -d ./mpv.app/Contents/libs/
