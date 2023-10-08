@@ -59,6 +59,10 @@ jobs:
         id: macossdk
         run: |
           pwd
+          ls -la ~/
+          ls -la /tmp
+          cp ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff /tmp/background.tiff
+          ls -la /tmp
           exit 1
           # MacOSX10.14 SDK
           tar -C $SDK_PATH -xf MacOSX10.14.sdk.tar.xz
