@@ -74,7 +74,7 @@
 +      -Dzlib=enabled
 +      -Dlibarchive=enabled
 +      -Dshaderc=disabled
-+      -Ddefault-library=static
++      -Ddefault_library=static
 +      --default-library=static
 +      --prefer-static
        --sysconfdir=#{pkgetc}
