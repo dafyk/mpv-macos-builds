@@ -126,7 +126,7 @@ jobs:
           echo ${{ steps.mpv_tag.outputs.tag }}-${{ github.run_number }}>VERSION
 
           # Disable all tests in formulas
-          find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/test do/,/end/c\' {} \;
+          find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/^  test do/,/^  end/c\' {} \;
 
           brew reinstall -v -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n deus0ww/tap/mpv | grep -v -e doxygen -e vulkan-headers -e glslang) deus0ww/tap/mpv || :
           echo "mpv build complete"
