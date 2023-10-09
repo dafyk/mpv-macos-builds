@@ -135,12 +135,12 @@ jobs:
         run: |
           mkdir /tmp/mpv-release
           cp -r /usr/local/Cellar/mpv/*/mpv.app /tmp/mpv-release
-          #rsync -avrz --no-links /usr/local/opt/ /tmp/mpv-release/lib/
+          rsync -avrz --no-links /usr/local/opt/ /tmp/mpv-release/lib2/
           cp ~/work/mpv-macos-builds/mpv-macos-builds/background.tiff /tmp/background.tiff
           cp ~/work/mpv-macos-builds/mpv-macos-builds/icon.icns /tmp/icon.icns
           cd /tmp/mpv-release
           brew install create-dmg dylibbundler
-          #dylibbundler -od -b -x ./mpv.app/Contents/MacOS/mpv -d ./mpv.app/Contents/libs/
+          dylibbundler -od -b -x ./mpv.app/Contents/MacOS/mpv -d ./mpv.app/Contents/libs/
           create-dmg --no-internet-enable --volname "mpv" --volicon "/tmp/icon.icns" --background "/tmp/background.tiff" --window-pos 200 120 --window-size 573 400 --icon-size 80 --icon "mpv.app" 200 175 --hide-extension "mpv.app" --app-drop-link 375 175 /tmp/mpv.dmg /tmp/mpv-release
 
       - name: Create Release
