@@ -75,7 +75,6 @@
 +      -Dlibarchive=enabled
 +      -Dshaderc=disabled
 +      -Ddefault_library=static
-+      --default-library=static
 +      --prefer-static
        --sysconfdir=#{pkgetc}
        --datadir=#{pkgshare}
