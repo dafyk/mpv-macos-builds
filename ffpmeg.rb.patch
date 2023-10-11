@@ -1,10 +1,12 @@
 --- ffmpeg.rb.orig	2023-10-05 07:00:25.000000000 +0200
-+++ ffmpeg.rb	2023-10-09 03:10:42.000000000 +0200
-@@ -56,6 +56,7 @@
++++ ffmpeg.rb	2023-10-11 09:23:15.000000000 +0200
+@@ -55,7 +55,8 @@
+   depends_on "libvpx"
    depends_on "opencore-amr"
    depends_on "openjpeg"
-   depends_on "openssl@3"
-+  # depends_on "gnutls"
+-  depends_on "openssl@3"
++  #depends_on "openssl@3"
++  depends_on "gnutls"
    depends_on "opus"
    depends_on "rubberband"
    depends_on "sdl2"
@@ -20,3 +22,12 @@
    def install
      ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
      # The new linker leads to duplicate symbol issue https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
+@@ -160,7 +166,7 @@
+       --enable-libxvid
+       --enable-libzimg
+       --enable-lzma
+-      --enable-openssl
++      --enable-gnutls
+ 
+       --disable-htmlpages
+       --disable-podpages
