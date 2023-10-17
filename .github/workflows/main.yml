@@ -102,10 +102,10 @@ jobs:
           brew uninstall $(brew list)
 
           # Download taps from deus0ww and homebrew/core
+          brew cleanup --prune=all
           brew tap deus0ww/tap
           brew tap homebrew/core
           brew update-reset
-          brew cleanup --prune=all
 
           # Disable installing formulas from bottles
           #find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/bottle do/,/end/c\' {} \;
