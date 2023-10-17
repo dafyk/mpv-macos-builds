@@ -1,0 +1,229 @@
+diff --git a/Formula/d/dav1d.rb b/Formula/d/dav1d.rb
+index 3f051fc051a..2bda0c7bd1a 100644
+--- a/Formula/d/dav1d.rb
++++ b/Formula/d/dav1d.rb
+@@ -30,7 +30,7 @@ class Dav1d < Formula
+   end
+ 
+   def install
+-    system "meson", *std_meson_args, "build"
++    system "meson", *std_meson_args, "--default-library=both", "build"
+     system "ninja", "install", "-C", "build"
+   end
+ 
+diff --git a/Formula/g/gnutls.rb b/Formula/g/gnutls.rb
+index f0d5c856839..1d87c9f1913 100644
+--- a/Formula/g/gnutls.rb
++++ b/Formula/g/gnutls.rb
+@@ -39,7 +39,7 @@ class Gnutls < Formula
+     args = %W[
+       --disable-dependency-tracking
+       --disable-silent-rules
+-      --disable-static
++      --enable-static
+       --prefix=#{prefix}
+       --sysconfdir=#{etc}
+       --with-default-trust-store-file=#{pkgetc}/cert.pem
+diff --git a/Formula/g/graphite2.rb b/Formula/g/graphite2.rb
+index 6e30d21b193..60e39a600bb 100644
+--- a/Formula/g/graphite2.rb
++++ b/Formula/g/graphite2.rb
+@@ -32,8 +32,13 @@ class Graphite2 < Formula
+     sha256 "7e573896bbb40088b3a8490f83d6828fb0fd0920ac4ccdfdd7edb804e852186a"
+   end
+ 
++  patch do
++    url "https://www.savero.net/CMakeLists.txt.patch"
++    sha256 "cd8980cba3aeca5145a12e973622d95f362d0ab1c4b896c8786c825c2c9fd6c3"
++  end
++
+   def install
+-    system "cmake", ".", *std_cmake_args
++    system "cmake", ".", "-DBUILD_SHARED_LIBS=OFF", *std_cmake_args
+     system "make", "install"
+   end
+ 
+diff --git a/Formula/l/lame.rb b/Formula/l/lame.rb
+index 3351a69c584..0e3a8076061 100644
+--- a/Formula/l/lame.rb
++++ b/Formula/l/lame.rb
+@@ -37,6 +37,7 @@ class Lame < Formula
+     system "./configure", "--disable-dependency-tracking",
+                           "--disable-debug",
+                           "--prefix=#{prefix}",
++			  "--enable-static",
+                           "--enable-nasm"
+     system "make", "install"
+   end
+diff --git a/Formula/l/luajit.rb b/Formula/l/luajit.rb
+index 2e363e8cbe2..d77a1e7278e 100644
+--- a/Formula/l/luajit.rb
++++ b/Formula/l/luajit.rb
+@@ -94,6 +94,8 @@ class Luajit < Formula
+               "INSTALL_LMOD=#{HOMEBREW_PREFIX}/share/lua/${abiver}"
+       s.gsub! "INSTALL_CMOD=${prefix}/${multilib}/lua/${abiver}",
+               "INSTALL_CMOD=#{HOMEBREW_PREFIX}/${multilib}/lua/${abiver}"
++      s.gsub! "Libs.private: -Wl,-E -lm -ldl",
++              "Libs.private: -Wl -lm -ldl"
+     end
+   end
+ 
+diff --git a/Formula/lib/libbs2b.rb b/Formula/lib/libbs2b.rb
+index a0e09174826..6b4d0195857 100644
+--- a/Formula/lib/libbs2b.rb
++++ b/Formula/lib/libbs2b.rb
+@@ -40,7 +40,7 @@ class Libbs2b < Formula
+     end
+ 
+     system "./configure", "--prefix=#{prefix}",
+-                          "--disable-static",
++                          "--enable-static",
+                           "--enable-shared"
+     system "make", "install"
+   end
+diff --git a/Formula/lib/libplacebo.rb b/Formula/lib/libplacebo.rb
+index 4191d5f01b7..5c27f539ec3 100644
+--- a/Formula/lib/libplacebo.rb
++++ b/Formula/lib/libplacebo.rb
+@@ -66,6 +66,7 @@ class Libplacebo < Formula
+ 
+     system "meson", "setup", "build",
+                     "-Dvulkan-registry=#{Formula["vulkan-headers"].share}/vulkan/registry/vk.xml",
++		    "--default-library=both"
+                     *std_meson_args
+     system "meson", "compile", "-C", "build", "--verbose"
+     system "meson", "install", "-C", "build"
+diff --git a/Formula/lib/libsoxr.rb b/Formula/lib/libsoxr.rb
+index 604995dd0fe..a47d88d7714 100644
+--- a/Formula/lib/libsoxr.rb
++++ b/Formula/lib/libsoxr.rb
+@@ -37,7 +37,7 @@ class Libsoxr < Formula
+   end
+ 
+   def install
+-    system "cmake", ".", *std_cmake_args
++    system "cmake", ".", "-DBUILD_SHARED_LIBS=OFF", *std_cmake_args
+     system "make", "install"
+   end
+ 
+diff --git a/Formula/lib/libvidstab.rb b/Formula/lib/libvidstab.rb
+index cf47bc7f6b8..cdacc512b8d 100644
+--- a/Formula/lib/libvidstab.rb
++++ b/Formula/lib/libvidstab.rb
+@@ -20,7 +20,7 @@ class Libvidstab < Formula
+   depends_on "cmake" => :build
+ 
+   def install
+-    system "cmake", ".", "-DUSE_OMP=OFF", *std_cmake_args
++    system "cmake", ".", "-DUSE_OMP=OFF", "-DBUILD_SHARED_LIBS=OFF", *std_cmake_args
+     system "make", "install"
+   end
+ end
+diff --git a/Formula/lib/libxml2.rb b/Formula/lib/libxml2.rb
+index a962cfac711..f86dbb5f1f4 100644
+--- a/Formula/lib/libxml2.rb
++++ b/Formula/lib/libxml2.rb
+@@ -35,9 +35,9 @@ class Libxml2 < Formula
+ 
+   keg_only :provided_by_macos
+ 
+-  depends_on "python@3.10" => [:build, :test]
++  #depends_on "python@3.10" => [:build, :test]
+   depends_on "python@3.11" => [:build, :test]
+-  depends_on "python@3.9" => [:build, :test]
++  #depends_on "python@3.9" => [:build, :test]
+   depends_on "pkg-config" => :test
+   depends_on "icu4c"
+   depends_on "readline"
+@@ -57,6 +57,7 @@ class Libxml2 < Formula
+                           "--with-history",
+                           "--with-icu",
+                           "--without-python",
++  			  "--enable-static",
+                           "--without-lzma"
+     system "make", "install"
+ 
+diff --git a/Formula/o/opencore-amr.rb b/Formula/o/opencore-amr.rb
+index ff571a3f6b3..38f5bf9a8c9 100644
+--- a/Formula/o/opencore-amr.rb
++++ b/Formula/o/opencore-amr.rb
+@@ -24,7 +24,7 @@ class OpencoreAmr < Formula
+   end
+ 
+   def install
+-    system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}"
++    system "./configure", "--disable-dependency-tracking", "--enable-static", "--prefix=#{prefix}"
+     system "make", "install"
+   end
+ 
+diff --git a/Formula/o/openssl@3.rb b/Formula/o/openssl@3.rb
+index e23431f50c8..d85ab8df95d 100644
+--- a/Formula/o/openssl@3.rb
++++ b/Formula/o/openssl@3.rb
+@@ -66,7 +66,8 @@ class OpensslAT3 < Formula
+       no-ssl3
+       no-ssl3-method
+       no-zlib
+-    ]
++      no-asm
++   ]
+     on_linux do
+       args += (ENV.cflags || "").split
+       args += (ENV.cppflags || "").split
+@@ -133,18 +134,4 @@ class OpensslAT3 < Formula
+     EOS
+   end
+ 
+-  test do
+-    # Make sure the necessary .cnf file exists, otherwise OpenSSL gets moody.
+-    assert_predicate pkgetc/"openssl.cnf", :exist?,
+-            "OpenSSL requires the .cnf file for some functionality"
+-
+-    # Check OpenSSL itself functions as expected.
+-    (testpath/"testfile.txt").write("This is a test file")
+-    expected_checksum = "e2d0fe1585a63ec6009c8016ff8dda8b17719a637405a4e23c0ff81339148249"
+-    system bin/"openssl", "dgst", "-sha256", "-out", "checksum.txt", "testfile.txt"
+-    open("checksum.txt") do |f|
+-      checksum = f.read(100).split("=").last.strip
+-      assert_equal checksum, expected_checksum
+-    end
+-  end
+ end
+diff --git a/Formula/s/svt-av1.rb b/Formula/s/svt-av1.rb
+index 0bbf3038956..9924c3a679a 100644
+--- a/Formula/s/svt-av1.rb
++++ b/Formula/s/svt-av1.rb
+@@ -30,7 +30,7 @@ class SvtAv1 < Formula
+   end
+ 
+   def install
+-    system "cmake", "-S", ".", "-B", "build", "-DCMAKE_INSTALL_RPATH=#{rpath}", *std_cmake_args
++    system "cmake", "-S", ".", "-B", "build", "-DCMAKE_INSTALL_RPATH=#{rpath}", "-DBUILD_SHARED_LIBS=OFF", *std_cmake_args
+     system "cmake", "--build", "build"
+     system "cmake", "--install", "build"
+   end
+diff --git a/Formula/v/vulkan-loader.rb b/Formula/v/vulkan-loader.rb
+index a04235420a4..13d5be57805 100644
+--- a/Formula/v/vulkan-loader.rb
++++ b/Formula/v/vulkan-loader.rb
+@@ -37,6 +37,7 @@ class VulkanLoader < Formula
+ 
+   def install
+     system "cmake", "-S", ".", "-B", "build",
++		    "-DBUILD_STATIC_LOADER=ON",
+                     "-DVULKAN_HEADERS_INSTALL_DIR=#{Formula["vulkan-headers"].opt_prefix}",
+                     "-DFALLBACK_DATA_DIRS=#{HOMEBREW_PREFIX}/share:/usr/local/share:/usr/share",
+                     "-DCMAKE_INSTALL_SYSCONFDIR=#{etc}",
+diff --git a/Formula/x/xvid.rb b/Formula/x/xvid.rb
+index 0556192e63d..7aaf2a17eba 100644
+--- a/Formula/x/xvid.rb
++++ b/Formula/x/xvid.rb
+@@ -27,7 +27,7 @@ class Xvid < Formula
+ 
+   def install
+     cd "build/generic" do
+-      system "./configure", "--disable-assembly", "--prefix=#{prefix}"
++      system "./configure", "--disable-assembly", "--enable-static", "--prefix=#{prefix}"
+       ENV.deparallelize # Work around error: install: mkdir =build: File exists
+       system "make"
+       system "make", "install"

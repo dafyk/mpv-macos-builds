@@ -1,0 +1,222 @@
+diff --git a/ffmpeg.rb b/ffmpeg.rb
+index 5dac130..e03c60a 100644
+--- a/ffmpeg.rb
++++ b/ffmpeg.rb
+@@ -55,6 +55,7 @@ class Ffmpeg < Formula
+   depends_on "libvpx"
+   depends_on "opencore-amr"
+   depends_on "openjpeg"
++  #depends_on "gnutls"
+   depends_on "openssl@3"
+   depends_on "opus"
+   depends_on "rubberband"
+@@ -106,6 +107,11 @@ class Ffmpeg < Formula
+     sha256 "57e26caced5a1382cb639235f9555fc50e45e7bf8333f7c9ae3d49b3241d3f77"
+   end
+ 
++  patch do
++    url "https://raw.githubusercontent.com/dafyk/mpv-macos-builds/main/ffmpeg.git-1231003c3c6d.patch.txt"
++    sha256 "cfb25204162b59dc03c0c506df33da2fa75945bc40159232388e8f11db98764f"
++  end
++
+   def install
+     # The new linker leads to duplicate symbol issue https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
+     ENV.append "LDFLAGS", "-Wl,-ld_classic" if DevelopmentTools.clang_build_version >= 1500
+@@ -123,7 +129,8 @@ class Ffmpeg < Formula
+       --enable-opencl
+       --enable-pthreads
+       --enable-shared
+-
++      --enable-static
++      --enable-lcms2
+       --enable-frei0r
+       --enable-libaom
+       --enable-libaribb24
+@@ -160,10 +167,24 @@ class Ffmpeg < Formula
+       --enable-libzimg
+       --enable-lzma
+       --enable-openssl
++      --enable-librubberband
++      --enable-libspeex
++      --enable-frei0r
++      --enable-libsoxr
+ 
++      --disable-logging
+       --disable-htmlpages
+       --disable-podpages
+       --disable-txtpages
++      --disable-manpages
++      --disable-ffplay
++      --disable-ffprobe
++      --disable-doc
++      --disable-libxcb
++      --disable-libxcb-shm
++      --disable-libxcb-xfixes
++      --disable-libxcb-shape
++      --disable-mbedtls
+ 
+       --disable-libjack
+       --disable-indev=jack
+diff --git a/libplacebo.rb b/libplacebo.rb
+index e3f413d..dde01bc 100644
+--- a/libplacebo.rb
++++ b/libplacebo.rb
+@@ -13,8 +13,7 @@ class Libplacebo < Formula
+   depends_on "python@3.11" => :build
+   depends_on "vulkan-headers" => :build
+ 
+-  depends_on "deus0ww/tap/glslang" if MacOS.version <  :big_sur
+-  depends_on "glslang"             if MacOS.version >= :big_sur
++  depends_on "deus0ww/tap/glslang"
+ 
+   depends_on "little-cms2"
+   depends_on "sdl2"
+@@ -36,6 +35,7 @@ class Libplacebo < Formula
+   end
+ 
+   def install
++    inreplace "meson.build", "link_args = []", "link_args = ['-framework', 'Cocoa']"
+     resources.each do |r|
+       r.stage(Pathname("3rdparty")/r.name)
+     end
+@@ -49,6 +49,7 @@ class Libplacebo < Formula
+ 
+     system "meson", "setup", "build",
+                     "-Dvulkan-registry=#{Formula["vulkan-headers"].share}/vulkan/registry/vk.xml",
++                    "--default-library=both",
+                     *args, *std_meson_args
+     system "meson", "compile", "-C", "build", "--verbose"
+     system "meson", "install", "-C", "build"
+diff --git a/mpv.rb b/mpv.rb
+index 240de4e..952cc40 100644
+--- a/mpv.rb
++++ b/mpv.rb
+@@ -24,16 +24,18 @@ class Mpv < Formula
+   depends_on "mujs"
+   depends_on "uchardet"
+   depends_on "zimg"
+-
+-  depends_on "libbluray" => :optional
+-  depends_on "rubberband" => :optional
+-  depends_on "sdl2" => :optional
+-  depends_on "vapoursynth" => :optional
++  depends_on "libiconv"
++  depends_on "zlib"
++  depends_on "libdvdcss"
++  depends_on "libdvdread"
++  depends_on "libdvdnav"
++  depends_on "libbluray"
++  depends_on "rubberband"
++  depends_on "sdl2"
++  #depends_on "vapoursynth"
+ 
+   on_macos do
+     depends_on "coreutils" => :recommended
+-    depends_on "deus0ww/tap/dockutil@2" => :recommended if MacOS.version <  :big_sur
+-    depends_on "deus0ww/tap/dockutil@3" => :recommended if MacOS.version >= :big_sur
+     depends_on "tag" => :recommended
+     depends_on "trash" => :recommended
+   end
+@@ -42,6 +44,11 @@ class Mpv < Formula
+     depends_on "alsa-lib"
+   end
+ 
++  patch do
++    url "https://raw.githubusercontent.com/dafyk/mpv-macos-builds/main/swift_compat.patch"
++    sha256 "3c4d1ce9dcfef9ce0656b49b5f40606fcf2fc890e60599817090cb2f7da98d41"
++  end
++
+   def install
+     # LANG is unset by default on macOS and causes issues when calling getlocale
+     # or getdefaultlocale in docutils. Force the default c/posix locale since
+@@ -58,40 +65,53 @@ class Mpv < Formula
+     args = %W[
+       -Db_lto=true
+       -Db_lto_mode=thin
+-
++      -Dhtml-build=disabled
++      -Dmanpage-build=disabled
++      -Dpdf-build=disabled
++      -Dx11=disabled
++      -Dmacos-10-14-features=disabled
++      -Dmacos-touchbar=disabled
++      -Dtests=false
++      -Dcplayer=true
+       -Dlibmpv=true
++      -Dcocoa=enabled
++      -Dgl-cocoa=enabled
++      -Dmacos-cocoa-cb=enabled
++      -Dplain-gl=enabled
++      -Dmacos-media-player=enabled
++      -Dcoreaudio=enabled
++      -Dcplugins=enabled
+       -Ddvdnav=enabled
+-
+-      --default-library=both
++      -Dgl=enabled
++      -Djavascript=enabled
++      -Dlcms2=enabled
++      -Dlibplacebo=enabled
++      -Dlua=luajit
++      -Duchardet=disabled
++      -Dvideotoolbox-gl=enabled
++      -Dvulkan=disabled
++      -Dzimg=enabled
++      -Dzlib=enabled
++      -Dlibarchive=enabled
++      -Dshaderc=disabled
++      --default-library=static
++      --prefer-static
+       --sysconfdir=#{pkgetc}
+       --datadir=#{pkgshare}
+       --mandir=#{man}
+     ]
++    #      -Diconv=enabled
+     args << "-Dsdl2=enabled" if build.with? "sdl2"
+     
+     args << ("-Dc_args=" + (Hardware::CPU.arm? ? "-mcpu=native" : "-march=native -mtune=native") + " -Ofast")
+-    args << "-Dswift-flags=-O -wmo"
++    args << "-Dswift-flags=-O -wmo -target x86_64-apple-macosx10.13"
+ 
+     system "meson", "setup", "build", *args, *std_meson_args
+     system "meson", "compile", "-C", "build", "--verbose"
+     system "meson", "install", "-C", "build"
+ 
+-    if OS.mac?
+-      # `pkg-config --libs mpv` includes libarchive, but that package is
+-      # keg-only so it needs to look for the pkgconfig file in libarchive's opt
+-      # path.
+-      libarchive = Formula["libarchive"].opt_prefix
+-      inreplace lib/"pkgconfig/mpv.pc" do |s|
+-        s.gsub!(/^Requires\.private:(.*)\blibarchive\b(.*?)(,.*)?$/,
+-                "Requires.private:\\1#{libarchive}/lib/pkgconfig/libarchive.pc\\3")
+-      end
+-    end
+-
+-    bash_completion.install "etc/mpv.bash-completion" => "mpv"
+-    zsh_completion.install "etc/_mpv.zsh" => "_mpv"
+-
+     # Build, Fix, and Codesign App Bundle
+-    system "python3.11", "TOOLS/osxbundle.py", "build/mpv", "--skip-deps"
++    system "python3.11", "TOOLS/osxbundle.py", "build/mpv"
+     bindir = "build/mpv.app/Contents/MacOS/"
+     rm   bindir + "mpv-bundle"
+     mv   bindir + "mpv", bindir + "mpv-bundle"
+@@ -99,17 +119,5 @@ class Mpv < Formula
+     system "codesign", "--deep", "-fs", "-", "build/mpv.app"
+     prefix.install "build/mpv.app"
+ 
+-    # Add to Dock
+-    if build.with?("dockutil@2") || build.with?("dockutil@3")
+-      system "dockutil", "--add", "#{prefix}/mpv.app", "--replacing", "mpv", "--allhomes"
+-    end
+-  end
+-
+-  test do
+-    system bin/"mpv", "--ao=null", "--vo=null", test_fixtures("test.wav")
+-    assert_match "vapoursynth", shell_output(bin/"mpv --vf=help")
+-
+-    # Make sure `pkg-config` can parse `mpv.pc` after the `inreplace`.
+-    system "pkg-config", "mpv"
+   end
+ end
