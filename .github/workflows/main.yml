@@ -103,7 +103,7 @@ jobs:
 
           # Download taps from deus0ww and homebrew/core
           brew cleanup --prune=all
-          brew tap deus0ww/tap
+          brew tap dafyk/mpv
           brew tap homebrew/core
           brew update-reset
 
@@ -111,13 +111,13 @@ jobs:
           #find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/bottle do/,/end/c\' {} \;
           
           # Force 10.13 deployment target for all homebrew formulas
-          find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
+          #find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" $'s/def install/def install\\\n    ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"\\\n/' {} \;
           #for dep in luajit python@3.8 python@3.10; do sed -i "" $'s/MacOS.version/"10.13"/' $(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula//$dep.rb;done
-          for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
+          #for dep in luajit python@3.8 python@3.10 python@3.11; do find /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula -iname $dep.rb -exec sed -i "" $'s/MacOS.version/"10.13"/' {} +;done
 
           # Patch formulas for 10.13 deployment
-          patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p1 < mpv-deus0ww-patch.txt
-          patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core -p1 < mpv-static-builds-patch.txt
+          #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p1 < mpv-deus0ww-patch.txt
+          #patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core -p1 < mpv-static-builds-patch.txt
           #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < ffpmeg.rb.patch
           #patch -d$(brew --repository)/Library/Taps/deus0ww/homebrew-tap -p0 < mpv.rb.patch
           #patch -d$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/l -p0 < luajit.rb.patch
@@ -131,9 +131,9 @@ jobs:
           # find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/^  test do/,/^  end/c\' {} \;
 
           #brew reinstall -v -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n deus0ww/tap/mpv | grep -v -e doxygen -e vulkan-headers -e glslang) deus0ww/tap/mpv || :
-          brew reinstall -v -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n deus0ww/tap/mpv | grep -v doxygen)
-          brew unlink openssl@3 dav1d
-          brew reinstall -v -s deus0ww/tap/mpv
+          brew reinstall -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n dafyk/mpv/mpv)
+          brew unlink dafyk/mpv/openssl@3 dafyk/mpv/dav1d
+          brew reinstall -v -s dafyk/mpv/mpv
           echo "mpv build complete"
 
       - name: Build Apple Disk Image
