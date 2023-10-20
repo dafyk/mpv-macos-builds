@@ -131,7 +131,7 @@ jobs:
           # find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/^  test do/,/^  end/c\' {} \;
 
           #brew reinstall -v -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n deus0ww/tap/mpv | grep -v -e doxygen -e vulkan-headers -e glslang) deus0ww/tap/mpv || :
-          brew reinstall -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n dafyk/mpv/mpv)
+          brew reinstall -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n dafyk/mpv/mpv) | :
           brew unlink dafyk/mpv/openssl@3 dafyk/mpv/dav1d
           brew reinstall -v -s dafyk/mpv/mpv
           echo "mpv build complete"
