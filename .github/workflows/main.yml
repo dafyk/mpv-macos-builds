@@ -107,7 +107,8 @@ jobs:
           brew cleanup --prune=all
           brew update-reset
           echo "next step: install dependencies"
-          brew reinstall -s $(brew deps --include-build -n curl) curl $(brew deps --include-build -n dafyk/mpv/mpv) | :
+          brew install curl
+          brew reinstall -s $(brew deps --include-build -n dafyk/mpv/mpv) | :
           
           # Disable installing formulas from bottles
           #find $(brew --repository)/Library/Taps -type f -iname *rb -exec sed -i "" '/bottle do/,/end/c\' {} \;
