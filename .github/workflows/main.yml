@@ -102,16 +102,14 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Remove all bottled formulas
-          brew uninstall $(brew list | grep -v -e git -e tar -e session-manager-plugin)
+          brew uninstall pkg-config ca-certificates libffi mpdecimal openssl@3 pkg-config python@3.11 readline sqlite xz 
           #brew cleanup
           brew tap dafyk/mpv
           mkdir Bottles
           cd Bottles
           brew install --build-bottle dafyk/mpv/pkg-config
           brew bottle dafyk/mpv/pkg-config
-          brew install --build-bottle dafyk/mpv/pkg-config
-          brew bottle dafyk/mpv/pkg-config
-
+          
           brew install --build-bottle dafyk/mpv/mpdecimal
           brew bottle dafyk/mpv/mpdecimal
 
