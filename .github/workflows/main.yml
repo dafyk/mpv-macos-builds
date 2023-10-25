@@ -98,6 +98,9 @@ jobs:
       - name: Instal various mpv and ffmpeg dependencies using homebrew
         id: mpvffmpegdeps
         run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git config http.postBuffer 524288000
           # Remove all bottled formulas
           brew uninstall $(brew list)
           brew cleanup --prune=all
