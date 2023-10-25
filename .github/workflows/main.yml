@@ -103,7 +103,7 @@ jobs:
           git config http.postBuffer 524288000
           # Remove all bottled formulas
           brew uninstall $(brew list | grep -v -e git -e tar)
-          brew cleanup --prune=all
+          brew cleanup
           brew tap dafyk/mpv
           mkdir Bottles
           cd Bottles
