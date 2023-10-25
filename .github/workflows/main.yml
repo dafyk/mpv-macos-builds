@@ -98,14 +98,16 @@ jobs:
       - name: Instal various mpv and ffmpeg dependencies using homebrew
         id: mpvffmpegdeps
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git config http.postBuffer 524288000
           # Remove all bottled formulas
           brew uninstall pkg-config ca-certificates libffi mpdecimal openssl@3 pkg-config python@3.11 readline sqlite xz git
           #brew cleanup
           brew reinstall -s git
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git config http.postBuffer 524288000
+
           brew tap dafyk/mpv
+
           mkdir Bottles
           cd Bottles
           brew install --build-bottle dafyk/mpv/pkg-config
