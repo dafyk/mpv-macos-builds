@@ -104,6 +104,7 @@ jobs:
           # Remove all bottled formulas
           brew uninstall pkg-config ca-certificates libffi mpdecimal openssl@3 pkg-config python@3.11 readline sqlite xz 
           #brew cleanup
+          brew reinstall -s git
           brew tap dafyk/mpv
           mkdir Bottles
           cd Bottles
