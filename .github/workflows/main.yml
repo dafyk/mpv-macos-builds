@@ -100,10 +100,12 @@ jobs:
         run: |
           # Remove all bottled formulas
           brew uninstall $(brew list)
+          brew cleanup --prune=all
+          brew tap dafyk/mpv
           mkdir Bottles
           cd Bottles
-          brew install --build-bottle ../Formulae/pkg-config.rb
-          brew bottle ../Formulae/pkg-config.rb
+          brew install --build-bottle dafyk/mpv/pkg-config
+          brew bottle dafyk/mpv/pkg-config
           cd ..
           git add .
           git commit -m 'Added pkg-config homebrew bottle'
