@@ -102,7 +102,7 @@ jobs:
           brew uninstall $(brew list)
           mkdir Bottles
           cd Bottles
-          brew install -s --build-bottle ../Formulae/pkg-config.rb
+          brew install --build-bottle ../Formulae/pkg-config.rb
           cd ..
           git add .
           git commit -m 'Added pkg-config homebrew bottle'
