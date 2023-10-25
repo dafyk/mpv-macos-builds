@@ -102,13 +102,39 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Remove all bottled formulas
-          brew uninstall $(brew list)
+          brew uninstall $(brew list | grep -v -e git -e tar)
           brew cleanup --prune=all
           brew tap dafyk/mpv
           mkdir Bottles
           cd Bottles
           brew install --build-bottle dafyk/mpv/pkg-config
           brew bottle dafyk/mpv/pkg-config
+          brew install --build-bottle dafyk/mpv/pkg-config
+          brew bottle dafyk/mpv/pkg-config
+
+          brew install --build-bottle dafyk/mpv/mpdecimal
+          brew bottle dafyk/mpv/mpdecimal
+
+          brew install --build-bottle dafyk/mpv/ca-certificates
+          brew bottle dafyk/mpv/ca-certificates
+
+          brew install --build-bottle dafyk/mpv/openssl@3
+          brew bottle dafyk/mpv/openssl@3
+
+          brew install --build-bottle dafyk/mpv/readline
+          brew bottle dafyk/mpv/readline
+
+          brew install --build-bottle dafyk/mpv/sqlite
+          brew bottle dafyk/mpv/sqlite
+
+          brew install --build-bottle dafyk/mpv/xz
+          brew bottle dafyk/mpv/xz
+
+          brew install --build-bottle dafyk/mpv/libffi
+          brew bottle dafyk/mpv/libffi
+
+          brew install --build-bottle dafyk/mpv/python@3.11
+          brew bottle dafyk/mpv/python@3.11
           cd ..
           git add .
           git commit -m 'Added pkg-config homebrew bottle'
