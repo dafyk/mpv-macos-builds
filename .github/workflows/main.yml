@@ -102,7 +102,7 @@ jobs:
           git config user.email github-actions@github.com
           git config http.postBuffer 524288000
           # Remove all bottled formulas
-          brew uninstall $(brew list | grep -v -e git -e tar)
+          brew uninstall $(brew list | grep -v -e git -e tar -e session-manager-plugin)
           brew cleanup
           brew tap dafyk/mpv
           mkdir Bottles
