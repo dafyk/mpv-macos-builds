@@ -103,6 +103,7 @@ jobs:
           mkdir Bottles
           cd Bottles
           brew install --build-bottle ../Formulae/pkg-config.rb
+          brew bottle ../Formulae/pkg-config.rb
           cd ..
           git add .
           git commit -m 'Added pkg-config homebrew bottle'
